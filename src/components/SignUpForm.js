@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-async function SignUpForm() {
+function SignUpForm() {
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -11,25 +11,25 @@ async function SignUpForm() {
         password: '',
     })
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prevData) => ({ ...prevData, [name]:value}))
-    }
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-    }
-    try {
-        const response = await axios.post('/signUp', formData);
+         try {
+            const response = await axios.post('http://localhost:5000/register', 
+            {//Remove localhost later
+                fullName: formData.fullName,
+                phoneNumber: formData.phoneNumber,
+                email: formData.email,
+                password: formData.password,
+            });
   
-        // Assuming your backend responds with a success message
+        // Assuming  backend responds with a success message
         if (response.status === 201) {
           console.log('Data sent successfully');
         }
       } catch (error) {
         console.error('An error occurred:', error);
-      }
-    
+        }
+    }
     return (
         <>
             <main>
@@ -41,16 +41,16 @@ async function SignUpForm() {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <input type="text" name="fullName"  value={formData.fullName} onChange={handleInputChange} placeholder="Full Name" required/>
+                        <input type="text" onChange={(e) => setFormData({...formData,   fullName: e.target.value })}  value={formData.fullName}  placeholder="Full Name" required/>
                     </div>
                     <div>
-                        <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} placeholder="Phone Number" required/>
+                        <input type="tel" onChange={(e) => setFormData({...formData,   phoneNumber: e.target.value })} value={formData.phoneNumber}  placeholder="Phone Number" required/>
                     </div>
                     <div>
-                        <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email Address" required/> 
+                        <input type="email" onChange={(e) => setFormData({...formData,   email: e.target.value })} value={formData.email}  placeholder="Email Address" required/> 
                     </div>
                     <div>
-                        <input type="password" name="password" value={formData.password}  onChange={handleInputChange} placeholder="Password" required/>
+                        <input type="password" onChange={(e) => setFormData({...formData,   password: e.target.value })} value={formData.password}   placeholder="Password" required/>
                     </div>
                     <div>
                         <input type="submit" value="Sign Up"/>
