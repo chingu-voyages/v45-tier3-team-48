@@ -1,19 +1,13 @@
-	
-const port = 8000;
-const express = require('express');
-const app = express();
+// moved server to a separate file to make testing easier
+// the previous server file was renamed to app.js
 
-app.use(express.json(), express.urlencoded({ extended: true }));
+const app = require('./app');
 
-// CORS FOR FRONT END 
-// const cors = require("cors");
-// app.use(cors({ //cors is going to allow different ports to send requests to our API
-//     origin:"http://localhost:3000" 
-// }));
 
-// ROUTES AND CONFIG AFTER MAKING FILES
-// require("./config/mongoose.config");
-// const xRoutes = require("./routes/xxxx");
-// xRoutes(app);
+// updated so port is assigned if variable is undefined
+// + coerces strings into numbers
+const PORT = +process.env.PORT;
 
-app.listen(port, () => console.log(`🎉Party on port: ${port}`) );   
+app.listen(PORT, ()=> {
+    console.log(`Listening to PORT: ${PORT}`)
+});
