@@ -1,5 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
+import FrontendRoutes from './Routes';
+import Navbar from './components/shared/NavBar';
+import Footer from './components/shared/Footer';
+import {BrowserRouter} from 'react-router-dom';
 
 function App() {
   return (
@@ -7,10 +10,7 @@ function App() {
 
       <BrowserRouter> 
         <Navbar/>
-          <Routes>
-            
-
-          </Routes>
+        <FrontendRoutes/>
         <Footer/>
       </BrowserRouter>
 
