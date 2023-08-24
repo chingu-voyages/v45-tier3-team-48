@@ -6,22 +6,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-//add paths to other pages with {BrowserRouter, Route, Switch} from "react-router-dom"?
-
-//for example...
-
-//root.render(
-    //<BrowserRouter>
-    //    <Switch>
-    //        <Route exact path="/" component={landingPage} />
-    //        <Route path="/createAccount" component={createAccountPage} />
-    //        <Route path="/dashboard" component={dashboardPage} />
-     //   </Switch>
-    //</BrowserRouter>,
-   // rootElement
-//);
-
 root.render(
   <React.StrictMode>
     <App />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-function SignUpForm() {
+function RegisterForm() {
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -74,4 +74,4 @@ function SignUpForm() {
     )
 }
 
-export default SignUpForm;
+export default RegisterForm;
