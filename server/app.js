@@ -17,7 +17,13 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(express.static('public'));
 app.use(cors());
- 
+
+// logs http requests and provide visibility
+app.use(morgan("tiny"));
+
+// validate user token and add data from payload to request
+app.use(authenticateJWT);
+
 
 //Routes 
 app.use('/', mainRoutes);
