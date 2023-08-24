@@ -6,6 +6,8 @@ const mainRoutes = require('./routes/main');
 const dashBoardRoutes = require('./routes/dashBoard');
 const individualGroupRoutes = require('./routes/individualGroups');
 const connectDB = require('./config/database');
+const morgan = require('morgan');
+const {authenticateJWT} = require('./middleware/authorization');
 
 require('dotenv').config({path: './config/.env'});
 
@@ -13,16 +15,17 @@ require('dotenv').config({path: './config/.env'});
 connectDB();
 
 //Middleware 
-app.use(express.urlencoded({ extended: true}));
+app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cors());
+app.use(express.urlencoded({ extended: true}));
 
 // logs http requests and provide visibility
 app.use(morgan("tiny"));
 
 // validate user token and add data from payload to request
 app.use(authenticateJWT);
+
 
 
 //Routes 
