@@ -9,15 +9,16 @@ function GroupForm() {
         description: ""
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e) => { //probably add code to go to group page after group creation
         e.preventDefault();
         try {
             axios.post('http://localhost:5000/individualGroups/create', {// remove localhost later
-                groupName: formData.groupName, //add current user's ID
+                //userId: ,//get userId + fullName from JWU after authentication(?) which returns the user data (payload)
+                userName: "placeholder",//test
+                groupName: formData.groupName,
                 patientName: formData.patientName,
                 description: formData.description
             })
-            //should add a response in the backend + something to handle it here
         } catch(err) {
             console.error(err);
         }
