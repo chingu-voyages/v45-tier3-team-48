@@ -1,6 +1,6 @@
 
 import '../App.css';
-import Login from '../components/GroupPages/RegisterPage/Register';
+import Register from '../components/GroupPages/RegisterPage/Register';
 const RegisterPage = () => {
     return (
         <>
