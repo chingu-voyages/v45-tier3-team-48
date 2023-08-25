@@ -1,5 +1,5 @@
 import React from 'react';
-const Navbar= () => {
+const Information= () => {
     return (
       <div>
         <button>Create new group</button>
@@ -7,4 +7,4 @@ const Navbar= () => {
     );
 }
 
-export default Navbar;
+export default Information;
