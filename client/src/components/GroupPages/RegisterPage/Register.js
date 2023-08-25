@@ -30,6 +30,7 @@ function Register() {
         console.error('An error occurred:', error);
         }
     }
+
     return (
         <>
             <main>

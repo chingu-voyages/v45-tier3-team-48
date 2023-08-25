@@ -1,9 +1,9 @@
 import React from 'react';
-const Navbar= () => {
+const Mission= () => {
     return (
       <div>
       </div>
     );
 }
 
-export default Navbar;
+export default Mission;
