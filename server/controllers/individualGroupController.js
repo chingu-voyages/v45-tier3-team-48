@@ -8,14 +8,13 @@ async function createGroup(req,res) {
     try {
         var newGroup = await groups.create({
             nameGroup : req.body.groupName,
-            nameCaregiver : req.body.userName,
+            nameCaregiver : req.user.username,
             namePatient : req.body.patientName,
             description : req.body.description
         });
 
         var newMember = await userGroups.create({
-            //user_id : req.body.userId,
-            user_id : newGroup._id,//test value
+            user_id : req.user._id,
             group_id : newGroup._id,
             role : "Caretaker"
         });
@@ -29,13 +28,5 @@ async function createGroup(req,res) {
 async function getIndividualGroup(req,res) {
     res.send('Hello Individual Group ')
 }
-
-/*
-module.exports = {
-    getIndividualGroup: async (req,res) => {
-        res.send('Hello Individual Group ')
-    }
-}
-*/
 
 module.exports = { createGroup, getIndividualGroup };

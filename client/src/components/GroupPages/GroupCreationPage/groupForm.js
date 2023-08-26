@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import axios from 'axios';
 
 function GroupForm() {
-
     const [formData, setFormData] = useState({
         groupName: "",
         patientName: "",
@@ -13,8 +12,6 @@ function GroupForm() {
         e.preventDefault();
         try {
             axios.post('http://localhost:5000/individualGroups/create', {// remove localhost later
-                //userId: ,//get userId + fullName from JWU after authentication(?) which returns the user data (payload)
-                userName: "placeholder",//test
                 groupName: formData.groupName,
                 patientName: formData.patientName,
                 description: formData.description
