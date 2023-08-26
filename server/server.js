@@ -6,7 +6,7 @@ const app = require('./app');
 
 // updated so port is assigned if variable is undefined
 // + coerces strings into numbers
-const PORT = +process.env.PORT;
+const PORT = +process.env.PORT || 5000;
 
 app.listen(PORT, ()=> {
     console.log(`Listening to PORT: ${PORT}`)
