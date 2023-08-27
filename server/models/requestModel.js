@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
+const { isAfter } = require('validator');
 
 const RequestSchema = new mongoose.Schema(
     {
+        groupId: {
+            type: String,
+        },
         dateTimeNeeded: {
-            type: Date,
+            type: String,
             required: [true, 'Date and time are required.'],
+            validate: [
+                isAfter,
+                'Requests must be assigned a date and time in the future.',
+            ],
         },
         description: {
             type: String,
