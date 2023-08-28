@@ -25,8 +25,17 @@ async function createGroup(req,res) {
     }
 }
 
+async function getAllGroup(req,res) {
+    try {
+        const allGroup = await groups.find();
+        res.send(allGroup);
+    } catch(err) {
+        console.error(err);
+    }
+}
+
 async function getIndividualGroup(req,res) {
     res.send('Hello Individual Group ')
 }
 
-module.exports = { createGroup, getIndividualGroup };
+module.exports = { createGroup, getAllGroup, getIndividualGroup };

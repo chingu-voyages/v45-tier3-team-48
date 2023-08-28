@@ -4,8 +4,8 @@ import Information from '../components/GroupPages/GroupSelectionPage/Information
 const GroupSelectionPage= () => {
     return (
       <div>
-        <Information/>
-        <GroupTable/>
+        <Information />
+        <DashTable />
       </div>
     );
 }
