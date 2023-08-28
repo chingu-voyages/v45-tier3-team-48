@@ -5,7 +5,7 @@ const cors = require('cors');
 const mainRoutes = require('./routes/main');
 const dashBoardRoutes = require('./routes/dashBoard');
 const individualGroupRoutes = require('./routes/individualGroups');
-const connectDB = require('./config/database');
+const { connectDB } = require('./config/database');
 const morgan = require('morgan');
 const {authenticateJWT} = require('./middleware/authorization');
 
