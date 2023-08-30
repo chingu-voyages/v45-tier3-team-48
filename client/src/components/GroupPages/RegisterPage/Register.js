@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import UserContext from './/UserContext';
 
 
 function Register() {
+
+    // Retrieves the token variable from App.js
+    // state controlled at App.js
+    const {token, userId, email, fullName} = useContext(UserContext);
 
     const [formData, setFormData] = useState({
         fullName: '',
