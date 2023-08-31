@@ -1,77 +1,116 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import FormInput from "./FormInput";
+import axios from 'axios'
 
+const App = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+  });
 
-function Register() {
+  const inputs = [
+    {
+      id: 1,
+      name: "fullName",
+      type: "text",
+      placeholder: "Full Name",
+      errorMessage:
+        "It should only include letters, no numbers or special characters!",
+      pattern: "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
+      required: true,
+    },
+    {
+      id: 2,
+      name: "phoneNumber",
+      type: "text",
+      placeholder: "Phone Number",
+      errorMessage: "Please enter a proper phone number",
+      pattern: '^(?{1,3}[- ]?)?{10}$',
+      required: true,
+    },
+    {
+      id: 3,
+      name: "email",
+      type: "email",
+      placeholder: "Email",
+      errorMessage: "It should be a valid email address!",
+      required: true,
+    },
+    {
+      id: 4,
+      name: "password",
+      type: "password",
+      placeholder: "Password",
+      errorMessage:
+        "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!",
+      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
+      required: true,
+    },
+  ];
 
-    const [formData, setFormData] = useState({
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        password: '',
-    })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await axios.post('http://localhost:5000/register', 
+        {//Remove localhost later
+            fullName: formData.fullName,
+            phoneNumber: formData.phoneNumber,
+            email: formData.email,
+            password: formData.password,
+        });
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-         try {
-            const response = await axios.post('http://localhost:5000/register', 
-            {//Remove localhost later
-                fullName: formData.fullName,
-                phoneNumber: formData.phoneNumber,
-                email: formData.email,
-                password: formData.password,
-            });
-  
-        // Assuming  backend responds with a success message
-        if (response.status === 201) {
-          console.log('Data sent successfully');
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
-        }
+    // Assuming  backend responds with a success message
+    if (response.status === 201) {
+      console.log('Data sent successfully');
     }
-    return (
-        <>
-            <main>
-                <div>
-                    <h1>CareCollab</h1>
-                </div>
-                <div>
-                    <h2>Sign up to create an account!</h2>
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <input type="text" onChange={(e) => setFormData({...formData,   fullName: e.target.value })}  value={formData.fullName}  placeholder="Full Name" required/>
-                    </div>
-                    <div>
-                        <input type="tel" onChange={(e) => setFormData({...formData,   phoneNumber: e.target.value })} value={formData.phoneNumber}  placeholder="Phone Number" required/>
-                    </div>
-                    <div>
-                        <input type="email" onChange={(e) => setFormData({...formData,   email: e.target.value })} value={formData.email}  placeholder="Email Address" required/> 
-                    </div>
-                    <div>
-                        <input type="password" onChange={(e) => setFormData({...formData,   password: e.target.value })} value={formData.password}   placeholder="Password" required/>
-                    </div>
-                    <div>
-                        <input type="submit" value="Sign Up"/>
-                    </div>
-                </form>
-                <div>
-                    <h2>Already have an account? <a href="/login">Login here!</a> </h2>
-                </div>
-            </main>
-            <footer>
-                <div>
-                    <ul>
-                        <li>About</li>
-                        <li>Privacy</li>
-                        <li>Terms</li>
-                    </ul>
-                    <span>CareCollab v1.0.0</span>
-                </div>
-            </footer>
-        </>
-    )
-}
+  } catch (error) {
+    console.error('An error occurred:', error);
+    }
+  };
 
-export default Register;
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <>
+        <main >
+            <div>
+                <h1>CareCollab</h1>
+            </div>
+            <div>
+                <h2>Sign up to create an account!</h2>
+            </div>
+            <form onSubmit={handleSubmit}>
+                <h1>Register</h1>
+                {inputs.map((input) => (
+                <FormInput
+                    key={input.id}
+                    {...input}
+                    value={formData[input.name]}
+                    onChange={onChange}
+                />
+                ))}
+                <button>Submit</button>
+            </form>
+            <div>
+                <h2>Already have an account? <a href="/login">Login here!</a> </h2>
+            </div>
+        </main>
+        <footer>
+            <div>
+                <ul>
+                    <li>About</li>
+                    <li>Privacy</li>
+                    <li>Terms</li>
+                </ul>
+                <span>CareCollab v1.0.0</span>
+            </div>
+        </footer>
+    </>
+  );
+};
+
+export default App;
