@@ -1,8 +1,13 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import UserContext from './/UserContext';
 import FormInput from "./FormInput";
-import axios from 'axios'
 
-const App = () => {
+function Register(){
+  // Retrieves the token variable from App.js
+    // state controlled at App.js
+    const {token, userId, email, fullName} = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -50,8 +55,8 @@ const App = () => {
     },
   ];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
         const response = await axios.post('http://localhost:5000/register', 
         {//Remove localhost later
@@ -113,4 +118,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Register;
