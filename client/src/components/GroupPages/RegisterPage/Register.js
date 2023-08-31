@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import UserContext from './/UserContext';
+import UserContext from '../../../UserContext';
 import FormInput from "./FormInput";
 
 function Register(){
   // Retrieves the token variable from App.js
     // state controlled at App.js
-    const {token, userId, email, fullName} = useContext(UserContext);
+  const {token, userId, email, fullName} = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -58,6 +58,7 @@ function Register(){
     const handleSubmit = async (event) => {
         event.preventDefault();
          try {
+            // validate form should be here
             const response = await axios.post('http://localhost:5000/register', 
             {//Remove localhost later
                 fullName: formData.fullName,
@@ -76,6 +77,7 @@ function Register(){
     };
 
     const onChange = (e) => {
+      
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
   
@@ -93,6 +95,7 @@ function Register(){
                   {inputs.map((input) => (
                   <FormInput
                       key={input.id}
+                      // passes in each key separately as a prop
                       {...input}
                       value={formData[input.name]}
                       onChange={onChange}

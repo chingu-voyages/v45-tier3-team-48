@@ -2,6 +2,8 @@ import React from "react";
 import { Navigate, Route, Routes } from 'react-router-dom';
 import TestComp from "./TestToBeDeleted";
 import RegisterPage from './pages/RegisterPage'
+import Login from "./components/GroupPages/LoginPage/Login";
+
 
 
 const FrontendRoutes = () => {
