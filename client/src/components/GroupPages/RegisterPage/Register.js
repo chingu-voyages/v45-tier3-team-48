@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import UserContext from './/UserContext';
 import FormInput from './FormInput';
+import UserContext from '../../../UserContext';
 
 function Register() {
     // Retrieves the token variable from App.js
