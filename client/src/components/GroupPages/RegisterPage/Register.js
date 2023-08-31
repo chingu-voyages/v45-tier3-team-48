@@ -3,19 +3,17 @@ import axios from 'axios';
 import UserContext from './/UserContext';
 import FormInput from "./FormInput";
 
-
-function Register() {
-
-    // Retrieves the token variable from App.js
+function Register(){
+  // Retrieves the token variable from App.js
     // state controlled at App.js
     const {token, userId, email, fullName} = useContext(UserContext);
 
-    const [formData, setFormData] = useState({
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        password: '',
-    })
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+  });
 
     const inputs = [
       {
@@ -75,7 +73,7 @@ function Register() {
       } catch (error) {
         console.error('An error occurred:', error);
         }
-    }
+    };
 
     const onChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
