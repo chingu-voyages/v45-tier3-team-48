@@ -1,7 +1,7 @@
 import axios from "axios";
 // import token from './App';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000";
 
 /** API Class.
  */
@@ -32,6 +32,9 @@ class CaregiverApi {
 
   // Insert new routes here:
 
+  static async loginUser(loginData) {
+    let res = await this.request('')
+  }
 
 
 

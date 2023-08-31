@@ -14,6 +14,8 @@ const FrontendRoutes = () => {
       <Routes>
           <Route exact path="/" Component={TestComp}/>
           <Route exact path="/register" Component={RegisterPage}/>
+          <Route exact path="/login" Component={Login}/>
+
           {/* if no match found, redirect to page not found */}
           <Route path="*" element={<Navigate to='/' replace />}/>
       </Routes>

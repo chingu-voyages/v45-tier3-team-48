@@ -5,6 +5,7 @@ import Footer from './components/shared/Footer';
 import {BrowserRouter} from 'react-router-dom';
 import UserContext from './UserContext';
 import { useState, useEffect } from 'react';
+import CaregiverApi from './api';
 
 function App() {
 
@@ -49,11 +50,30 @@ function App() {
   },[token, userId, email]);
 
 
+  const loginUser = async (loginData) => {
+    try{
+      // call FE api
+      // let res = await CaregiverApi.login(loginData);
+      // window.localStorage.setItem('token',res.token);
+
+      // // set all corresponding data
+      // setToken(res.token);
+      // setCurrUserId(res.id);
+      console.log('inside login function');
+      return true;
+    }catch(err){
+      return err;
+    }
+
+  }
+
+
+
   return (
     <div className="App">
 
       <BrowserRouter> 
-        <UserContext.Provider value={{token, userId, email, fullName}}>
+        <UserContext.Provider value={{token, userId, email, fullName, loginUser}}>
           <Navbar/>
           <FrontendRoutes/>
           <Footer/>
