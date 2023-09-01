@@ -1,5 +1,6 @@
 const groups = require('../models/groups');
 const userGroups = require('../models/userGroups');
+var mongoose = require('mongoose');//test
 
 /**
 * Creates a new group in the database and assigns the creator as 'Caretaker'.
@@ -25,6 +26,24 @@ async function createGroup(req,res) {
     }
 }
 
+/**
+* Adds user as a new 'Support' member of an existing group in the database.
+*/
+async function joinGroup(req,res) {
+    try {
+        var memberId = new mongoose.Types.ObjectId(req.user.group_id);
+        var newMember = await userGroups.create({
+            user_id : req.user._id,
+            group_id : memberId,
+            role : "Support"
+        });
+
+        res.status(201);
+    } catch(err) {
+        console.error(err);
+    }
+}
+
 async function getAllGroup(req,res) {
     try {
         const allGroup = await groups.find();
@@ -35,7 +54,13 @@ async function getAllGroup(req,res) {
 }
 
 async function getIndividualGroup(req,res) {
-    res.send('Hello Individual Group ')
+    try {
+        var searchFor = new mongoose.Types.ObjectId(req.query.group_id);
+        const allGroup = await groups.find( {_id: searchFor} );
+        res.send(allGroup);
+    } catch(err) {
+        console.error(err);
+    }
 }
 
-module.exports = { createGroup, getAllGroup, getIndividualGroup };
+module.exports = { createGroup, joinGroup, getAllGroup, getIndividualGroup };

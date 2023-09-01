@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-//"see more" button would go to a specific group's page
-const GroupTable = () => {
-
+const GroupTable = ( {toGroupPage} ) => {
     const [groups, setGroups] = useState([]);
 
     const fetchData = () => {
@@ -17,6 +15,8 @@ const GroupTable = () => {
 
     return (
         <div>
+        <h1>All Groups</h1>
+        <button>Create Group</button>
             <table>
                 <tbody>
                     {groups.map((group, index) => (
@@ -25,7 +25,7 @@ const GroupTable = () => {
                             <td>{group.namePatient}</td>
                             <td>{group.nameCaregiver}</td>
                             <td>{group.description}</td>
-                            <button onClick={ () => console.log("replace with function call")}>See More</button>
+                            <button onClick={ () => toGroupPage(group._id) }>See More</button>
                         </tr>
                     ))}
                 </tbody>

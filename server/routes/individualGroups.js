@@ -5,5 +5,6 @@ const individualGroupController = require('../controllers/individualGroupControl
 router.get('/', individualGroupController.getIndividualGroup);
 router.get('/getAll', individualGroupController.getAllGroup);
 router.post('/create', individualGroupController.createGroup);
+router.post('/join', individualGroupController.joinGroup);
 
 module.exports = router;
