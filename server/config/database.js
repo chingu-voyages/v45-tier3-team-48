@@ -13,4 +13,6 @@ const connectDB = async () => {
     }
 }
 
-module.exports = connectDB;
+const SECRET_KEY = process.env.SECRET_KEY || "secret";
+
+module.exports = {connectDB, SECRET_KEY};
