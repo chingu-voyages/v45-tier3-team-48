@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import validator from 'validator';
 
 const RequestCreate = () => {
+    // grab the group id from the parameter variable
     const { groupId } = useParams();
 
     const [requestData, setRequestData] = useState({
@@ -16,7 +18,25 @@ const RequestCreate = () => {
         assignedTo: '',
     });
 
-    // check if form data is valid
+    const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
+
+    // check if request data is valid
+    const isRequestDataValid = requestData => {
+        if (
+            !requestData.dateNeeded |
+            !validator.isDate(new Date(requestData.dateNeeded)) |
+            !requestData.timeNeeded |
+            !validator.isTime(requestData.timeNeeded) |
+            !requestData.description |
+            (requestData.description === '-select-') |
+            (requestData.description.length > 100) |
+            !requestData.category
+        )
+            return false;
+        return true;
+    };
+
+    console.log(requestData.dateNeeded);
 
     // arrow expression to generate date-time string from date and time inputs
     const createDateTimeUTC = (dateNeeded, timeNeeded) => {
@@ -40,14 +60,22 @@ const RequestCreate = () => {
         .toString() // convert DateTime object to a string
         .split('T')[0]; // split the string at the letter 'T' and return the 0th index of the resulting string array, which is the date
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
         const { dateNeeded, timeNeeded } = requestData;
         const dateTimeUTC = createDateTimeUTC(dateNeeded, timeNeeded);
-        setRequestData({ ...requestData, dateTimeUTC: dateTimeUTC });
-        // change to call the frontend API
-        console.log(requestData);
+        await setRequestData({ ...requestData, dateTimeUTC: dateTimeUTC });
+        setIsReadyToSubmit(true);
     };
+
+    // submits requestData object once state has been updated to include the "dateTimeUTC" value
+    useEffect(() => {
+        if (isReadyToSubmit) {
+            // replace with API call
+            console.log(requestData);
+            setIsReadyToSubmit(false);
+        }
+    }, [requestData, isReadyToSubmit]);
 
     const handleChange = e => {
         setRequestData({ ...requestData, [e.target.name]: e.target.value });
@@ -61,32 +89,75 @@ const RequestCreate = () => {
                     <input
                         type="date"
                         name="dateNeeded"
+                        id="dateNeeded"
                         min={currentDate}
                         onChange={handleChange}
                     ></input>
+
+                    {/* validation message */}
+                    {requestData.dateNeeded &&
+                    !validator.isDate(new Date(requestData.dateNeeded)) ? (
+                        <p>Please enter a valid date</p>
+                    ) : (
+                        ''
+                    )}
+
                     <label htmlFor="timeNeeded">Time Needed:</label>
                     <input
                         type="time"
                         name="timeNeeded"
+                        id="timeNeeded"
                         onChange={handleChange}
                     ></input>
+
+                    {/* validation message */}
+                    {requestData.timeNeeded &&
+                    !validator.isTime(requestData.timeNeeded) ? (
+                        <p>Please enter a valid time</p>
+                    ) : (
+                        ''
+                    )}
                 </div>
                 <div>
                     <label htmlFor="description">Description:</label>
                     <input
                         type="text"
                         name="description"
+                        id="description"
                         onChange={handleChange}
                     ></input>
+
+                    {/* validation message */}
+                    {requestData.description &&
+                    requestData.description.length > 100 ? (
+                        <p>
+                            Request description must not exceed 100 characters
+                        </p>
+                    ) : (
+                        ''
+                    )}
+
                     <label htmlFor="category">Category:</label>
-                    <select name="category">
-                        <option>-select-</option>
+                    <select
+                        name="category"
+                        id="category"
+                        onChange={handleChange}
+                    >
+                        <option value="" disabled>
+                            Select one
+                        </option>
                         <option value="Meal">Meal</option>
                         <option value="Transportation">Transportation</option>
                         <option value="Other">Other</option>
                     </select>
+
+                    {/* validation message not needed since users can only select valid options */}
                 </div>
-                <input type="submit" value="Submit"></input>
+                {isRequestDataValid(requestData) ? (
+                    <input type="submit" value="Submit"></input>
+                ) : (
+                    <input type="submit" value="Submit" disabled></input>
+                )}
             </form>
         </div>
     );
