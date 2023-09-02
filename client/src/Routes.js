@@ -2,7 +2,8 @@ import React from "react";
 import { Navigate, Route, Routes } from 'react-router-dom';
 import TestComp from "./TestToBeDeleted";
 import GroupCreationPage from './pages/GroupCreationPage';
-import GroupSelectionPage from './pages/GroupSelectionPage';
+import GroupViewAllPage from './pages/GroupViewAllPage';
+import GroupViewSinglePage from './pages/GroupViewSinglePage';
 
 
 const FrontendRoutes = () => {
@@ -13,7 +14,8 @@ const FrontendRoutes = () => {
       <Routes>
           <Route exact path="/" Component={TestComp}/>
           <Route path="/GroupCreationPage" Component={GroupSelectionPage}/>
-          <Route path="/GroupSelectionPage" Component={GroupSelectionPage}/>
+          <Route path="/GroupViewAllPage" Component={GroupViewAllPage}/>
+          <Route path="/GroupViewSinglePage" Component={GroupViewSinglePage}/>
           {/* if no match found, redirect to page not found */}
 
           <Route path="*" element={<Navigate to='/' replace />}/>

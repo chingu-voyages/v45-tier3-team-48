@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-const GroupTable = ( {toGroupPage} ) => {
+const GroupTable = ( ) => {
     const [groups, setGroups] = useState([]);
+    const navigate = useNavigate();
 
     const fetchData = () => {
         axios.get('http://localhost:5000/individualGroups/getAll') // remove localhost later
@@ -12,6 +14,10 @@ const GroupTable = ( {toGroupPage} ) => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    function toGroupInfo(groupId) {
+        navigate("/GroupViewSinglePage", { state: { groupId: groupId } } );
+    }
 
     return (
         <div>
@@ -25,7 +31,7 @@ const GroupTable = ( {toGroupPage} ) => {
                             <td>{group.namePatient}</td>
                             <td>{group.nameCaregiver}</td>
                             <td>{group.description}</td>
-                            <button onClick={ () => toGroupPage(group._id) }>See More</button>
+                            <button onClick={ () => toGroupInfo(group._id) }>See More</button>
                         </tr>
                     ))}
                 </tbody>

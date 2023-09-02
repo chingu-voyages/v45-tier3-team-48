@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+var mongoose = require('mongoose');//test
 const SECRET_KEY = 'secret';
 
 // authenticate JWT
@@ -30,6 +30,5 @@ function ensureLoggedIn(req,res,next){
       return next(err);
   }
 }
-
 
 module.exports = {authenticateJWT, ensureLoggedIn};
