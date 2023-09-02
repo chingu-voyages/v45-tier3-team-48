@@ -25,7 +25,7 @@ const Login= () => {
     let res = await loginUser(loginFormData);
 
     setLoginFormData(INITIAL_STATE);
-    navigate('/register');
+    // navigate('/register');
   };
 
 

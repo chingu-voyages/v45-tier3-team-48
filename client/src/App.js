@@ -53,22 +53,24 @@ function App() {
   const loginUser = async (loginData) => {
     try{
       // call FE api
-      // let res = await CaregiverApi.login(loginData);
+      console.log('inside login function');
+      let res = await CaregiverApi.loginUser(loginData);
       // window.localStorage.setItem('token',res.token);
 
       // // set all corresponding data
-      // setToken(res.token);
-      // setCurrUserId(res.id);
-      console.log('inside login function');
-      return true;
+      setToken(res.token);
+      setUserId(res.id);
+      setEmail(res.email);
+      setFullName(res.fullName);
+      
+      return res.id;
     }catch(err){
       return err;
     }
-
   }
 
-
-
+  CaregiverApi.token = token;
+  
   return (
     <div className="App">
 
