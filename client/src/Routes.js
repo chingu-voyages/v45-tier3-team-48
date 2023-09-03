@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import TestComp from './TestToBeDeleted';
 import RegisterPage from './pages/RegisterPage';
 import RequestCreate from './components/GroupPages/RequestPage/RequestCreate';
 import GroupCreationPage from './pages/GroupCreationPage';
@@ -17,8 +18,6 @@ const FrontendRoutes = () => {
                     path="/groups/:groupId/request/create"
                     element={<RequestCreate />}
                 />
-
-                <Route exact path="/login" Component={Login}/>
                 <Route exact path="/register" Component={RegisterPage} />
                 <Route path="/GroupCreationPage" Component={GroupSelectionPage}/>
                 <Route path="/GroupViewAllPage" Component={GroupViewAllPage}/>
