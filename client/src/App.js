@@ -69,13 +69,23 @@ function App() {
     }
   }
 
+  const registerUser = async (userData) => {
+    try {
+      // Call FE api registerUser function 
+      let res = await CaregiverApi.registerUser(userData);
+      return res;
+    } catch (err) {
+      return err;
+    }
+  };
+
   CaregiverApi.token = token;
   
   return (
     <div className="App">
 
       <BrowserRouter> 
-        <UserContext.Provider value={{token, userId, email, fullName, loginUser}}>
+        <UserContext.Provider value={{token, userId, email, fullName, loginUser, registerUser}}>
           <Navbar/>
           <FrontendRoutes/>
           <Footer/>

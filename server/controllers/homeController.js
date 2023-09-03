@@ -7,15 +7,23 @@ module.exports = {
     createUser: async (req, res) => {
         try {
             console.log('Database running');
+            const {fullName, phoneNumber, email, password} = req.body;
             const saltRounds = 10; 
-            const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            
             const response = await users.create({
+                fullName: fullName,
+                phoneNumber: phoneNumber,
+                email: email,
+                password: hashedPassword
+            })
+
+            /*const response = await users.create({
                 fullName: req.body.fullName,
                 phoneNumber: req.body.phoneNumber,
                 email: req.body.email,
                 password: hashedPassword 
-            });
+            });*/
 
 
             console.log('User info has been added to the database!');

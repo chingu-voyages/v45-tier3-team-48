@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-// import UserContext from './/UserContext';
+//import axios from 'axios';
+import UserContext from './/UserContext';
 import './register.css';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     // Retrieves the token variable from App.js
     // state controlled at App.js
-  //const {token, userId, email, fullName} = useContext(UserContext);
-  const [formData, setFormData] = useState({
+  const {registerUser} = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const INITIAL_STATE = {
     fullName: "",
     phoneNumber: "",
     email: "",
-    password: "",
-  });
+    password: ""
+  }
+  const [formData, setFormData] = useState(INITIAL_STATE);
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -21,7 +25,18 @@ function Register() {
       e.preventDefault();
       try {
         setFormErrors(validate(formData));
-        const response = await axios.post('http://localhost:5000/register', 
+        if (Object.keys(formErrors).length === 0) {
+          let response = await registerUser(formData); // Use registerUser for registration
+          setIsSubmit(true);
+          // Handle success or redirect as needed
+          if (response.status === 201) {
+            console.log('Registration successful');
+            setFormData(INITIAL_STATE);
+            // Redirect or navigate to the login page, for example
+            // navigate('/login');
+          }
+        }
+        /*const response = await axios.post('http://localhost:5000/register', 
           {//Remove localhost later
             fullName: formData.fullName,
             phoneNumber: formData.phoneNumber,
@@ -33,7 +48,7 @@ function Register() {
         // Assuming  backend responds with a success message
         if (response.status === 201) {
           console.log('Data sent successfully');
-        }
+        } */
       } catch(err) {
         console.error('An error occurred:', err);
       }

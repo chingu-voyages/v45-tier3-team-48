@@ -39,6 +39,13 @@ class CaregiverApi {
     return res;
   }
 
+  static async registerUser(userData) {
+      let res = await this.request('register',userData,'post');
+      console.log(userData);
+      console.log('in Cgiver api register');
+      return res;
+  }
+  
 
 
 
