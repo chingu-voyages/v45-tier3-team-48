@@ -1,5 +1,5 @@
 import React from "react";
 
-const CountContext = React.createContext();
+const UserContext = React.createContext();
 
-export default CountContext;
+export default UserContext;
