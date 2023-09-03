@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import UserContext from './/UserContext';
+// import UserContext from './/UserContext';
 import './register.css';
 
 function Register() {
