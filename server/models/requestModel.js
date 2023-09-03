@@ -6,7 +6,15 @@ const RequestSchema = new mongoose.Schema(
         groupId: {
             type: String,
         },
-        dateTimeNeeded: {
+        dateNeeded: {
+            type: String,
+            required: true,
+        },
+        timeNeeded: {
+            type: String,
+            required: true,
+        },
+        dateTimeUTC: {
             type: String,
             required: [true, 'Date and time are required.'],
             validate: [
