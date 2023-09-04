@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import validator from 'validator';
+import UserContext from '../../../UserContext';
 
 const RequestCreate = () => {
     // grab the group id from the parameter variable
     const { groupId } = useParams();
+
+    const { userId, fullName } = useContext(UserContext);
 
     const [requestData, setRequestData] = useState({
         groupId: groupId,
@@ -14,7 +17,7 @@ const RequestCreate = () => {
         dateTimeUTC: '',
         description: '',
         category: '',
-        createdBy: '',
+        createdBy: { userId: userId, fullName: fullName },
         assignedTo: '',
     });
 
@@ -35,8 +38,6 @@ const RequestCreate = () => {
             return false;
         return true;
     };
-
-    console.log(requestData.dateNeeded);
 
     // arrow expression to generate date-time string from date and time inputs
     const createDateTimeUTC = (dateNeeded, timeNeeded) => {
@@ -141,6 +142,7 @@ const RequestCreate = () => {
                     <select
                         name="category"
                         id="category"
+                        defaultValue={''}
                         onChange={handleChange}
                     >
                         <option value="" disabled>
