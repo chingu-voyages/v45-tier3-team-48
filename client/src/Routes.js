@@ -19,9 +19,15 @@ const FrontendRoutes = () => {
                     element={<RequestCreate />}
                 />
                 <Route exact path="/register" Component={RegisterPage} />
-                <Route path="/GroupCreationPage" Component={GroupSelectionPage}/>
-                <Route path="/GroupViewAllPage" Component={GroupViewAllPage}/>
-                <Route path="/GroupViewSinglePage" Component={GroupViewSinglePage}/>
+                <Route
+                    path="/GroupCreationPage"
+                    Component={GroupCreationPage}
+                />
+                <Route path="/GroupViewAllPage" Component={GroupViewAllPage} />
+                <Route
+                    path="/GroupViewSinglePage"
+                    Component={GroupViewSinglePage}
+                />
                 {/* if no match found, redirect to page not found */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
