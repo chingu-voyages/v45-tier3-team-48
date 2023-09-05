@@ -1,16 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import validator from 'validator';
 import UserContext from '../../../UserContext';
+import CaregiverApi from '../../../api';
 
 const RequestCreate = () => {
     // grab the group id from the parameter variable
     const { groupId } = useParams();
 
+    const navigate = useNavigate();
+
     const { userId, fullName } = useContext(UserContext);
 
-    const [requestData, setRequestData] = useState({
+    const [hasError, setHasError] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState();
+
+    const INITIAL_STATE = {
         groupId: groupId,
         dateNeeded: '',
         timeNeeded: '',
@@ -19,7 +26,9 @@ const RequestCreate = () => {
         category: '',
         createdBy: { userId: userId, fullName: fullName },
         assignedTo: '',
-    });
+    };
+
+    const [requestData, setRequestData] = useState(INITIAL_STATE);
 
     const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
 
@@ -67,16 +76,18 @@ const RequestCreate = () => {
         const dateTimeUTC = createDateTimeUTC(dateNeeded, timeNeeded);
         await setRequestData({ ...requestData, dateTimeUTC: dateTimeUTC });
         setIsReadyToSubmit(true);
-    };
-
-    // submits requestData object once state has been updated to include the "dateTimeUTC" value
-    useEffect(() => {
         if (isReadyToSubmit) {
-            // replace with API call
-            console.log(requestData);
-            setIsReadyToSubmit(false);
+            let res = await CaregiverApi.createRequest(requestData);
+            if (typeof res.error === 'undefined') {
+                setIsReadyToSubmit(false);
+                setRequestData(INITIAL_STATE);
+                navigate('/GroupViewSinglePage');
+            } else {
+                setHasError(true);
+                setErrorMessage(res.error.message);
+            }
         }
-    }, [requestData, isReadyToSubmit]);
+    };
 
     const handleChange = e => {
         setRequestData({ ...requestData, [e.target.name]: e.target.value });
@@ -84,6 +95,7 @@ const RequestCreate = () => {
 
     return (
         <div>
+            {hasError && <p>Error: {errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="dateNeeded">Date Needed:</label>
