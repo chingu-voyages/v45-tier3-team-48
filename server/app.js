@@ -11,7 +11,7 @@ const { authenticateJWT } = require('./middleware/authorization');
 const requestRoutes = require('./routes/requestRoutes');
 const loginRoute = require('./routes/loginRoute');
 
-require('dotenv').config({ path: './config/.env' });
+require('dotenv').config({ path: './.env' });
 
 //Connection to database
 connectDB();
