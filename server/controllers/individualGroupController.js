@@ -44,18 +44,32 @@ async function joinGroup(req,res) {
     }
 }
 
+/**
+* Updates a group's information with new info from the user.
+*/
 async function editGroup(req,res) {
     try {
-
-    } catch {
+        var memberId = new mongoose.Types.ObjectId(req.body.groupId);
+        await groups.findOneAndUpdate( {_id: memberId}, {
+               nameGroup: req.body.groupName,
+               namePatient: req.body.patientName,
+               description: req.body.description
+        });
+    } catch(err) {
         console.error(err);
     }
 }
 
+/**
+* Deletes a group and all related userGroup entries.
+*/
 async function deleteGroup(req,res) {
     try {
-
-    } catch {
+        var memberId = new mongoose.Types.ObjectId(req.query.groupId);
+        await groups.deleteOne( {_id: memberId} );
+        await userGroups.deleteMany( {group_id: memberId} );
+        res.status(204);
+    } catch(err) {
         console.error(err);
     }
 }

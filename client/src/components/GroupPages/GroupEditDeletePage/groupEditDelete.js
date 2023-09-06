@@ -1,34 +1,35 @@
 import React, {useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 function GroupEditDelete() {
+    const { groupId } = useParams();
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ //change to show existing values on load?
+    const [formData, setFormData] = useState({
         groupName: "",
         patientName: "",
         description: ""
     });
 
     function groupDelete(groupId) {
-        axios.delete('http://localhost:5000/individualGroups/editGroup' {
-            params {
-                groupId : //???
+        axios.delete('http://localhost:5000/individualGroups/delete', {// remove localhost later
+            params: {
+                groupId : groupId
             }
-        });
-        //.then(navigate change location to all groups view)
+        })
+        .then(setTimeout( () => navigate("/groupViewAll"), 1500) ); //navigated before database is updated so added 1.5 sec delay
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         try {
-            axios.patch('http://localhost:5000/individualGroups/editGroup', {// remove localhost later
-                //get groupId from single view page
+            axios.patch('http://localhost:5000/individualGroups/edit', {// remove localhost later
+                groupId : groupId,
                 groupName: formData.groupName,
                 patientName: formData.patientName,
                 description: formData.description
             })
-            //.then(navigate change location back to single groups view)
+            .then(setTimeout( () => navigate("/GroupViewSingle/" + groupId), 1500) ); //navigated before database is updated so added 1.5 sec delay
         } catch(err) {
             console.error(err);
         }

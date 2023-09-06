@@ -1,4 +1,4 @@
-import GroupEditDelete from '../components/GroupPages/GroupEditDeletePage/GroupEditDelete';
+import GroupEditDelete from '../components/GroupPages/GroupEditDeletePage/groupEditDelete';
 const GroupEditDeletePage = () => {
     return (
         <>
