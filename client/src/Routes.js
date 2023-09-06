@@ -6,8 +6,8 @@ import RequestCreate from './components/GroupPages/RequestPage/RequestCreate';
 import GroupCreationPage from './pages/GroupCreationPage';
 import GroupViewAllPage from './pages/GroupViewAllPage';
 import GroupViewSinglePage from './pages/GroupViewSinglePage';
+import GroupEditDeletePage from './pages/GroupEditDeletePage';
 import Login from './components/GroupPages/LoginPage/Login';
-import GroupForm from './components/GroupPages/GroupCreationPage/groupForm';
 
 const FrontendRoutes = () => {
     // Create a new route for any components you'd like to render
@@ -23,14 +23,15 @@ const FrontendRoutes = () => {
                 <Route exact path="/login" Component={Login} />
                 <Route exact path="/register" Component={RegisterPage} />
                 <Route
-                    path="/GroupCreationPage"
+                    path="/GroupCreation"
                     Component={GroupCreationPage}
                 />
-                <Route path="/GroupViewAllPage" Component={GroupViewAllPage} />
+                <Route path="/GroupViewAll" Component={GroupViewAllPage} />
                 <Route
-                    path="/GroupViewSinglePage"
+                    path="/GroupViewSingle/:groupId"
                     Component={GroupViewSinglePage}
                 />
+                <Route path="/GroupEditDelete/:groupId" Component={GroupEditDeletePage}/>
                 {/* if no match found, redirect to page not found */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>

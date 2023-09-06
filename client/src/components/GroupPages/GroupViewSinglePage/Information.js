@@ -1,54 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Information = () => {
     const [groupData, setGroupData] = useState([]);
     const [userStatus, setUserStatus] = useState([]);
-    const location = useLocation();
-
-    const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5000';
+    const { groupId } = useParams();
+    const navigate = useNavigate();
 
     const fetchData = () => {
-        axios
-            .get(`${BASE_URL}/individualGroups`, {
-                //remove localhost later
-                params: {
-                    group_id: location.state.groupId,
-                },
-            })
-            .then(data => setGroupData(data.data))
-            .then(checkUser());
-    };
+        axios.get('http://localhost:5000/individualGroups', {//remove localhost later
+            params: {
+                group_id: groupId
+            }
+        })
+        .then(data => setGroupData(data.data))
+        .then(checkUser());
+    }
 
     function checkUser() {
-        axios
-            .get(`${BASE_URL}/individualGroups/checkUser`, {
-                // remove localhost later
-                params: {
-                    group_id: location.state.groupId,
-                },
-            })
-            .then(data => setUserStatus(data.data.role));
+        axios.get('http://localhost:5000/individualGroups/checkUser', {// remove localhost later
+            params: {
+                group_id: groupId
+            }
+        })
+        .then(data => setUserStatus(data.data.role));
     }
 
-    function joinGroup() {
-        axios.post(`${BASE_URL}/individualGroups/join`, {
-            // remove localhost later
-            group_id: location.state.groupId,
-        });
+    function joinGroup(){
+        axios.post('http://localhost:5000/individualGroups/join', {// remove localhost later
+            group_id: groupId
+        })
     }
 
-    //edit group api call
+    function toEditGroupPage() {
+        navigate("/GroupEditDelete/" + groupId );
+    }
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    //'require' requests as well?
-
     let roleButton;
-
     if (userStatus === 'Caretaker') {
         roleButton = <button>Edit Details</button>;
     } else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
