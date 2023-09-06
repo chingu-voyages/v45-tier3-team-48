@@ -73,6 +73,12 @@ function App() {
     try {
       // Call FE api registerUser function 
       let res = await CaregiverApi.registerUser(userData);
+
+      //Set all corresponding data
+      setToken(res.token);
+      setUserId(res._id);
+      setEmail(res.email);
+      setFullName(res.fullName);
       return res;
     } catch (err) {
       return err;

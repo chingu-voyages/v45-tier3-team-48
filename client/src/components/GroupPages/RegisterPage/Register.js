@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-//import axios from 'axios';
-import UserContext from './/UserContext';
+import UserContext from '../../../UserContext';
 import './register.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,27 +27,15 @@ function Register() {
         if (Object.keys(formErrors).length === 0) {
           let response = await registerUser(formData); // Use registerUser for registration
           setIsSubmit(true);
-          // Handle success or redirect as needed
-          if (response.status === 201) {
+          if(response.status === 401) {
+            setFormErrors({failedCreatingUser: "User already exists with this email."});
+          } else if (response.status === 201) { // Handle success or redirect as needed
             console.log('Registration successful');
             setFormData(INITIAL_STATE);
             // Redirect or navigate to the login page, for example
             // navigate('/login');
           }
         }
-        /*const response = await axios.post('http://localhost:5000/register', 
-          {//Remove localhost later
-            fullName: formData.fullName,
-            phoneNumber: formData.phoneNumber,
-            email: formData.email,
-            password: formData.password,
-          }
-        );
-        setIsSubmit(true);
-        // Assuming  backend responds with a success message
-        if (response.status === 201) {
-          console.log('Data sent successfully');
-        } */
       } catch(err) {
         console.error('An error occurred:', err);
       }
@@ -145,7 +132,9 @@ function Register() {
               <p>{formErrors.password}</p>
             </div>
             <button>Submit</button>
+            <p>{formErrors.failedCreatingUser}</p>
           </form>
+
           <div>
             <h2>Already have an account? <a href="/login">Login here!</a> </h2>
           </div>
