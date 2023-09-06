@@ -8,5 +8,9 @@
     "mongoose": "^7.4.4",
     "morgan": "^1.10.0",
     "validator": "^13.11.0"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "8.x"
   }
 }
