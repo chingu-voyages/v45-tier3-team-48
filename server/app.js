@@ -32,7 +32,7 @@ app.use(authenticateJWT);
 app.use('/', mainRoutes);
 app.use('/dashboard', dashBoardRoutes);
 app.use('/individualGroups', individualGroupRoutes);
-app.use('/requests', requestRoutes);
+app.use('/request', requestRoutes);
 app.use('/', loginRoute);
 
 module.exports = app;

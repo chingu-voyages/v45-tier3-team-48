@@ -22,9 +22,15 @@ const FrontendRoutes = () => {
                 />
                 <Route exact path="/login" Component={Login} />
                 <Route exact path="/register" Component={RegisterPage} />
-                <Route path="/groupCreation" Component={GroupCreationPage}/>
-                <Route path="/groupViewAll" Component={GroupViewAllPage}/>
-                <Route path="/groupViewSingle/:groupId" Component={GroupViewSinglePage}/>
+                <Route
+                    path="/GroupCreation"
+                    Component={GroupCreationPage}
+                />
+                <Route path="/GroupViewAll" Component={GroupViewAllPage} />
+                <Route
+                    path="/GroupViewSingle/:groupId"
+                    Component={GroupViewSinglePage}
+                />
                 <Route path="/GroupEditDelete/:groupId" Component={GroupEditDeletePage}/>
                 {/* if no match found, redirect to page not found */}
                 <Route path="*" element={<Navigate to="/" />} />

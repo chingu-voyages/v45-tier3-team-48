@@ -35,10 +35,12 @@ const RequestSchema = new mongoose.Schema(
             required: [true, 'Please select a category for this request'],
         },
         createdBy: {
-            type: String,
+            userId: { type: String },
+            fullName: { type: String },
         },
         assignedTo: {
-            type: String,
+            userId: { type: String },
+            fullName: { type: String },
         },
     },
     { timestamps: true }

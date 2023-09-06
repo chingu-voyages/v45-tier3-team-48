@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -42,10 +42,10 @@ const Information = () => {
     }, []);
 
     let roleButton;
-    if(userStatus == "Caretaker") {
-        roleButton = <button onClick={ () => toEditGroupPage()}>Edit Details/Delete Group</button>;
-    } else if( (userStatus != "Caregiver") && (userStatus != "Support") ) {
-        roleButton = <button onClick={ () => joinGroup() }>Join Group</button>;
+    if (userStatus === 'Caretaker') {
+        roleButton = <button>Edit Details</button>;
+    } else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
+        roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
     }
 
     return (
@@ -57,6 +57,6 @@ const Information = () => {
             <p>Description: {groupData.description}</p>
         </div>
     );
-}
+};
 
 export default Information;
