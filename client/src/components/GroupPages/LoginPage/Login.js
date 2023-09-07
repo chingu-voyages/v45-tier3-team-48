@@ -36,9 +36,17 @@ const Login= () => {
 
     let res = await loginUser(loginFormData);
 
-    // handle errors from BE with res.errors
-    
+    // handle errors from BE for invalid email/password combination
+    if(res.status === 401){
+      sethasError(true);
+      setErrorMessage(res.data.message);
+      return;
+    }
+
+    // update login form data
     setLoginFormData(INITIAL_STATE);
+
+    // navigate to dashboard
     // navigate('/register');
   };
 
