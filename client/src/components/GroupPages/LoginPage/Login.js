@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import UserContext from '../../../UserContext';
 import { useNavigate } from 'react-router-dom';
+import validator from 'validator';
 
 
 const Login= () => {
@@ -9,6 +10,8 @@ const Login= () => {
 
   const INITIAL_STATE = {email:'', password:''};
 
+  const [hasError, sethasError] = useState(false);
+  const [errorMessage,setErrorMessage] = useState('');
   const [loginFormData, setLoginFormData] = useState(INITIAL_STATE);
  
   const handleUpdate = (e) => {
@@ -22,17 +25,57 @@ const Login= () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // validate the form before api call
+    // validate returns list of errors
+    const errors = validateForm(loginFormData);
+    if(errors.length){
+      sethasError(true);
+      setErrorMessage(errors[0]);
+      return;
+    }
+
     let res = await loginUser(loginFormData);
 
+    // handle errors from BE for invalid email/password combination
+    if(res.status === 401){
+      sethasError(true);
+      setErrorMessage(res.data.message);
+      return;
+    }
+
+    // update login form data
     setLoginFormData(INITIAL_STATE);
+
+    // navigate to dashboard
     // navigate('/register');
   };
+
+  const validateForm = data => {
+    const errors = [];
+
+    // check email
+    if(!validator.isEmail(data.email)){
+      errors.push('Must provide valid email');
+      return errors;
+    }
+
+    // check password length
+    // if wrong set error message
+    if(!validator.isLength(data.password, {min:4, max:12})){
+      errors.push('Password must be between 4 and 12 characters long');
+      return errors;
+    }
+    return errors;
+  }
 
 
   return (
       <div>
         <form onSubmit={handleSubmit}>
           <div>CareCollab</div>
+          {hasError && <div style={{backgroundColor:'red'}}  variant="h6" component="h2">
+            <p style={{color:'white'}}><b>Error: {errorMessage}</b></p>
+        </div>}
           <div>
               <input onChange={handleUpdate} name='email' placeholder='Email Address' />
           </div>
