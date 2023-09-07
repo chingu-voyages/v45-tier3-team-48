@@ -34,11 +34,12 @@ module.exports = {
             //Creating json web token 
             let token = jwt.sign(
                 {id: user._id, email: user.email},
-                SECRET_KEY,
-                {
+                SECRET_KEY
+                /*{
                     expiresIn: "2h"
-                }
+                }*/
             );
+            console.log('Generated token:', token);
             user.token = token;
             user.password = undefined;
             res.status(201).json({user});
