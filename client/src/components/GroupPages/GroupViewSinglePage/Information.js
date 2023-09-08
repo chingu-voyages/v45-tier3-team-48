@@ -1,40 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
+import UserContext from '../../../UserContext';
+import CaregiverApi from '../../../api';
 import axios from 'axios';
 
-const Information = () => {
+const Information = () => {//use useEffect for the methods?
     const [groupData, setGroupData] = useState([]);
     const [userStatus, setUserStatus] = useState([]);
     const { groupId } = useParams();
+    const { userId } = useContext(UserContext);//token isn't passing its payload to req.body
     const navigate = useNavigate();
 
     const fetchData = () => {
-        axios.get('http://localhost:5000/individualGroups', {//remove localhost later
-            params: {
-                group_id: groupId
-            }
-        })
-        .then(data => setGroupData(data.data))
+        CaregiverApi.getIndividualGroup( {group_id: groupId} )
+        .then(data => setGroupData(data))
         .then(checkUser());
     }
 
-    function checkUser() {
-        axios.get('http://localhost:5000/individualGroups/checkUser', {// remove localhost later
-            params: {
-                group_id: groupId
-            }
-        })
-        .then(data => setUserStatus(data.data.role));
+    function checkUser() { //change backend method after database change
+        CaregiverApi.checkUser( {user_id: userId, group_id: groupId} )
+        .then(data => setUserStatus(data.role) );
     }
 
-    function joinGroup(){
-        axios.post('http://localhost:5000/individualGroups/join', {// remove localhost later
-            group_id: groupId
-        })
-    }
-
-    function toEditGroupPage() {
-        navigate("/GroupEditDelete/" + groupId );
+    function joinGroup() { //reload page after?
+        CaregiverApi.joinGroup( {user_id: userId, group_id: groupId} );
     }
 
     useEffect(() => {
@@ -42,8 +31,8 @@ const Information = () => {
     }, []);
 
     let roleButton;
-    if (userStatus === 'Caretaker') {
-        roleButton = <button>Edit Details</button>;
+    if (userStatus === 'Caregiver') {
+        roleButton = <button onClick={() => navigate("/GroupEditDelete/" + groupId )}>Edit Details</button>;
     } else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
         roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
     }
