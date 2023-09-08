@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Information = () => {
     const [groupData, setGroupData] = useState([]);
     const [userStatus, setUserStatus] = useState([]);
-    const location = useLocation();
-
+    const { groupId } = useParams();
+    const navigate = useNavigate();
 
     const fetchData = () => {
         axios.get('http://localhost:5000/individualGroups', {//remove localhost later
             params: {
-                group_id: location.state.groupId
+                group_id: groupId
             }
         })
         .then(data => setGroupData(data.data))
@@ -21,7 +21,7 @@ const Information = () => {
     function checkUser() {
         axios.get('http://localhost:5000/individualGroups/checkUser', {// remove localhost later
             params: {
-                group_id: location.state.groupId
+                group_id: groupId
             }
         })
         .then(data => setUserStatus(data.data.role));
@@ -29,24 +29,23 @@ const Information = () => {
 
     function joinGroup(){
         axios.post('http://localhost:5000/individualGroups/join', {// remove localhost later
-            group_id: location.state.groupId
+            group_id: groupId
         })
     }
 
-    //edit group api call
+    function toEditGroupPage() {
+        navigate("/GroupEditDelete/" + groupId );
+    }
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    //'require' requests as well?
-
     let roleButton;
-
-    if(userStatus == "Caretaker") {
+    if (userStatus === 'Caretaker') {
         roleButton = <button>Edit Details</button>;
-    } else if( (userStatus != "Caregiver") && (userStatus != "Support") ) {
-        roleButton = <button onClick={ () => joinGroup() }>Join Group</button>;
+    } else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
+        roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
     }
 
     return (
@@ -58,6 +57,6 @@ const Information = () => {
             <p>Description: {groupData.description}</p>
         </div>
     );
-}
+};
 
 export default Information;

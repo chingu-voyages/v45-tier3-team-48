@@ -44,7 +44,37 @@ async function joinGroup(req,res) {
     }
 }
 
-async function checkUserGroup(req,res) {//delete?
+/**
+* Updates a group's information with new info from the user.
+*/
+async function editGroup(req,res) {
+    try {
+        var memberId = new mongoose.Types.ObjectId(req.body.groupId);
+        await groups.findOneAndUpdate( {_id: memberId}, {
+               nameGroup: req.body.groupName,
+               namePatient: req.body.patientName,
+               description: req.body.description
+        });
+    } catch(err) {
+        console.error(err);
+    }
+}
+
+/**
+* Deletes a group and all related userGroup entries.
+*/
+async function deleteGroup(req,res) {
+    try {
+        var memberId = new mongoose.Types.ObjectId(req.query.groupId);
+        await groups.deleteOne( {_id: memberId} );
+        await userGroups.deleteMany( {group_id: memberId} );
+        res.status(204);
+    } catch(err) {
+        console.error(err);
+    }
+}
+
+async function checkUserGroup(req,res) {
     try {
         var searchFor = new mongoose.Types.ObjectId(req.query.group_id);
         const userRole = await userGroups.findOne( {user_id: req.user._id, group_id: searchFor} );
@@ -63,7 +93,7 @@ async function getAllGroup(req,res) {
     }
 }
 
-async function getIndividualGroup(req,res) {//delete?
+async function getIndividualGroup(req,res) {
     try {
         var searchFor = new mongoose.Types.ObjectId(req.query.group_id);
         const allGroup = await groups.findOne( {_id: searchFor} );
@@ -73,4 +103,4 @@ async function getIndividualGroup(req,res) {//delete?
     }
 }
 
-module.exports = { createGroup, joinGroup, checkUserGroup, getAllGroup, getIndividualGroup };
+module.exports = { createGroup, joinGroup, editGroup, deleteGroup, checkUserGroup, getAllGroup, getIndividualGroup };

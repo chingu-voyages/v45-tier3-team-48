@@ -16,7 +16,7 @@ const GroupTable = ( ) => {
     }, []);
 
     function toGroupInfo(groupId) {
-        navigate("/GroupViewSinglePage", { state: { groupId: groupId } } );
+        navigate("/GroupViewSingle/" + groupId );
     }
 
     return (

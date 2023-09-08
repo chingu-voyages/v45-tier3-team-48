@@ -17,8 +17,10 @@ function Register() {
   }
   const [formData, setFormData] = useState(INITIAL_STATE);
 
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
+
+    const [formErrors, setFormErrors] = useState({});
+    const [isSubmit, setIsSubmit] = useState(false);
+
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -35,51 +37,54 @@ function Register() {
             // Redirect or navigate to the login page, for example
             // navigate('/login');
           }
+
         }
-      } catch(err) {
-        console.error('An error occurred:', err);
-      }
-    }
-    
-    const onChange = (e) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const onChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     useEffect(() => {
-      console.log(formErrors);
-      if(Object.keys(formErrors).length === 0 && isSubmit) {
-        console.log(formData);
-      }
-    })
+        console.log(formErrors);
+        if (Object.keys(formErrors).length === 0 && isSubmit) {
+            console.log(formData);
+        }
+    });
 
-    const validate = (data) => {
-      const errors = {};
-      const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/i;
-      //Works only for American 10-digit phoone numbers
-      const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-      if(!data.fullName) {//errors for full name
-        errors.fullName = "Full name is required!";
-      }
-      if(!data.phoneNumber) {//Erros for phone number
-        errors.phoneNumber = "Phone number is required!";
-      } else if(!phoneRegex.test(data.phoneNumber)){
-        errors.phoneNumber = "This is not a valid phone number format! Ex: xxx-xxx-xxxx"
-      }
-      if(!data.email) {//Errors for email
-        errors.email = "Email is required!"
-      } else if (!emailRegex.test(data.email)){
-        errors.email = "This is not a valid email format!";
-      }
-      if(!data.password) {//Errors for password
-        errors.password = "Password is required!";
-      } else if(data.password.length < 4) {
-        errors.password = 'Password must be more than 4 characters!';
-      } else if(data.password.length > 12) {
-        errors.password = 'Password cannot exceed more than 12 characters!';
-      }
-      return errors
-
-    }
+    const validate = data => {
+        const errors = {};
+        const emailRegex =
+            /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/i;
+        //Works only for American 10-digit phoone numbers
+        const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+        if (!data.fullName) {
+            //errors for full name
+            errors.fullName = 'Full name is required!';
+        }
+        if (!data.phoneNumber) {
+            //Erros for phone number
+            errors.phoneNumber = 'Phone number is required!';
+        } else if (!phoneRegex.test(data.phoneNumber)) {
+            errors.phoneNumber =
+                'This is not a valid phone number format! Ex: xxx-xxx-xxxx';
+        }
+        if (!data.email) {
+            //Errors for email
+            errors.email = 'Email is required!';
+        } else if (!emailRegex.test(data.email)) {
+            errors.email = 'This is not a valid email format!';
+        }
+        if (!data.password) {
+            //Errors for password
+            errors.password = 'Password is required!';
+        } else if (data.password.length < 4) {
+            errors.password = 'Password must be more than 4 characters!';
+        } else if (data.password.length > 12) {
+            errors.password = 'Password cannot exceed more than 12 characters!';
+        }
+        return errors;
+    };
     console.log(formData);
     return ( 
       <>
@@ -152,5 +157,6 @@ function Register() {
       </>
     )
 };
+
 
 export default Register;
