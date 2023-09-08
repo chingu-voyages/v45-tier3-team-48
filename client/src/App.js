@@ -74,13 +74,12 @@ function App() {
       // Call FE api registerUser function
       console.log('inside register function in app.js');
       let res = await CaregiverApi.registerUser(userData);
-      console.log(res)
 
       //Set all corresponding data
-      setToken(res.token);
-      setUserId(res._id);
-      setEmail(res.email);
-      setFullName(res.fullName);
+      setToken(res.user.token);
+      setUserId(res.user._id);
+      setEmail(res.user.email);
+      setFullName(res.user.fullName);
       return res;
     } catch (err) {
       return err;
