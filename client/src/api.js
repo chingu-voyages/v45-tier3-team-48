@@ -38,7 +38,6 @@ class CaregiverApi {
     }
 
     static async createRequest(requestData) {
-        console.log(requestData);
         try {
             let res = await this.request('request/create', requestData, 'post');
             return res;
