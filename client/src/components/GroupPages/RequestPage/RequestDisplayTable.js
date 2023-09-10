@@ -16,6 +16,8 @@ const RequestDisplayTable = () => {
 
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const userRole = 'caregiver';
+
     useEffect(() => {
         async function getRequests(groupId) {
             let res = await CaregiverApi.findAllRequestsForOneGroup(groupId);
@@ -35,13 +37,6 @@ const RequestDisplayTable = () => {
         const dateObject = new Date(isoString);
         return dateObject.toLocaleTimeString({}, {hour: 'numeric', minute: '2-digit'});
     }
-
-    // dummy data for testing
-    // const user = {
-    //     groupData: [
-    //         groupId: 
-    //     ]
-    // }
 
     return (
         <>
@@ -69,7 +64,18 @@ const RequestDisplayTable = () => {
                                         <td>{request.assignedTo.fullName}</td> :
                                         <td></td>
                                     }
-                                    {}
+                                    {/* TODO Add condition that checks if the request has already been assigned */}
+                                    {(userRole === 'support') ? 
+                                        <td><button>Sign Up!</button></td> :
+                                        <></>
+                                    }
+                                    {(userRole === 'caregiver') ?
+                                        <td>
+                                            <button>Edit</button>
+                                            <button>Delete</button>
+                                        </td> :
+                                        <></>
+                                    }
                                 </tr>
                             )
                         })}
