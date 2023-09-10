@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import CaregiverApi from '../../../api';
 import axios from 'axios';
 
 const GroupTable = ( ) => {
@@ -7,8 +8,8 @@ const GroupTable = ( ) => {
     const navigate = useNavigate();
 
     const fetchData = () => {
-        axios.get('http://localhost:5000/individualGroups/getAll') // remove localhost later
-        .then(data => setGroups(data.data));
+        CaregiverApi.getAllGroup()
+        .then(data => setGroups(data));
     }
 
     useEffect(() => {
