@@ -16,6 +16,14 @@ const UserSchema = new mongoose.Schema( {
     password: {
         type: String,
         required: true
+    },
+    groupInfo: {
+        groupId: {
+            type: String,
+        },
+        role: {
+            type: String,
+        }
     }
 })
 
