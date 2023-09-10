@@ -16,7 +16,15 @@ const UserSchema = new mongoose.Schema( {
     password: {
         type: String,
         required: true
+    },
+    groupInfo: {
+        groupId: {
+            type: String,
+        },
+        userRole: {
+            type: String
+        }
     }
-})
+}, { timestamps: true });
 
 module.exports = mongoose.model('user', UserSchema);
