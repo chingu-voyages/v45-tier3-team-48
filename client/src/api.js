@@ -47,6 +47,15 @@ class CaregiverApi {
         }
     }
 
+    static async findAllRequestsForOneGroup(groupId) {
+        try {
+            let res = await this.request(`request/${groupId}/getall`);
+            return res;
+        } catch (err) {
+            console.log('Error:', err);
+            throw err;
+        }
+    }
     /**
      *
      * Example routes shown below from past project
