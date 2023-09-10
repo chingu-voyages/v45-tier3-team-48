@@ -11,7 +11,7 @@ function GroupForm() {
     const handleSubmit = (e) => { //probably add code to go to group page after group creation
         e.preventDefault();
         try {
-            axios.post('http://localhost:5000/individualGroups/create', {// remove localhost later
+            axios.post('http://localhost:8000/individualGroups/create', {// remove localhost later
                 groupName: formData.groupName,
                 patientName: formData.patientName,
                 description: formData.description
