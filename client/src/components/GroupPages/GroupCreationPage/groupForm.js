@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
+import React, { useContext, useState } from 'react';
+import UserContext from '../../../UserContext';
+import CaregiverApi from '../../../api';
 import axios from 'axios';
 
 function GroupForm() {
+    const { userId } = useContext(UserContext);
+    const { fullName } = useContext(UserContext);
     const [formData, setFormData] = useState({
         groupName: "",
         patientName: "",
@@ -10,22 +14,12 @@ function GroupForm() {
 
     const handleSubmit = (e) => { //probably add code to go to group page after group creation
         e.preventDefault();
-        try {
-            axios.post('http://localhost:8000/individualGroups/create', {// remove localhost later
-                groupName: formData.groupName,
-                patientName: formData.patientName,
-                description: formData.description
-            })
-        } catch(err) {
-            console.error(err);
-        }
+        CaregiverApi.createGroup( {user_id: userId, user_fullName: fullName} );
     };
 
     return (
         <div className="groupForm">
             <form onSubmit={handleSubmit}>
-                <input type="text" onChange={ (e) => setFormData({...formData, groupName: e.target.value})} placeholder="Group Name"/>
-                <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, patientName: e.target.value})} value={formData.patientName} placeholder="Patient Name"/>
                 <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, description: e.target.value})} value={formData.description} placeholder="Describe the Purpose of the Group"/>

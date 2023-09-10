@@ -47,6 +47,52 @@ class CaregiverApi {
         }
     }
 
+     //the token information isn't showing up in the middleware so i'm using UserContext to get token info
+     static async createGroup(groupData) {
+        try {
+            let res = await this.request('individualGroups/create', {groupData}, 'post');
+            return res;
+        } catch(err) {
+            throw err;
+        }
+     }
+
+     static async joinGroup(groupData) {
+        try {
+            let res = await this.request('individualGroups/join', {user_id: groupData.user_id, group_id: groupData.group_id}, 'post');
+            return res;
+        } catch(err) {
+            throw err;
+        }
+     }
+
+     static async checkUser(groupData) { //change backend method after database change
+        try {
+            let res = await this.request('individualGroups/checkUser', {user_id: groupData.user_id, group_id: groupData.group_id}, 'get');
+            return res;
+        } catch(err) {
+            throw err;
+        }
+     }
+
+    static async getIndividualGroup(groupData) {
+        try {
+            let res = await this.request('individualGroups/', {group_id: groupData.group_id}, 'get');
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    }
+
+    static async getAllGroup() {
+        try {
+            let res = await this.request('individualGroups/getAll', {}, 'get');
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    }
+
     static async findAllRequestsForOneGroup(groupId) {
         try {
             let res = await this.request(`request/${groupId}/getall`);
