@@ -2,6 +2,8 @@ const users = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../config/database');
+const ObjectId = require('mongodb').ObjectId;
+
 
 module.exports = {
     createUser: async (req, res) => {
@@ -30,6 +32,22 @@ module.exports = {
 
         } catch (err) {
             console.error(err);
+        }
+    },
+    getUserProfile: async (req,res) => {
+        try {
+            // extract the username from the body 
+
+            // set up user id query 
+            const query = {_id: new ObjectId('64f24b003db4190385449303')};
+
+            // exclude password field in query
+            let user = await users.findOne(query,{password:0});
+
+            return res.json(user);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({error: "Could not find user data"});
         }
     }
 };
