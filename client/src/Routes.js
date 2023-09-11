@@ -8,6 +8,7 @@ import GroupViewAllPage from './pages/GroupViewAllPage';
 import GroupViewSinglePage from './pages/GroupViewSinglePage';
 import GroupEditDeletePage from './pages/GroupEditDeletePage';
 import Login from './components/GroupPages/LoginPage/Login';
+import EditProfileForm from './components/GroupPages/ProfilePage/UpdateProfile';
 
 const FrontendRoutes = () => {
     // Create a new route for any components you'd like to render
@@ -33,6 +34,8 @@ const FrontendRoutes = () => {
                 />
                 <Route path="/GroupEditDelete/:groupId" Component={GroupEditDeletePage}/>
                 {/* if no match found, redirect to page not found */}
+
+                <Route path='/editUser' Component={EditProfileForm}/>
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </div>

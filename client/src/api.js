@@ -37,6 +37,16 @@ class CaregiverApi {
         return res;
     }
 
+    static async getUser(id){
+        try {
+            let res = await this.request(`user/${id}`);
+            return res;
+        } catch (err) {
+            console.log('Error:', err);
+            throw err;
+        }
+    }
+
     static async createRequest(requestData) {
         console.log(requestData);
         try {
