@@ -47,7 +47,7 @@ function App() {
     window.localStorage.setItem('token',token);
     window.localStorage.setItem('email',email);
     window.localStorage.setItem('fullName',fullName);
-  },[token, userId, email]);
+  },[token, userId, email, fullName]);
 
 
   const loginUser = async (loginData) => {
@@ -69,13 +69,21 @@ function App() {
     }
   }
 
+  const logoutUser = () => {
+    window.localStorage.clear();
+    setToken('');
+    setUserId(null);
+    setEmail('');
+    setFullName('');
+  }
+
   CaregiverApi.token = token;
   
   return (
     <div className="App">
 
       <BrowserRouter> 
-        <UserContext.Provider value={{token, userId, email, fullName, loginUser}}>
+        <UserContext.Provider value={{token, userId, email, fullName, loginUser, logoutUser}}>
           <Navbar/>
           <FrontendRoutes/>
           <Footer/>
