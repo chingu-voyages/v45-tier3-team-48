@@ -39,8 +39,10 @@ function Register() {
           }
 
         }
-    };
-
+      } catch(e) {
+        console.log(e)
+      }
+    }
     const onChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
