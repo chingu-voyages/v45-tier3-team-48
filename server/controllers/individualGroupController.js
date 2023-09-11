@@ -3,21 +3,20 @@ const userGroups = require('../models/userGroups');
 var mongoose = require('mongoose');
 
 /**
-* Creates a new group in the database and assigns the creator as 'Caretaker'.
+* Creates a new group in the database and assigns the creator as 'Caregiver'.
 */
 async function createGroup(req,res) {
     try {
         var newGroup = await groups.create({
-            nameGroup : req.body.groupName,
-            nameCaregiver : req.user.username,
+            nameCaregiver : req.body.groupData.user_fullName,
             namePatient : req.body.patientName,
             description : req.body.description
         });
 
         var newMember = await userGroups.create({
-            user_id : req.user._id,
+            user_id : req.body.groupData.user_id,
             group_id : newGroup._id,
-            role : "Caretaker"
+            role : "Caregiver"
         });
 
         res.status(201);
@@ -31,9 +30,9 @@ async function createGroup(req,res) {
 */
 async function joinGroup(req,res) {
     try {
-        var memberId = new mongoose.Types.ObjectId(req.user.group_id);
+        var memberId = new mongoose.Types.ObjectId(req.body.group_id);
         var newMember = await userGroups.create({
-            user_id : req.user._id,
+            user_id : req.body.user_id,
             group_id : memberId,
             role : "Support"
         });
@@ -74,10 +73,13 @@ async function deleteGroup(req,res) {
     }
 }
 
-async function checkUserGroup(req,res) {
+/**
+* Checks the role of a user in a group.
+*/
+async function checkUserGroup(req,res) { //change method after database change
     try {
         var searchFor = new mongoose.Types.ObjectId(req.query.group_id);
-        const userRole = await userGroups.findOne( {user_id: req.user._id, group_id: searchFor} );
+        const userRole = await userGroups.findOne( {user_id: req.query.user_id, group_id: searchFor} );
         res.send(userRole);
     } catch(err) {
         console.error(err);

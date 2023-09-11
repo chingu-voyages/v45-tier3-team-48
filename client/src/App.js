@@ -47,7 +47,7 @@ function App() {
     window.localStorage.setItem('token',token);
     window.localStorage.setItem('email',email);
     window.localStorage.setItem('fullName',fullName);
-  },[token, userId, email]);
+  },[token, userId, email, fullName]);
 
 
   const loginUser = async (loginData) => {
@@ -69,6 +69,7 @@ function App() {
     }
   }
 
+
   const registerUser = async (userData) => {
     try {
       // Call FE api registerUser function
@@ -85,6 +86,14 @@ function App() {
       return err;
     }
   };
+  
+  const logoutUser = () => {
+    window.localStorage.clear();
+    setToken('');
+    setUserId(null);
+    setEmail('');
+    setFullName('');
+  }
 
   CaregiverApi.token = token;
   
@@ -92,7 +101,9 @@ function App() {
     <div className="App">
 
       <BrowserRouter> 
-        <UserContext.Provider value={{token, userId, email, fullName, loginUser, registerUser}}>
+
+        <UserContext.Provider value={{token, userId, email, fullName, loginUser, logoutUser ,registerUser}}>
+
           <Navbar/>
           <FrontendRoutes/>
           <Footer/>

@@ -17,11 +17,21 @@ const UserSchema = new mongoose.Schema( {
         type: String,
         required: true
     },
+
     //this will be an assigment
     token: {
         type: String,
         default: null
+
+    groupInfo: {
+        groupId: {
+            type: String,
+        },
+        userRole: {
+            type: String
+        }
+
     }
-})
+}, { timestamps: true });
 
 module.exports = mongoose.model('user', UserSchema);
