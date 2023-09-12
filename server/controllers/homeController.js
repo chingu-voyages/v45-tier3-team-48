@@ -36,13 +36,14 @@ module.exports = {
     },
     getUserProfile: async (req,res) => {
         try {
-            // extract the username from the body 
+            // extract the username from the url 
+            const id = req.params.id;
 
             // set up user id query 
-            const query = {_id: new ObjectId('64f24b003db4190385449303')};
+            const query = {_id: new ObjectId(id)};
 
             // exclude password field in query
-            let user = await users.findOne(query,{password:0});
+            const user = await users.findOne(query,{password:0});
 
             return res.json(user);
         } catch (error) {
