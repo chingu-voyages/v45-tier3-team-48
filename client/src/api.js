@@ -47,6 +47,15 @@ class CaregiverApi {
         }
     }
 
+    static async updateUser(id, updatedUserData){
+        try {
+            let res = await this.request(`editUser/${id}`,updatedUserData,'patch');
+
+        } catch (err) {
+            
+        }
+    }
+
     static async createRequest(requestData) {
         console.log(requestData);
         try {
@@ -77,6 +86,7 @@ class CaregiverApi {
         }
      }
 
+    //  check user group data
      static async checkUser(groupData) { //change backend method after database change
         try {
             let res = await this.request('individualGroups/checkUser', {user_id: groupData.user_id, group_id: groupData.group_id}, 'get');

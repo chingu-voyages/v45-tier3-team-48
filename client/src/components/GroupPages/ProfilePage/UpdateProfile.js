@@ -13,6 +13,8 @@ import CaregiverApi from '../../../api';
 
 export default function EditProfileForm() {
 
+  const navigate = useNavigate();
+
   // need user info
   const { userId } = useContext(UserContext);
 
@@ -46,8 +48,25 @@ export default function EditProfileForm() {
     retrieveProfile();
   },[]);
 
-  const handleChange = () => {
+  const handleChange = (e) => {
+    e.preventDefault();
+    const {value, name} = e.target;
 
+    setEditProfileFormData(data => ({...data, [name]: value}));
+  }
+
+  // update user document in the database
+  const handleSubmit = async (e) => {
+    // add form validators from register page
+
+    e.preventDefault();
+    const res = await CaregiverApi.updateUser(id,editProfileFormData);
+
+    // handle errors
+
+    // if no errors, redirect to success page
+    setEditProfileFormData(INITIAL_STATE);
+    navigate('/');
   }
 
   // auto-fill form data 
@@ -55,13 +74,13 @@ export default function EditProfileForm() {
   return (
     <form method='post'>
       <div>
-          <label htmlFor='name'>Full Name: </label>
-          <input onChange={handleChange} name='name' value={editProfileFormData.fullName}/>  
+          <label htmlFor='fullName'>Full Name: </label>
+          <input onChange={handleChange} name='fullName' value={editProfileFormData.fullName}/>  
       </div>
 
       <div>
-          <label htmlFor='phone'>Phone: </label>
-          <input type="text" onChange={handleChange} name='phone' value={editProfileFormData.phoneNumber}/> 
+          <label htmlFor='phoneNumber'>Phone: </label>
+          <input type="text" onChange={handleChange} name='phoneNumber' value={editProfileFormData.phoneNumber}/> 
       </div>
 
       <div> 
@@ -69,7 +88,9 @@ export default function EditProfileForm() {
           <input style={{border:'5px'}} type="email" onChange={handleChange} name='email' value={editProfileFormData.email}/>  
       </div>
 
-      {/* <div>
+      {/* Add after possible to add groups to a user
+      
+        <div>
           <label htmlFor='select-current-group'>Current Group: </label>
           <select id='select-current-group'>
             <option value={'group1'}>Group 1</option>
