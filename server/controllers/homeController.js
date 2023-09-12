@@ -50,5 +50,28 @@ module.exports = {
             console.log(error);
             res.status(400).json({error: "Could not find user data"});
         }
+    },
+    updateUserProfile: async (req,res) => {
+        try {
+            // make db call to update the record
+            const id = req.params.id;
+            const { fullName, phoneNumber, email } = req.body;
+
+            // only update if the password is a match
+
+            // change this to id
+            const filter = {_id: new ObjectId("64f24b003db4190385449303")};
+            const updateData = {$set: {fullName, phoneNumber, email}}
+
+            const updateRes = await users.updateOne(filter, updateData);
+
+            // if nothing updated, set error
+
+            return res.json(updateRes);
+        } catch (error) {
+            return res.status(400).json({error: 'Had update error'});
+        }
+
+        console.log('shouldnt execute');
     }
 };

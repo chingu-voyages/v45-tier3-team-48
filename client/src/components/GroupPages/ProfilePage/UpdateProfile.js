@@ -60,7 +60,7 @@ export default function EditProfileForm() {
     // add form validators from register page
 
     e.preventDefault();
-    const res = await CaregiverApi.updateUser(id,editProfileFormData);
+    const res = await CaregiverApi.updateUser(userId,editProfileFormData);
 
     // handle errors
 
@@ -69,7 +69,6 @@ export default function EditProfileForm() {
     navigate('/');
   }
 
-  // auto-fill form data 
 
   return (
     <form method='post'>
@@ -102,7 +101,7 @@ export default function EditProfileForm() {
           <label htmlFor='password'>Enter Password to Confirm Change: </label>
           <input onChange={handleChange} name='password' value={editProfileFormData.password}/>  
       </div>
-      <button type='button' style={{marginLeft:'10px', backgroundColor:'orange'}}>Update Profile</button>
+      <button onClick={handleSubmit} type='button' style={{marginLeft:'10px', backgroundColor:'orange'}}>Update Profile</button>
       <button style={{marginLeft:'10px', backgroundColor:'red'}}>Delete Profile</button>
     </form>
   );
