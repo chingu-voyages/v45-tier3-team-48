@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import CaregiverApi from '../../../api';
 import UserContext from '../../../UserContext';
 
@@ -10,23 +10,41 @@ const RequestDisplayTable = () => {
 
     const { userId } = useContext(UserContext);
 
-    const [userInfo, setUserInfo] = useState({})
+    const navigate = useNavigate();
 
-    const [requests, setRequests] = useState();
+    const [data, setData] = useState({
+        userInfo: {},
+        requests: [],
+        isLoaded: false,
+        userRole: ''
+    });
 
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    const userRole = 'caregiver';
+    const getUserRole = (groupId, groupInfo) => {
+        let userRole = '';
+        if (!groupId || !groupInfo) return userRole;
+        groupInfo.forEach((group) => {
+            if (group.groupId === groupId) {
+                userRole = group.userRole;
+            }
+        });
+        return userRole;
+    }
 
     useEffect(() => {
-        async function getRequests(groupId) {
-            let res = await CaregiverApi.findAllRequestsForOneGroup(groupId);
-            setRequests(res);
-            setIsLoaded(true);
+        async function fetchData() {
+            const [userInfo, requests] = await Promise.all([
+                CaregiverApi.getUserInfo(userId),
+                CaregiverApi.findAllRequestsForOneGroup(groupId)
+            ]);
+            setData({
+                userInfo,
+                requests,
+                isLoaded: true,
+                userRole: getUserRole(groupId, userInfo.groupInfo)
+            });
         }
-        // TODO Add function to load user info to get user's auth level for this group
-        getRequests(groupId);
-    }, [groupId]);
+        fetchData();
+    }, [userId, groupId]);
 
     const formatDate = (isoString) => {
         const dateObject = new Date(isoString);
@@ -40,7 +58,7 @@ const RequestDisplayTable = () => {
 
     return (
         <>
-            {isLoaded && (
+            {data.isLoaded && (
                 <table>
                     <thead>
                         <tr>
@@ -53,7 +71,7 @@ const RequestDisplayTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {requests.map((request, index) => {
+                        {data.requests.map((request, index) => {
                             return(
                                 <tr key={index}>
                                     <td>{formatDate(request.dateTimeUTC)}</td>
@@ -65,11 +83,11 @@ const RequestDisplayTable = () => {
                                         <td></td>
                                     }
                                     {/* TODO Add condition that checks if the request has already been assigned */}
-                                    {(userRole === 'support') ? 
+                                    {(data.userRole === 'support') ? 
                                         <td><button>Sign Up!</button></td> :
                                         <></>
                                     }
-                                    {(userRole === 'caregiver') ?
+                                    {(data.userRole === 'caregiver') ?
                                         <td>
                                             <button>Edit</button>
                                             <button>Delete</button>
