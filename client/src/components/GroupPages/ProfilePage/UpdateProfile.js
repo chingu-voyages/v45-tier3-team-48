@@ -5,6 +5,7 @@ import validator from 'validator';
 import CaregiverApi from '../../../api';
 
 
+
 // get current user data
 // autofill data on the form
 
@@ -57,10 +58,17 @@ export default function EditProfileForm() {
 
   // update user document in the database
   const handleSubmit = async (e) => {
-    // add form validators from register page
-
     e.preventDefault();
-    const res = await CaregiverApi.updateUser(5,editProfileFormData);
+
+    // check for errors on the form
+    const errors = validateForm(editProfileFormData);
+    if(errors.length){
+      sethasError(true);
+      setErrorMessage(errors[0]);
+      return;
+    }
+
+    const res = await CaregiverApi.updateUser(userId,editProfileFormData);
 
     // handle errors
     if(res.response && res.response.data){
@@ -73,6 +81,36 @@ export default function EditProfileForm() {
     // if no errors, redirect to success page
     setEditProfileFormData(INITIAL_STATE);
     navigate('/');
+  }
+
+  // confirm data for each form field is valid
+  const validateForm = data => {
+    const errors = [];
+    const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+
+    if (validator.isEmpty(data.fullName)) {
+      //errors for full name
+      errors.push('Full name is required!');
+    }
+
+    if (validator.isEmpty(data.phoneNumber)) {
+      //Erros for phone number
+      errors.push('Phone number is required!');
+    }
+    
+    if (validator.isEmpty(data.phoneNumber)) {
+      //Erros for phone number
+      errors.push('Phone number is required!');
+    } else if (!phoneRegex.test(data.phoneNumber)) {
+      errors.push('This is not a valid phone number format! Ex: xxx-xxx-xxxx');
+  }
+
+    // check email
+    if(!validator.isEmail(data.email)){
+      errors.push('Must provide valid email');
+    }
+
+    return errors;
   }
 
 
