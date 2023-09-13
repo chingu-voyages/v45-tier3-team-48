@@ -45,6 +45,7 @@ module.exports = {
             // exclude password field in query
             const user = await users.findOne(query,{password:0});
 
+
             return res.json(user);
         } catch (error) {
             console.log(error);
@@ -56,12 +57,25 @@ module.exports = {
             // make db call to update the record
             const id = req.params.id;
             // const id = Number(req.params.id);
-            const { fullName, phoneNumber, email } = req.body;
+            const { fullName, phoneNumber, email, password } = req.body;
 
-            // only update if the password is a match
+
+            const filter = {_id: new ObjectId(id)};
+            // confirm password is valid
+
+            // retrieve user password to compare with submitted password candidate
+            const user = await users.findOne(filter);
+
+            if(!user) throw Error('User does not exist in database');
+            // user may not be found
+
+            const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+            if(!isPasswordMatch){
+                throw Error('Incorrect email/password combination');
+            }
 
             // change this to id
-            const filter = {_id: new ObjectId(id)};
             const updateData = {$set: {fullName, phoneNumber, email}}
 
             const updateRes = await users.updateOne(filter, updateData);
