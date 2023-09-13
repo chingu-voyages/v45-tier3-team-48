@@ -7,27 +7,40 @@ module.exports = {
     createUser: async (req, res) => {
         try {
             console.log('Database running');
+            const {fullName, phoneNumber, email, password} = req.body;
+            //Check if user already exists
+            const existingUser = await users.findOne({ email });
+            if(existingUser) { //Code execution stops if there is an existing user.
+                return res.status(401).send('User alrady exists with this email.');
+            }
+
+
             const saltRounds = 10; 
-            const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
-            const response = await users.create({
-                fullName: req.body.fullName,
-                phoneNumber: req.body.phoneNumber,
-                email: req.body.email,
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            
+            const user = await users.create({
+                fullName: fullName,
+                phoneNumber: phoneNumber,
+                email: email,
                 password: hashedPassword,
-		        groupInfo: {}
-            });
-
-
-            console.log('User info has been added to the database!');
+                groupInfo: {}
+            })
 
             // create token by sign data to return (payload) with the secret key
             // TO DO: update with return object from the database
 
-            if(!response) throw new Error('Could not create new user');
+            if(!user) throw new Error('Could not create new user');
 
-            let token = jwt.sign({id:'id',username:'user'},SECRET_KEY);
-            return res.status(201).json({id:'id',token});
+            console.log('User info has been added to the database!');
+            //Creating json web token 
+            let token = jwt.sign(
+                {id: user._id, email: user.email},
+                SECRET_KEY
+            );
+            console.log('Generated token:', token);
+            user.token = token;
+            user.password = undefined;
+            res.status(201).json({user});
 
         } catch (err) {
             console.error(err);

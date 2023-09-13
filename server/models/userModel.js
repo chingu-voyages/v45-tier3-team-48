@@ -17,6 +17,12 @@ const UserSchema = new mongoose.Schema( {
         type: String,
         required: true
     },
+
+    //this will be an assigment
+    token: {
+        type: String,
+        default: null
+
     groupInfo: [ {
          _id : false,
         groupId: {
@@ -25,6 +31,7 @@ const UserSchema = new mongoose.Schema( {
         userRole: {
             type: String
         }
+
     } ]
 }, { timestamps: true });
 

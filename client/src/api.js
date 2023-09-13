@@ -30,13 +30,24 @@ class CaregiverApi {
 
     // Insert new routes here:
 
-    static async loginUser(loginData) {
-        let res = await this.request('login', loginData, 'post');
-        console.log(loginData);
-        console.log('in Cgiver api login');
-        return res;
-    }
+  static async loginUser(loginData) {
+    let res = await this.request('login',loginData,'post');
+    console.log(loginData);
+    console.log('in Cgiver api login');
+    return res;
+  }
 
+  static async registerUser(userData) {
+      let res = await this.request('register',userData,'post');
+      console.log(userData);
+      console.log('in Cgiver api register');
+      if (res.token) {
+        // Store the token in the class
+        this.token = res.token;
+      }
+      return res;
+  }
+  
     static async createRequest(requestData) {
         console.log(requestData);
         try {

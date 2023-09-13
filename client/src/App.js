@@ -69,6 +69,24 @@ function App() {
     }
   }
 
+
+  const registerUser = async (userData) => {
+    try {
+      // Call FE api registerUser function
+      console.log('inside register function in app.js');
+      let res = await CaregiverApi.registerUser(userData);
+
+      //Set all corresponding data
+      setToken(res.user.token);
+      setUserId(res.user._id);
+      setEmail(res.user.email);
+      setFullName(res.user.fullName);
+      return res;
+    } catch (err) {
+      return err;
+    }
+  };
+  
   const logoutUser = () => {
     window.localStorage.clear();
     setToken('');
@@ -83,7 +101,9 @@ function App() {
     <div className="App">
 
       <BrowserRouter> 
-        <UserContext.Provider value={{token, userId, email, fullName, loginUser, logoutUser}}>
+
+        <UserContext.Provider value={{token, userId, email, fullName, loginUser, logoutUser ,registerUser}}>
+
           <Navbar/>
           <FrontendRoutes/>
           <Footer/>
