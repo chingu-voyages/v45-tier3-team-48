@@ -55,23 +55,23 @@ module.exports = {
         try {
             // make db call to update the record
             const id = req.params.id;
+            // const id = Number(req.params.id);
             const { fullName, phoneNumber, email } = req.body;
 
             // only update if the password is a match
 
             // change this to id
-            const filter = {_id: new ObjectId("64f24b003db4190385449303")};
+            const filter = {_id: new ObjectId(id)};
             const updateData = {$set: {fullName, phoneNumber, email}}
 
             const updateRes = await users.updateOne(filter, updateData);
 
             // if nothing updated, set error
+            if(updateRes.modifiedCount === 0) throw new Error('Invalid input. User does not exist.');
 
             return res.json(updateRes);
         } catch (error) {
-            return res.status(400).json({error: 'Had update error'});
+            return res.status(400).json({error: error.message});
         }
-
-        console.log('shouldnt execute');
     }
 };
