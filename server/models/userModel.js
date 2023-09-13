@@ -17,14 +17,15 @@ const UserSchema = new mongoose.Schema( {
         type: String,
         required: true
     },
-    groupInfo: {
+    groupInfo: [ {
+         _id : false,
         groupId: {
             type: String,
         },
         userRole: {
             type: String
         }
-    }
+    } ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('user', UserSchema);

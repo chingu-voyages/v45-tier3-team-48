@@ -14,7 +14,8 @@ module.exports = {
                 fullName: req.body.fullName,
                 phoneNumber: req.body.phoneNumber,
                 email: req.body.email,
-                password: hashedPassword 
+                password: hashedPassword,
+		        groupInfo: {}
             });
 
 
