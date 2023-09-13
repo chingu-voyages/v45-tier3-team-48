@@ -60,12 +60,14 @@ export default function EditProfileForm() {
     // add form validators from register page
 
     e.preventDefault();
-    const res = await CaregiverApi.updateUser(userId,editProfileFormData);
+    const res = await CaregiverApi.updateUser(5,editProfileFormData);
 
     // handle errors
     if(res.response && res.response.data){
       // update error message
-      console.log('received error.  no update possible.');
+      sethasError(true);
+      setErrorMessage(res.response.data.error);
+      return;
     }
 
     // if no errors, redirect to success page
@@ -76,6 +78,9 @@ export default function EditProfileForm() {
 
   return (
     <form method='post'>
+      {hasError && <div style={{backgroundColor:'red'}}  variant="h6" component="h2">
+          <p style={{color:'white'}}><b>Error: {errorMessage}</b></p>
+      </div>}
       <div>
           <label htmlFor='fullName'>Full Name: </label>
           <input onChange={handleChange} name='fullName' value={editProfileFormData.fullName}/>  
