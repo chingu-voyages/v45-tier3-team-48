@@ -63,6 +63,10 @@ export default function EditProfileForm() {
     const res = await CaregiverApi.updateUser(userId,editProfileFormData);
 
     // handle errors
+    if(res.response && res.response.data){
+      // update error message
+      console.log('received error.  no update possible.');
+    }
 
     // if no errors, redirect to success page
     setEditProfileFormData(INITIAL_STATE);

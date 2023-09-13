@@ -22,7 +22,7 @@ class CaregiverApi {
         } catch (err) {
             let anotherError = err.response;
 
-            throw anotherError;
+            return err;
         }
     }
 
@@ -51,8 +51,10 @@ class CaregiverApi {
         try {
             let res = await this.request(`editUser/${id}`,updatedUserData,'patch');
 
-        } catch (err) {
+            return res;
             
+        } catch (err) {
+            return err;
         }
     }
 

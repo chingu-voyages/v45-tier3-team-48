@@ -71,6 +71,7 @@ module.exports = {
 
             return res.json(updateRes);
         } catch (error) {
+            // return;
             return res.status(400).json({error: error.message});
         }
     }
