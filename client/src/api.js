@@ -104,6 +104,16 @@ class CaregiverApi {
         }
     }
 
+    static async getUserInfo(userId) {
+        try {
+            let res = await this.request(`user/getInfo/${userId}`);
+            console.log(res);
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    }
+
     static async findAllRequestsForOneGroup(groupId) {
         try {
             let res = await this.request(`request/${groupId}/getall`);
