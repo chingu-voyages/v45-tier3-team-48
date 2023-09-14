@@ -46,6 +46,21 @@ const RequestDisplayTable = () => {
         fetchData();
     }, [userId, groupId]);
 
+    const handleEditButton = (requestId) => {
+        navigate(`/groups/${groupId}/request/edit`, {state: {requestId: requestId}});
+    }
+
+    const handleDeleteButton = (requestId) => {
+        CaregiverApi.deleteOneRequest(requestId);
+        removeFromDom(requestId);
+    }
+
+    // removes the deleted request from the DOM while the database is called to delete the entry
+    const removeFromDom = (requestId) => {
+        setData({ ...data, requests: data.requests.filter(request => request._id !== requestId)});
+        console.log(data.requests);
+    }
+
     const formatDate = (isoString) => {
         const dateObject = new Date(isoString);
         return dateObject.toLocaleDateString({}, {day: '2-digit', month: '2-digit', year: '2-digit'})
@@ -89,8 +104,8 @@ const RequestDisplayTable = () => {
                                     }
                                     {(data.userRole === 'caregiver') ?
                                         <td>
-                                            <button>Edit</button>
-                                            <button>Delete</button>
+                                            <button onClick={e => handleEditButton(request._id)}>Edit</button>
+                                            <button onClick={e => handleDeleteButton(request._id)}>Delete</button>
                                         </td> :
                                         <></>
                                     }
