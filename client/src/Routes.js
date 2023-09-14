@@ -9,6 +9,7 @@ import GroupViewSinglePage from './pages/GroupViewSinglePage';
 import GroupEditDeletePage from './pages/GroupEditDeletePage';
 import Login from './components/GroupPages/LoginPage/Login';
 import RequestDisplayTable from './components/GroupPages/RequestPage/RequestDisplayTable';
+import RequestEdit from './components/GroupPages/RequestPage/RequestEdit';
 
 const FrontendRoutes = () => {
     // Create a new route for any components you'd like to render
@@ -19,6 +20,7 @@ const FrontendRoutes = () => {
                 {/* will remove the route below after testing and add component to GroupViewSinglePage */}
                 <Route exact path="/groups/:groupId" element={<RequestDisplayTable />} />
                 <Route exact path="/groups/:groupId/request/create" element={<RequestCreate />} />
+                <Route exact path="/groups/:groupId/request/edit" element={<RequestEdit />} />
                 <Route exact path="/login" Component={Login} />
                 <Route exact path="/register" Component={RegisterPage} />
                 <Route path="/GroupCreation" Component={GroupCreationPage} />
