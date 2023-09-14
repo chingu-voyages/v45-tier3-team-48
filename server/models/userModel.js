@@ -23,7 +23,8 @@ const UserSchema = new mongoose.Schema( {
         type: String,
         default: null
 
-    groupInfo: {
+    groupInfo: [ {
+         _id : false,
         groupId: {
             type: String,
         },
@@ -31,7 +32,7 @@ const UserSchema = new mongoose.Schema( {
             type: String
         }
 
-    }
+    } ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('user', UserSchema);

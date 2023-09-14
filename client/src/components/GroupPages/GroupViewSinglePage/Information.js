@@ -4,11 +4,11 @@ import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
 import axios from 'axios';
 
-const Information = () => {//use useEffect for the methods?
+const Information = () => {
     const [groupData, setGroupData] = useState([]);
     const [userStatus, setUserStatus] = useState([]);
     const { groupId } = useParams();
-    const { userId } = useContext(UserContext);//token isn't passing its payload to req.body
+    const { userId } = useContext(UserContext);
     const navigate = useNavigate();
 
     const fetchData = () => {
@@ -17,9 +17,9 @@ const Information = () => {//use useEffect for the methods?
         .then(checkUser());
     }
 
-    function checkUser() { //change backend method after database change
+    function checkUser() { //make sure setUserStatus gets the correct data
         CaregiverApi.checkUser( {user_id: userId, group_id: groupId} )
-        .then(data => setUserStatus(data.role) );
+        .then(data => setUserStatus(data) );
     }
 
     function joinGroup() { //reload page after?
