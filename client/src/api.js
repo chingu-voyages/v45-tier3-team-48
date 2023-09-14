@@ -123,6 +123,36 @@ class CaregiverApi {
             throw err;
         }
     }
+
+    static async findOneRequest(requestId) {
+        try {
+            let res = await this.request(`request/${requestId}`);
+            return res;
+        } catch (err) {
+            console.log('Error', err);
+            throw err;
+        }
+    }
+
+    static async updateOneRequest(requestId, requestData) {
+        try {
+            let res = await this.request(`request/edit/${requestId}`, requestData, 'put');
+            return res;
+        } catch (err) {
+            console.log('Error', err);
+            throw err;
+        }
+    }
+
+    static async deleteOneRequest(requestId) {
+        try {
+            let res = await this.request(`request/delete/${requestId}`, {}, 'delete');
+            return res;
+        } catch (err) {
+            console.log('Error', err);
+            throw err;
+        }
+    }
     /**
      *
      * Example routes shown below from past project
