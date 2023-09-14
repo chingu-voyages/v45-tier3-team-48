@@ -16,23 +16,18 @@ const GroupTable = ( ) => {
         fetchData();
     }, []);
 
-    function toGroupInfo(groupId) {
-        navigate("/GroupViewSingle/" + groupId );
-    }
-
     return (
         <div>
         <h1>All Groups</h1>
-        <button>Create Group</button>
+        <button onClick={ () => navigate("/GroupCreation") }>Create Group</button>
             <table>
                 <tbody>
                     {groups.map((group, index) => (
                         <tr key={index}>
-                            <td>{group.nameGroup}</td>
                             <td>{group.namePatient}</td>
                             <td>{group.nameCaregiver}</td>
                             <td>{group.description}</td>
-                            <button onClick={ () => toGroupInfo(group._id) }>See More</button>
+                            <button onClick={ () => navigate("/GroupViewSingle/" + group._id ) }>See More</button>
                         </tr>
                     ))}
                 </tbody>
