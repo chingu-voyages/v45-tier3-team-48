@@ -1,23 +1,26 @@
 const groups = require('../models/groups');
-const userGroups = require('../models/userGroups');
+const users = require('../models/userModel');
+//const userGroups = require('../models/userGroups');//remove
 var mongoose = require('mongoose');
-
+//test all methods incase
 /**
 * Creates a new group in the database and assigns the creator as 'Caregiver'.
 */
 async function createGroup(req,res) {
     try {
         var newGroup = await groups.create({
-            nameCaregiver : req.body.groupData.user_fullName,
+            nameCaregiver : req.body.user_fullName,
             namePatient : req.body.patientName,
             description : req.body.description
         });
 
-        var newMember = await userGroups.create({
-            user_id : req.body.groupData.user_id,
-            group_id : newGroup._id,
-            role : "Caregiver"
+        var memberId = new mongoose.Types.ObjectId(req.body.user_id);
+        var member = await users.findOne(memberId);
+        member.groupInfo.push({
+            groupId : newGroup._id,
+            userRole : "Caregiver"
         });
+        member.save();
 
         res.status(201);
     } catch(err) {
@@ -28,14 +31,15 @@ async function createGroup(req,res) {
 /**
 * Adds user as a new 'Support' member of an existing group in the database.
 */
-async function joinGroup(req,res) {
+async function joinGroup(req,res) { //add check if already joined group?
     try {
-        var memberId = new mongoose.Types.ObjectId(req.body.group_id);
-        var newMember = await userGroups.create({
-            user_id : req.body.user_id,
-            group_id : memberId,
-            role : "Support"
+        var memberId = new mongoose.Types.ObjectId(req.body.user_id);
+        var member = await users.findOne(memberId);
+        member.groupInfo.push({
+            groupId : req.body.group_id,
+            userRole : "Support"
         });
+        member.save();
 
         res.status(201);
     } catch(err) {
@@ -48,9 +52,8 @@ async function joinGroup(req,res) {
 */
 async function editGroup(req,res) {
     try {
-        var memberId = new mongoose.Types.ObjectId(req.body.groupId);
-        await groups.findOneAndUpdate( {_id: memberId}, {
-               nameGroup: req.body.groupName,
+        var refId = new mongoose.Types.ObjectId(req.body.group_id);
+        await groups.findOneAndUpdate( {_id: refId}, {
                namePatient: req.body.patientName,
                description: req.body.description
         });
@@ -60,13 +63,17 @@ async function editGroup(req,res) {
 }
 
 /**
-* Deletes a group and all related userGroup entries.
+* Deletes a group and all related groupInfo entries.
 */
 async function deleteGroup(req,res) {
     try {
-        var memberId = new mongoose.Types.ObjectId(req.query.groupId);
-        await groups.deleteOne( {_id: memberId} );
-        await userGroups.deleteMany( {group_id: memberId} );
+        var refId = new mongoose.Types.ObjectId(req.body.group_id);
+        await groups.findOneAndDelete( {_id: refId} );
+        await users.updateMany(
+            { groupInfo: {$elemMatch: { groupId: req.body.group_id } } },
+            { $pull: { groupInfo: { groupId: req.body.group_id } } }
+        );
+
         res.status(204);
     } catch(err) {
         console.error(err);
@@ -76,10 +83,20 @@ async function deleteGroup(req,res) {
 /**
 * Checks the role of a user in a group.
 */
-async function checkUserGroup(req,res) { //change method after database change
+async function checkUserGroup(req,res) {
     try {
-        var searchFor = new mongoose.Types.ObjectId(req.query.group_id);
-        const userRole = await userGroups.findOne( {user_id: req.query.user_id, group_id: searchFor} );
+        var userRole = "Unknown";
+        var member = await users.findOne( {groupInfo: {$elemMatch: {groupId: req.query.group_id} } } );
+        if(member != null) {
+            var i = 0
+            while(member.groupInfo[i] !== undefined) { //iterate through groupInfo array
+                if(member.groupInfo[i].groupId == req.query.group_id) {
+                    userRole = member.groupInfo[i].userRole;
+                }
+                i++;
+            }
+        }
+
         res.send(userRole);
     } catch(err) {
         console.error(err);
@@ -98,8 +115,8 @@ async function getAllGroup(req,res) {
 async function getIndividualGroup(req,res) {
     try {
         var searchFor = new mongoose.Types.ObjectId(req.query.group_id);
-        const allGroup = await groups.findOne( {_id: searchFor} );
-        res.send(allGroup);
+        const singleGroup = await groups.findOne( {_id: searchFor} );
+        res.send(singleGroup);
     } catch(err) {
         console.error(err);
     }

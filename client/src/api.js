@@ -54,6 +54,20 @@ class CaregiverApi {
         }
     }
 
+    // Individual API routes
+
+
+  static async registerUser(userData) {
+      let res = await this.request('register',userData,'post');
+      console.log(userData);
+      console.log('in Cgiver api register');
+      if (res.token) {
+        // Store the token in the class
+        this.token = res.token;
+      }
+      return res;
+  }
+  
     static async createRequest(requestData) {
         console.log(requestData);
         try {
@@ -65,10 +79,14 @@ class CaregiverApi {
         }
     }
 
-     //the token information isn't showing up in the middleware so i'm using UserContext to get token info
      static async createGroup(groupData) {
         try {
-            let res = await this.request('individualGroups/create', {groupData}, 'post');
+            let res = await this.request('individualGroups/create', {
+                user_id: groupData.user_id,
+                user_fullName: groupData.user_fullName,
+                patientName: groupData.patientName,
+                description: groupData.description
+            }, 'post');
             return res;
         } catch(err) {
             throw err;
@@ -111,6 +129,24 @@ class CaregiverApi {
             throw err;
         }
     }
+
+        static async editGroup(groupData) {
+            try {
+                let res = await this.request('individualGroups/edit', {group_id: groupData.group_id, patientName: groupData.patientName, description: groupData.description}, 'patch');
+                return res;
+            } catch(err) {
+                throw err;
+            }
+        }
+
+        static async deleteGroup(groupData) {
+            try {
+                let res = await this.request('individualGroups/delete', {group_id: groupData.group_id}, 'delete');
+                return res;
+            } catch(err) {
+                throw err;
+            }
+        }
 
 }
 
