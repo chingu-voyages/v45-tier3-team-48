@@ -28,7 +28,7 @@ const RequestCreate = () => {
         description: '',
         category: '',
         createdBy: { userId: userId, fullName: fullName },
-        assignedTo: '',
+        assignedTo: { userId: '', fullName: ''},
     };
     
     const [requestData, setRequestData] = useState(INITIAL_STATE);
