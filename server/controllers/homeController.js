@@ -48,6 +48,11 @@ module.exports = {
             console.error(err);
         }
     },
+    getUserInfo: async (req, res) => {
+        users.findById(req.params.userId)
+        .then(returnedUser => res.json(returnedUser))
+        .catch(err => res.status(400).json(err));
+    },
     getUserProfile: async (req,res) => {
         try {
             // extract the username from the url 

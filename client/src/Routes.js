@@ -7,6 +7,8 @@ import GroupViewAllPage from './pages/GroupViewAllPage';
 import GroupViewSinglePage from './pages/GroupViewSinglePage';
 import GroupEditDeletePage from './pages/GroupEditDeletePage';
 import Login from './components/GroupPages/LoginPage/Login';
+import RequestDisplayTable from './components/GroupPages/RequestPage/RequestDisplayTable';
+import RequestEdit from './components/GroupPages/RequestPage/RequestEdit';
 import EditProfileForm from './components/GroupPages/ProfilePage/UpdateProfile';
 
 const FrontendRoutes = () => {
@@ -15,22 +17,15 @@ const FrontendRoutes = () => {
         <div>
             <Routes>
                 <Route exact path="/" />
-                <Route
-                    exact
-                    path="/groups/:groupId/request/create"
-                    element={<RequestCreate />}
-                />
+                {/* will remove the route below after testing and add component to GroupViewSinglePage */}
+                <Route exact path="/groups/:groupId" element={<RequestDisplayTable />} />
+                <Route exact path="/groups/:groupId/request/create" element={<RequestCreate />} />
+                <Route exact path="/groups/:groupId/request/edit" element={<RequestEdit />} />
                 <Route exact path="/login" Component={Login} />
                 <Route exact path="/register" Component={RegisterPage} />
-                <Route
-                    path="/GroupCreation"
-                    Component={GroupCreationPage}
-                />
+                <Route path="/GroupCreation" Component={GroupCreationPage} />
                 <Route path="/GroupViewAll" Component={GroupViewAllPage} />
-                <Route
-                    path="/GroupViewSingle/:groupId"
-                    Component={GroupViewSinglePage}
-                />
+                <Route path="/GroupViewSingle/:groupId" Component={GroupViewSinglePage} />
                 <Route path="/GroupEditDelete/:groupId" Component={GroupEditDeletePage}/>
                 {/* if no match found, redirect to page not found */}
 

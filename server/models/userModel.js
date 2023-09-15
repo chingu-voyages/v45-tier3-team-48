@@ -22,17 +22,15 @@ const UserSchema = new mongoose.Schema( {
     token: {
         type: String,
         default: null
-
-    groupInfo: [ {
-         _id : false,
+    },
+    groupInfo: [{
         groupId: {
             type: String,
         },
         userRole: {
             type: String
         }
-
-    } ]
+    }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('user', UserSchema);

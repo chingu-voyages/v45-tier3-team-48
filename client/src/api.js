@@ -69,7 +69,6 @@ class CaregiverApi {
   }
   
     static async createRequest(requestData) {
-        console.log(requestData);
         try {
             let res = await this.request('request/create', requestData, 'post');
             return res;
@@ -130,24 +129,73 @@ class CaregiverApi {
         }
     }
 
-        static async editGroup(groupData) {
-            try {
-                let res = await this.request('individualGroups/edit', {group_id: groupData.group_id, patientName: groupData.patientName, description: groupData.description}, 'patch');
-                return res;
-            } catch(err) {
-                throw err;
-            }
+    static async editGroup(groupData) {
+        try {
+            let res = await this.request('individualGroups/edit', {group_id: groupData.group_id, patientName: groupData.patientName, description: groupData.description}, 'patch');
+            return res;
+        } catch(err) {
+            throw err;
         }
+    }
 
-        static async deleteGroup(groupData) {
-            try {
-                let res = await this.request('individualGroups/delete', {group_id: groupData.group_id}, 'delete');
-                return res;
-            } catch(err) {
-                throw err;
-            }
+    static async deleteGroup(groupData) {
+        try {
+            let res = await this.request('individualGroups/delete', {group_id: groupData.group_id}, 'delete');
+            return res;
+        } catch(err) {
+            throw err;
         }
+    }
 
+    static async getUserInfo(userId) {
+        try {
+            let res = await this.request(`user/getInfo/${userId}`);
+            console.log(res);
+            return res;
+        } catch(err) {
+            throw err;
+        }
+    }
+
+    static async findAllRequestsForOneGroup(groupId) {
+        try {
+            let res = await this.request(`request/${groupId}/getall`);
+            return res;
+        } catch (err) {
+            console.log('Error:', err);
+            throw err;
+        }
+    }
+
+    static async findOneRequest(requestId) {
+        try {
+            let res = await this.request(`request/${requestId}`);
+            return res;
+        } catch (err) {
+            console.log('Error', err);
+            throw err;
+        }
+    }
+
+    static async updateOneRequest(requestId, requestData) {
+        try {
+            let res = await this.request(`request/edit/${requestId}`, requestData, 'put');
+            return res;
+        } catch (err) {
+            console.log('Error', err);
+            throw err;
+        }
+    }
+
+    static async deleteOneRequest(requestId) {
+        try {
+            let res = await this.request(`request/delete/${requestId}`, {}, 'delete');
+            return res;
+        } catch (err) {
+            console.log('Error', err);
+            throw err;
+        }
+    }
 }
 
 
