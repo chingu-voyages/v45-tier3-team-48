@@ -90,7 +90,6 @@ const RequestEdit = () => {
         const dateTimeUTC = createDateTimeUTC(dateNeeded, timeNeeded);
         const updatedRequestData = { ...data, requestData: { ...data.requestData, dateTimeUTC: dateTimeUTC}};
         setData(updatedRequestData);
-        console.log("Updated request data: ", updatedRequestData);
         const res = await CaregiverApi.updateOneRequest(requestId, data.requestData);
         if (typeof res.error === 'undefined') {
             navigate(`/groups/${groupId}`);
