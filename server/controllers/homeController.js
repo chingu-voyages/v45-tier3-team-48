@@ -1,4 +1,5 @@
 const users = require('../models/userModel');
+const groups = require('../models/groups');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../config/database');
@@ -107,5 +108,35 @@ module.exports = {
             // return;
             return res.status(400).json({error: error.message});
         }
+    },
+    deleteUser: async (req,res) => {
+        try{
+            // get userId from the url
+            const query = {_id: new ObjectId('64f24b003db4190385449303')};
+
+            // need to extract dependent groups where is a caregiver
+            let user = await users.findOne(query);
+            
+            // delete where createdGroups 
+            // let CreatedGroups = user.map
+
+            // let res = await users.findOneAndDelete({_id: new ObjectId(id)})
+            console.log('user loop');
+
+        }catch(err){
+            console.log(err);
+        }
     }
+    // try {
+    //     var refId = new mongoose.Types.ObjectId(req.body.group_id);
+    //     await groups.findOneAndDelete( {_id: refId} );
+    //     await users.updateMany(
+    //         { groupInfo: {$elemMatch: { groupId: req.body.group_id } } },
+    //         { $pull: { groupInfo: { groupId: req.body.group_id } } }
+    //     );
+
+    //     res.status(204);
+    // } catch(err) {
+    //     console.error(err);
+    // }
 };

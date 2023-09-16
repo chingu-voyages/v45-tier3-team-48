@@ -6,5 +6,6 @@ router.post('/register', homeController.createUser);
 router.get('/user/getInfo/:userId', homeController.getUserInfo);
 router.get('/editUser/:id', homeController.getUserProfile);
 router.patch('/editUser/:id', homeController.updateUserProfile);
+router.delete('/deleteUser/:id',homeController.deleteUser);
 
 module.exports = router;
