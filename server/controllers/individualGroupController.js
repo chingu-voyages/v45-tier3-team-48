@@ -12,7 +12,8 @@ async function createGroup(req,res) {
         var newGroup = await groups.create({
             nameCaregiver : req.body.user_fullName,
             namePatient : req.body.patientName,
-            description : req.body.description
+            description : req.body.description,
+            nameGroup: req.body.nameGroup
         });
 
         // add additional group info here 
