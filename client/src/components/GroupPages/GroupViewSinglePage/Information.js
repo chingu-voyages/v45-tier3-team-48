@@ -15,6 +15,7 @@ const Information = () => {
         CaregiverApi.getIndividualGroup( {group_id: groupId} )
         .then(data => setGroupData(data))
         .then(checkUser());
+        console.log('test');
     }
 
     function checkUser() { //make sure setUserStatus gets the correct data
@@ -22,8 +23,19 @@ const Information = () => {
         .then(data => setUserStatus(data) );
     }
 
+    // send additional group data to the BE
+    // send the groupData variable that contains all data from the backend
     function joinGroup() { //reload page after?
-        CaregiverApi.joinGroup( {user_id: userId, group_id: groupId} );
+        CaregiverApi.joinGroup( 
+            {
+                user_id: userId,
+                group_id: groupId, 
+                description: groupData.description,
+                nameCaregiver: groupData.nameCaregiver,
+                nameGroup: groupData.nameGroup,
+                namePatient: groupData.namePatient
+            }
+        );
     }
 
     useEffect(() => {

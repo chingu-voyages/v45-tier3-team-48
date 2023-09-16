@@ -27,9 +27,10 @@ const FrontendRoutes = () => {
                 <Route path="/GroupViewAll" Component={GroupViewAllPage} />
                 <Route path="/GroupViewSingle/:groupId" Component={GroupViewSinglePage} />
                 <Route path="/GroupEditDelete/:groupId" Component={GroupEditDeletePage}/>
-                {/* if no match found, redirect to page not found */}
-
                 <Route path='/editUser' Component={EditProfileForm}/>
+                <Route path='/usergroups' Component={GroupViewAllPage}/>
+
+                {/* if no match found, redirect to page not found */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </div>

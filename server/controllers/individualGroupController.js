@@ -14,6 +14,7 @@ async function createGroup(req,res) {
             description : req.body.description
         });
 
+        // add additional group info here 
         var memberId = new mongoose.Types.ObjectId(req.body.user_id);
         var member = await users.findOne(memberId);
         member.groupInfo.push({
@@ -33,6 +34,7 @@ async function createGroup(req,res) {
 */
 async function joinGroup(req,res) { //add check if already joined group?
     try {
+        // add group info here
         var memberId = new mongoose.Types.ObjectId(req.body.user_id);
         var member = await users.findOne(memberId);
         member.groupInfo.push({
