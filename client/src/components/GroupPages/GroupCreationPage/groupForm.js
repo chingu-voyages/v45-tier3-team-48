@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
 import axios from 'axios';
@@ -6,15 +7,19 @@ import axios from 'axios';
 function GroupForm() {
     const { userId } = useContext(UserContext);
     const { fullName } = useContext(UserContext);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         groupName: "",
         patientName: "",
         description: ""
     });
 
-    const handleSubmit = (e) => { //probably add code to go to group page after group creation
+    const handleSubmit = (e) => { //how to get new groupId
         e.preventDefault();
-        CaregiverApi.createGroup( {user_id: userId, user_fullName: fullName, patientName: formData.patientName, description: formData.description} );
+        let groupId = "";
+        CaregiverApi.createGroup( {user_id: userId, user_fullName: fullName, patientName: formData.patientName, description: formData.description} )
+        .then(data => groupId = data)
+        .then(setTimeout( () => navigate("/groupViewSingle/" + groupId), 1500) ); //navigated before database is updated so added 1.5 sec delay
     };
 
     return (

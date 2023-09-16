@@ -29,10 +29,13 @@ function GroupEditDelete() {
             console.error(err);
         }
     };
-
+    //add back button that navigates back to group page
+    //description should be 500 characters or less
     return ( //maybe style groupDelete button red to stand out more
-        <div className="groupEditForm">
+        <div>
             <form onSubmit={handleSubmit}>
+            <button>> Back</button>
+                <h2>Edit group details</h2>
                 <input type="text" onChange={ (e) => setFormData({...formData, patientName: e.target.value})} value={formData.patientName} placeholder="Patient Name"/>
                 <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, description: e.target.value})} value={formData.description} placeholder="Description"/>

@@ -22,7 +22,7 @@ async function createGroup(req,res) {
         });
         member.save();
 
-        res.status(201);
+        res.status(201).send(newGroup._id);
     } catch(err) {
         console.error(err);
     }
