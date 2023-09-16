@@ -15,7 +15,6 @@ const Information = () => {
         CaregiverApi.getIndividualGroup( {group_id: groupId} )
         .then(data => setGroupData(data))
         .then(checkUser());
-        console.log('test');
     }
 
     function checkUser() { //make sure setUserStatus gets the correct data
@@ -45,9 +44,14 @@ const Information = () => {
     let roleButton;
     if (userStatus === 'Caregiver') {
         roleButton = <button onClick={() => navigate("/GroupEditDelete/" + groupId )}>Edit Details</button>;
-    } else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
+    } else {
         roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
     }
+
+    // testing joining group
+    // else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
+    //     roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
+    // }
 
     return (
         <div>

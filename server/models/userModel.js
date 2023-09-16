@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema( {
         description: {
             type: String
         },
-        namegGroup: {
+        nameGroup: {
             type: String
         }
     }]

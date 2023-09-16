@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 */
 async function createGroup(req,res) {
     try {
+        // no nameGroup assigned during creation
         var newGroup = await groups.create({
             nameCaregiver : req.body.user_fullName,
             namePatient : req.body.patientName,
@@ -19,7 +20,11 @@ async function createGroup(req,res) {
         var member = await users.findOne(memberId);
         member.groupInfo.push({
             groupId : newGroup._id,
-            userRole : "Caregiver"
+            userRole : "Caregiver",
+            nameCaregiver : req.body.user_fullName,
+            namePatient : req.body.patientName,
+            description : req.body.description,
+            nameGroup: req.body.nameGroup
         });
         member.save();
 
@@ -37,15 +42,16 @@ async function joinGroup(req,res) { //add check if already joined group?
         // add group info here
         var memberId = new mongoose.Types.ObjectId(req.body.user_id);
         var member = await users.findOne(memberId);
-        const { nameCaregiver, namePatient, description, namegGroup } = req.body;
+        const { nameCaregiver, namePatient, description, nameGroup } = req.body;
 
+        // added additional group data to user groupInfo 
         member.groupInfo.push({
             groupId : req.body.group_id,
             userRole : "Support",
             nameCaregiver: nameCaregiver,
             namePatient: namePatient,
             description: description,
-            namegGroup: namegGroup
+            nameGroup: nameGroup
         });
         member.save();
 
