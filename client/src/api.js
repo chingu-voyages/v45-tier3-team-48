@@ -94,7 +94,9 @@ class CaregiverApi {
 
      static async joinGroup(groupData) {
         try {
-            let res = await this.request('individualGroups/join', {user_id: groupData.user_id, group_id: groupData.group_id}, 'post');
+            // pass data direction to the backend
+            // destructuring variables can occur once on the backend
+            let res = await this.request('individualGroups/join', groupData, 'post');
             return res;
         } catch(err) {
             throw err;
