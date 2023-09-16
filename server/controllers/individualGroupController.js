@@ -37,9 +37,15 @@ async function joinGroup(req,res) { //add check if already joined group?
         // add group info here
         var memberId = new mongoose.Types.ObjectId(req.body.user_id);
         var member = await users.findOne(memberId);
+        const { nameCaregiver, namePatient, description, namegGroup } = req.body;
+
         member.groupInfo.push({
             groupId : req.body.group_id,
-            userRole : "Support"
+            userRole : "Support",
+            nameCaregiver: nameCaregiver,
+            namePatient: namePatient,
+            description: description,
+            namegGroup: namegGroup
         });
         member.save();
 
