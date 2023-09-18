@@ -4,7 +4,7 @@ import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
 import axios from 'axios';
 
-const Information = () => {
+const Information = () => { 
     const [groupData, setGroupData] = useState([]);
     const [userStatus, setUserStatus] = useState([]);
     const { groupId } = useParams();
@@ -44,9 +44,11 @@ const Information = () => {
     let roleButton;
     if (userStatus === 'Caregiver') {
         roleButton = <button onClick={() => navigate("/GroupEditDelete/" + groupId )}>Edit Details</button>;
-    } else {
+    }else {
         roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
     }
+    
+
 
     // testing joining group
     // else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
