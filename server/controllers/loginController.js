@@ -30,7 +30,7 @@ module.exports = {
             
 
             const token = jwt.sign({id:user.id, fullName:user.fullName, email:user.email},SECRET_KEY);
-            return res.status(201).json({id:user[0].id, fullName:user[0].fullName, email:user[0].email, token});
+            return res.status(201).json({id:user[0].id, fullName:user[0].fullName, email:user[0].email, token, groupInfo:user[0].groupInfo});
 
         } catch (err) {
             console.error(err);
