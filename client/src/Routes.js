@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
 import RegisterPage from './pages/RegisterPage';
 import RequestCreate from './components/GroupPages/RequestPage/RequestCreate';
 import GroupCreationPage from './pages/GroupCreationPage';
@@ -16,7 +17,7 @@ const FrontendRoutes = () => {
     return (
         <div>
             <Routes>
-                <Route exact path="/" />
+                <Route exact path="/" Component={LandingPage}/>
                 {/* will remove the route below after testing and add component to GroupViewSinglePage */}
                 <Route exact path="/groups/:groupId" element={<RequestDisplayTable />} />
                 <Route exact path="/groups/:groupId/request/create" element={<RequestCreate />} />
