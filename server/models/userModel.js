@@ -21,7 +21,6 @@ const UserSchema = new mongoose.Schema( {
     //this will be an assigment
     token: {
         type: String,
-        default: null
     },
     groupInfo: [{
         groupId: {
