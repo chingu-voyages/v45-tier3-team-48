@@ -14,7 +14,7 @@ function GroupForm() {
 
     const handleSubmit = (e) => { //probably add code to go to group page after group creation
         e.preventDefault();
-        CaregiverApi.createGroup( {user_id: userId, groupName: formData.groupName, user_fullName: fullName, patientName: formData.patientName, description: formData.description} );
+        CaregiverApi.createGroup( {user_id: userId, nameGroup: formData.nameGroup, user_fullName: fullName, patientName: formData.patientName, description: formData.description} );
     };
 
     return (
