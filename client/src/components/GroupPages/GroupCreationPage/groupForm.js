@@ -7,7 +7,7 @@ function GroupForm() {
     const { userId } = useContext(UserContext);
     const { fullName } = useContext(UserContext);
     const [formData, setFormData] = useState({
-        groupName: "",
+        nameGroup: "",
         patientName: "",
         description: ""
     });
@@ -20,7 +20,7 @@ function GroupForm() {
     return (
         <div class="groupForm">
             <form onSubmit={handleSubmit}>
-                <input type="text" onChange={ (e) => setFormData({...formData, groupName: e.target.value})} value={formData.groupName} placeholder="Patient Name"/>
+                <input type="text" onChange={ (e) => setFormData({...formData, nameGroup: e.target.value})} value={formData.nameGroup} placeholder="Group Name"/>
                 <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, patientName: e.target.value})} value={formData.patientName} placeholder="Patient Name"/>
                 <br></br>
