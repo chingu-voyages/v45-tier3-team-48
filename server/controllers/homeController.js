@@ -25,7 +25,7 @@ module.exports = {
                 phoneNumber: phoneNumber,
                 email: email,
                 password: hashedPassword,
-                groupInfo: {}
+                groupInfo: []
             })
 
             // create token by sign data to return (payload) with the secret key

@@ -51,10 +51,10 @@ function Register() {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             console.log(formData);
         }
-        if (token) {
-          // Redirect the user to the previous page
-          navigate(-1);
-        }
+        // if (token) {
+        //   // Redirect the user to the previous page
+        //   navigate(-1);
+        // }
     }, [token, navigate]);
 
     const validate = data => {

@@ -42,12 +42,21 @@ function App() {
     }
   });
 
+  const [groupInfo, setGroupInfo] = useState(() => {
+    if(!window.localStorage.getItem('groupInfo')) {
+      return [];
+    } else {
+      return JSON.parse(window.localStorage.getItem('groupInfo'));
+    }
+  });
+
   useEffect(()=>{
     window.localStorage.setItem('userId',userId);
     window.localStorage.setItem('token',token);
     window.localStorage.setItem('email',email);
     window.localStorage.setItem('fullName',fullName);
-  },[token, userId, email, fullName]);
+    window.localStorage.setItem('groupInfo', JSON.stringify(groupInfo));
+  },[token, userId, email, fullName, groupInfo]);
 
 
   const loginUser = async (loginData) => {
@@ -56,12 +65,12 @@ function App() {
       console.log('inside login function');
       let res = await CaregiverApi.loginUser(loginData);
       // window.localStorage.setItem('token',res.token);
-
       // // set all corresponding data
       setToken(res.token);
       setUserId(res.id);
       setEmail(res.email);
       setFullName(res.fullName);
+      setGroupInfo(res.groupInfo);
       
       return res.id;
     }catch(err){
@@ -81,6 +90,7 @@ function App() {
       setUserId(res.user._id);
       setEmail(res.user.email);
       setFullName(res.user.fullName);
+      setGroupInfo(res.user.groupInfo);
       return res;
     } catch (err) {
       return err;
@@ -93,6 +103,7 @@ function App() {
     setUserId(null);
     setEmail('');
     setFullName('');
+    setGroupInfo('');
   }
 
   CaregiverApi.token = token;
@@ -102,7 +113,7 @@ function App() {
 
       <BrowserRouter> 
 
-        <UserContext.Provider value={{token, userId, email, fullName, loginUser, logoutUser ,registerUser}}>
+        <UserContext.Provider value={{token, userId, email, fullName, groupInfo, loginUser, logoutUser ,registerUser}}>
 
           <Navbar/>
           <FrontendRoutes/>
