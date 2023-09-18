@@ -14,12 +14,14 @@ function GroupForm() {
 
     const handleSubmit = (e) => { //probably add code to go to group page after group creation
         e.preventDefault();
-        CaregiverApi.createGroup( {user_id: userId, user_fullName: fullName, patientName: formData.patientName, description: formData.description} );
+        CaregiverApi.createGroup( {user_id: userId, groupName: formData.groupName, user_fullName: fullName, patientName: formData.patientName, description: formData.description} );
     };
 
     return (
-        <div className="groupForm">
+        <div class="groupForm">
             <form onSubmit={handleSubmit}>
+                <input type="text" onChange={ (e) => setFormData({...formData, groupName: e.target.value})} value={formData.groupName} placeholder="Patient Name"/>
+                <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, patientName: e.target.value})} value={formData.patientName} placeholder="Patient Name"/>
                 <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, description: e.target.value})} value={formData.description} placeholder="Describe the Purpose of the Group"/>
