@@ -1,8 +1,7 @@
 const groups = require('../models/groups');
 const users = require('../models/userModel');
-//const userGroups = require('../models/userGroups');//remove
 var mongoose = require('mongoose');
-//test all methods incase
+
 /**
 * Creates a new group in the database and assigns the creator as 'Caregiver'.
 */
@@ -86,17 +85,17 @@ async function deleteGroup(req,res) {
 async function checkUserGroup(req,res) {
     try {
         var userRole = "Unknown";
-        var member = await users.findOne( {groupInfo: {$elemMatch: {groupId: req.query.group_id} } } );
+        memberId = new mongoose.Types.ObjectId(req.query.user_id);
+        var member = await users.findOne( {_id: memberId, groupInfo: {$elemMatch: {groupId: req.query.group_id} } } );
         if(member != null) {
             var i = 0
             while(member.groupInfo[i] !== undefined) { //iterate through groupInfo array
-                if(member.groupInfo[i].groupId == req.query.group_id) {
+                if(member.groupInfo[i].groupId === req.query.group_id) {
                     userRole = member.groupInfo[i].userRole;
                 }
                 i++;
             }
         }
-
         res.send(userRole);
     } catch(err) {
         console.error(err);
