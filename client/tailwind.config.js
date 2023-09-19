@@ -6,7 +6,7 @@ module.exports = {
       theme: {
       extend: {
         fontFamily: {
-          brand: ['Roboto Serif', 'serif'],
+          'brand': ['Roboto Serif', 'serif'],
           //this is the font for the logo
         },
         colors: {
