@@ -6,7 +6,7 @@ module.exports = {
       theme: {
       extend: {
         fontFamily: {
-          brand: ['Roboto Serif', 'serif'],
+          'brand': ['Roboto Serif', 'serif'],
           //this is the font for the logo
           general: ['Open Sans', 'Helvetica'],
         },
@@ -16,6 +16,14 @@ module.exports = {
           "primary-green": "#638262",
           "dark-green": "#416f5d",
           "light-pink": "#d5b1c8",
+          "navy-100": "#BDC6D4",
+          "figma-blue": "#116BFC",
+        },
+        screens: {
+          'xs': '460px',
+          // => @media (min-width: 460px) { ... }
+          'sm': '620px',
+          // => @media (min-width: 620px) { ... }
         },
       },
     },

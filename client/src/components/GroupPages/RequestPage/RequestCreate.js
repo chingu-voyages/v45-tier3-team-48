@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import validator from 'validator';
@@ -8,6 +8,9 @@ import CaregiverApi from '../../../api';
 const RequestCreate = () => {
     // grab the group id from the parameter variable
     const { groupId } = useParams();
+
+    // insert useEffect hook to check if group exists and verify user role
+    
 
     const navigate = useNavigate();
 
@@ -25,13 +28,11 @@ const RequestCreate = () => {
         description: '',
         category: '',
         createdBy: { userId: userId, fullName: fullName },
-        assignedTo: '',
+        assignedTo: { userId: '', fullName: ''},
     };
-
+    
     const [requestData, setRequestData] = useState(INITIAL_STATE);
-
-    const [isReadyToSubmit, setIsReadyToSubmit] = useState(false);
-
+    
     // check if request data is valid
     const isRequestDataValid = requestData => {
         if (
@@ -74,18 +75,15 @@ const RequestCreate = () => {
         e.preventDefault();
         const { dateNeeded, timeNeeded } = requestData;
         const dateTimeUTC = createDateTimeUTC(dateNeeded, timeNeeded);
-        await setRequestData({ ...requestData, dateTimeUTC: dateTimeUTC });
-        setIsReadyToSubmit(true);
-        if (isReadyToSubmit) {
-            let res = await CaregiverApi.createRequest(requestData);
-            if (typeof res.error === 'undefined') {
-                setIsReadyToSubmit(false);
-                setRequestData(INITIAL_STATE);
-                navigate('/GroupViewSinglePage');
-            } else {
-                setHasError(true);
-                setErrorMessage(res.error.message);
-            }
+        const updatedRequestData = { ...requestData, dateTimeUTC: dateTimeUTC };
+        let res = await CaregiverApi.createRequest(updatedRequestData);
+        if (typeof res.error === 'undefined') {
+            setRequestData(INITIAL_STATE);
+            navigate('/login');
+        } else {
+            setHasError(true);
+            setErrorMessage(res.error.message);
+            console.log(errorMessage);
         }
     };
 

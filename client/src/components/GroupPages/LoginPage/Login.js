@@ -75,7 +75,7 @@ const Login= () => {
           <div>CareCollab</div>
           {hasError && <div style={{backgroundColor:'red'}}  variant="h6" component="h2">
             <p style={{color:'white'}}><b>Error: {errorMessage}</b></p>
-        </div>}
+          </div>}
           <div>
               <input onChange={handleUpdate} name='email' placeholder='Email Address' />
           </div>
