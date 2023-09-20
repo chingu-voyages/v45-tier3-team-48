@@ -92,7 +92,7 @@ function Register() {
     };
     console.log(formData);
     return ( 
-      <div className="bg-gray-50 h-screen w-full pt-40">
+      <div className="bg-gray-50 w-full pt-40 pb-40 flex flex-col items-center justify-center ">
         <main className="bg-white w-[285px] xs:w-[425px] sm:w-[563px] mx-auto my-0 rounded border-[1px] border-solid border-navy-100">
           <div className="text-center">
               <h1 className="text-primary-green [font-family:'Roboto_Serif',_Helvetica] font-semibold text-[20px] xs:text-[25px] sm:text-[30px] leading-8 text-center pt-[20px] xs:pt-[25px] sm:pt-[35px]">CareCollab</h1>
