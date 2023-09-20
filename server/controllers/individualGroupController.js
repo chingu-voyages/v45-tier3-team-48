@@ -12,8 +12,7 @@ async function createGroup(req,res) {
         var newGroup = await groups.create({
             nameCaregiver : req.body.user_fullName,
             namePatient : req.body.patientName,
-            description : req.body.description,
-            nameGroup: req.body.nameGroup
+            description : req.body.description
         });
 
         // add additional group info here 
@@ -24,8 +23,7 @@ async function createGroup(req,res) {
             userRole : "Caregiver",
             nameCaregiver : req.body.user_fullName,
             namePatient : req.body.patientName,
-            description : req.body.description,
-            nameGroup: req.body.nameGroup
+            description : req.body.description
         });
         member.save();
 
@@ -105,7 +103,7 @@ async function checkUserGroup(req,res) {
         if(member != null) {
             var i = 0
             while(member.groupInfo[i] !== undefined) { //iterate through groupInfo array
-                if(member.groupInfo[i].groupId == req.query.group_id) {
+                if(member.groupInfo[i].groupId === req.query.group_id) {
                     userRole = member.groupInfo[i].userRole;
                 }
                 i++;
