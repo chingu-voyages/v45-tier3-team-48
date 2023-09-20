@@ -82,7 +82,6 @@ class CaregiverApi {
         try {
             let res = await this.request('individualGroups/create', {
                 user_id: groupData.user_id,
-                nameGroup: groupData.nameGroup,
                 user_fullName: groupData.user_fullName,
                 patientName: groupData.patientName,
                 description: groupData.description

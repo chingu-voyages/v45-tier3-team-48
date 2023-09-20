@@ -7,21 +7,18 @@ function GroupForm() {
     const { userId } = useContext(UserContext);
     const { fullName } = useContext(UserContext);
     const [formData, setFormData] = useState({
-        nameGroup: "",
         patientName: "",
         description: ""
     });
 
     const handleSubmit = (e) => { //probably add code to go to group page after group creation
         e.preventDefault();
-        CaregiverApi.createGroup( {user_id: userId, nameGroup: formData.nameGroup, user_fullName: fullName, patientName: formData.patientName, description: formData.description} );
+        CaregiverApi.createGroup( {user_id: userId, user_fullName: fullName, patientName: formData.patientName, description: formData.description} );
     };
 
     return (
         <div class="groupForm">
             <form onSubmit={handleSubmit}>
-                <input type="text" onChange={ (e) => setFormData({...formData, nameGroup: e.target.value})} value={formData.nameGroup} placeholder="Group Name"/>
-                <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, patientName: e.target.value})} value={formData.patientName} placeholder="Patient Name"/>
                 <br></br>
                 <input type="text" onChange={ (e) => setFormData({...formData, description: e.target.value})} value={formData.description} placeholder="Describe the Purpose of the Group"/>
