@@ -1,28 +1,27 @@
 const groups = require('../models/groups');
 const users = require('../models/userModel');
-//const userGroups = require('../models/userGroups');//remove
 var mongoose = require('mongoose');
-//test all methods incase
+
 /**
 * Creates a new group in the database and assigns the creator as 'Caregiver'.
 */
 async function createGroup(req,res) {
     try {
-        var newGroup = await groups.create({
+        let newGroup = await groups.create({
             nameCaregiver : req.body.user_fullName,
             namePatient : req.body.patientName,
             description : req.body.description
         });
 
-        var memberId = new mongoose.Types.ObjectId(req.body.user_id);
-        var member = await users.findOne(memberId);
+        let memberId = new mongoose.Types.ObjectId(req.body.user_id);
+        let member = await users.findOne(memberId);
         member.groupInfo.push({
             groupId : newGroup._id,
             userRole : "Caregiver"
         });
         member.save();
 
-        res.status(201);
+        res.status(201).send(newGroup._id);
     } catch(err) {
         console.error(err);
     }
@@ -33,8 +32,8 @@ async function createGroup(req,res) {
 */
 async function joinGroup(req,res) { //add check if already joined group?
     try {
-        var memberId = new mongoose.Types.ObjectId(req.body.user_id);
-        var member = await users.findOne(memberId);
+        let memberId = new mongoose.Types.ObjectId(req.body.user_id);
+        let member = await users.findOne(memberId);
         member.groupInfo.push({
             groupId : req.body.group_id,
             userRole : "Support"
@@ -52,7 +51,7 @@ async function joinGroup(req,res) { //add check if already joined group?
 */
 async function editGroup(req,res) {
     try {
-        var refId = new mongoose.Types.ObjectId(req.body.group_id);
+        let refId = new mongoose.Types.ObjectId(req.body.group_id);
         await groups.findOneAndUpdate( {_id: refId}, {
                namePatient: req.body.patientName,
                description: req.body.description
@@ -67,7 +66,7 @@ async function editGroup(req,res) {
 */
 async function deleteGroup(req,res) {
     try {
-        var refId = new mongoose.Types.ObjectId(req.body.group_id);
+        let refId = new mongoose.Types.ObjectId(req.body.group_id);
         await groups.findOneAndDelete( {_id: refId} );
         await users.updateMany(
             { groupInfo: {$elemMatch: { groupId: req.body.group_id } } },
@@ -85,18 +84,18 @@ async function deleteGroup(req,res) {
 */
 async function checkUserGroup(req,res) {
     try {
-        var userRole = "Unknown";
-        var member = await users.findOne( {groupInfo: {$elemMatch: {groupId: req.query.group_id} } } );
+        let userRole = "Unknown";
+        memberId = new mongoose.Types.ObjectId(req.query.user_id);
+        let member = await users.findOne( {_id: memberId, groupInfo: {$elemMatch: {groupId: req.query.group_id} } } );
         if(member != null) {
-            var i = 0
-            while(member.groupInfo[i] !== undefined) { //iterate through groupInfo array
-                if(member.groupInfo[i].groupId == req.query.group_id) {
+            let i = 0
+            while(member.groupInfo[i] !== undefined && userRole === "Unknown") { //iterate through groupInfo array
+                if(member.groupInfo[i].groupId === req.query.group_id) {
                     userRole = member.groupInfo[i].userRole;
                 }
                 i++;
             }
         }
-
         res.send(userRole);
     } catch(err) {
         console.error(err);
@@ -114,7 +113,7 @@ async function getAllGroup(req,res) {
 
 async function getIndividualGroup(req,res) {
     try {
-        var searchFor = new mongoose.Types.ObjectId(req.query.group_id);
+        let searchFor = new mongoose.Types.ObjectId(req.query.group_id);
         const singleGroup = await groups.findOne( {_id: searchFor} );
         res.send(singleGroup);
     } catch(err) {

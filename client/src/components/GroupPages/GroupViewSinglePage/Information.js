@@ -17,7 +17,7 @@ const Information = () => {
         .then(checkUser());
     }
 
-    function checkUser() { //make sure setUserStatus gets the correct data
+    function checkUser() {
         CaregiverApi.checkUser( {user_id: userId, group_id: groupId} )
         .then(data => setUserStatus(data) );
     }
