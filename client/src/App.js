@@ -69,6 +69,13 @@ function App() {
     }
   }
 
+  const groupInfo = [{
+    _id: '65037d371c42ad243e73a197',
+    description: 'aaa',
+    nameCaregiver: 'Ken Barbie',
+    namePatient:'sss'
+  }];
+
 
   const registerUser = async (userData) => {
     try {
@@ -102,7 +109,7 @@ function App() {
 
       <BrowserRouter> 
 
-        <UserContext.Provider value={{token, userId, email, fullName, loginUser, logoutUser ,registerUser}}>
+        <UserContext.Provider value={{groupInfo, token, userId, email, fullName, loginUser, logoutUser ,registerUser}}>
 
           <Navbar/>
           <FrontendRoutes/>

@@ -44,16 +44,11 @@ const Information = () => {
     let roleButton;
     if (userStatus === 'Caregiver') {
         roleButton = <button onClick={() => navigate("/GroupEditDelete/" + groupId )}>Edit Details</button>;
-    }else {
+    }else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
         roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
     }
     
 
-
-    // testing joining group
-    // else if (userStatus !== 'Caregiver' && userStatus !== 'Support') {
-    //     roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
-    // }
 
     return (
         <div>

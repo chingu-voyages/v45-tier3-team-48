@@ -10,6 +10,7 @@ import Login from './components/GroupPages/LoginPage/Login';
 import RequestDisplayTable from './components/GroupPages/RequestPage/RequestDisplayTable';
 import RequestEdit from './components/GroupPages/RequestPage/RequestEdit';
 import EditProfileForm from './components/GroupPages/ProfilePage/UpdateProfile';
+import UserGroups from './components/GroupPages/GroupViewAllPage/UserGroups';
 
 const FrontendRoutes = () => {
     // Create a new route for any components you'd like to render
@@ -28,7 +29,7 @@ const FrontendRoutes = () => {
                 <Route path="/GroupViewSingle/:groupId" Component={GroupViewSinglePage} />
                 <Route path="/GroupEditDelete/:groupId" Component={GroupEditDeletePage}/>
                 <Route path='/editUser' Component={EditProfileForm}/>
-                <Route path='/usergroups' Component={GroupViewAllPage}/>
+                <Route path='/usergroups' Component={UserGroups}/>
 
                 {/* if no match found, redirect to page not found */}
                 <Route path="*" element={<Navigate to="/" />} />
