@@ -113,7 +113,7 @@ function App() {
 
       <BrowserRouter> 
 
-        <UserContext.Provider value={{token, userId, email, fullName, groupInfo, loginUser, logoutUser ,registerUser}}>
+        <UserContext.Provider value={{token, userId, email, fullName, groupInfo, setGroupInfo, loginUser, logoutUser ,registerUser}}>
 
           <Navbar/>
           <FrontendRoutes/>

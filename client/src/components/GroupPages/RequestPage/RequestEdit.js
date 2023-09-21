@@ -5,7 +5,7 @@ import CaregiverApi from '../../../api';
 import { DateTime } from 'luxon';
 import validator from 'validator';
 
-const RequestEdit = () => {
+const RequestEdit = (props) => {
     
     // grab the group id from the parameter variable
     const { groupId } = useParams();
@@ -14,9 +14,6 @@ const RequestEdit = () => {
     const location = useLocation();
     const requestId = location.state.requestId;
 
-    // get the user id from UserContext
-    const { userId } = useContext(UserContext);
-
     const navigate = useNavigate();
 
     const [data, setData] = useState({
@@ -24,8 +21,7 @@ const RequestEdit = () => {
         errorMessage: [],
         requestData: {},
         isLoaded: false
-    })
-    console.log(data);
+    });
 
     // create currentDate variable to use as the minimum value for the date input
     const currentDate = DateTime.now() // create DateTime object
@@ -88,11 +84,13 @@ const RequestEdit = () => {
         e.preventDefault();
         const { dateNeeded, timeNeeded } = data.requestData;
         const dateTimeUTC = createDateTimeUTC(dateNeeded, timeNeeded);
-        const updatedRequestData = { ...data, requestData: { ...data.requestData, dateTimeUTC: dateTimeUTC}};
+        // creating updated data object
+        const updatedRequestData = { ...data, requestData: { ...data.requestData, dateTimeUTC: dateTimeUTC }};
+        // setting updated request data object in state
         setData(updatedRequestData);
-        const res = await CaregiverApi.updateOneRequest(requestId, data.requestData);
+        const res = await CaregiverApi.updateOneRequest(requestId, updatedRequestData.requestData);
         if (typeof res.error === 'undefined') {
-            navigate(`/groups/${groupId}`);
+            navigate(`/groupViewSingle/${groupId}`);
         } else {
             setData({ ...data, hasError: true, errorMessage: res.error.message});
             console.log(data.errorMessage);
