@@ -38,9 +38,10 @@ class CaregiverApi {
   }
 
   static async registerUser(userData) {
-      let res = await this.request('register',userData,'post');
       console.log(userData);
       console.log('in Cgiver api register');
+      let res = await this.request('register',userData,'post');
+      console.log(res);
       if (res.token) {
         // Store the token in the class
         this.token = res.token;

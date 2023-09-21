@@ -12,7 +12,8 @@ function Register() {
     fullName: "",
     phoneNumber: "",
     email: "",
-    password: ""
+    password: "",
+    profileImg: null
   }
   const [formData, setFormData] = useState(INITIAL_STATE);
 
@@ -26,6 +27,8 @@ function Register() {
       try {
         setFormErrors(validate(formData));
         if (Object.keys(formErrors).length === 0) {
+          console.log('FormData:', formData);
+
           let response = await registerUser(formData); // Use registerUser for registration
           setIsSubmit(true);
           if(response.status === 401) {
@@ -44,6 +47,12 @@ function Register() {
     }
     const onChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const onChangeFile = e => {
+      const file = e.target.files[0]; // Access the uploaded file
+      console.log('Selected File:', file);
+      setFormData({ ...formData, profileImg: file }); // Update the formData with the file
     };
 
     useEffect(() => {
@@ -100,7 +109,7 @@ function Register() {
           <div className="text-center">
               <h2 className="text-center  [font-family:'Open_Sans',_Helvetica] font-semibold text-black text-[12px] xs:text-[18px] sm:text-[24px] leading-6 pt-[10px] xs:pt-[14px] sm:pt-[35px]">Sign up to create an account!</h2>
           </div>
-          <form className="pt-[5px] sm:pt-[35px] flex flex-col items-center" onSubmit={handleSubmit}>
+          <form className="pt-[5px] sm:pt-[35px] flex flex-col items-center" enctype="multipart/form-data" onSubmit={handleSubmit}>
             <div className=" pt-3 sm:pt-5">
               <label htmlFor="fullName" className="w-[195px]  xs:w-[252px] sm:w-[452px] h-[34px] xs:h-[40px] sm:h-[50px]">
                 <div className="flex items-center w-[195px]  xs:w-[252px] sm:w-[452px] h-[34px] xs:h-[40px] sm:h-[50px] rounded-[5px] border-navy-100 border-[1px]">
@@ -173,6 +182,11 @@ function Register() {
               </label>
             </div>
             <p className="text-red-700 pt-1 font-bold text-[10px] xs:text-[14px] sm:text-[17px]">{formErrors.password}</p>
+            <div>
+              <label>
+                Upload Profile Image: <input type="file"  name="profileImg" accept="image/*" onChange={onChangeFile} />
+              </label>
+            </div>
             <div className="pt-[10px] xs:pt-[15px] sm:pt-[25px] [font-family:'Open_Sans',_Helvetica]">
               <button className="bg-primary-green w-[193px] xs:w-[250px] sm:w-[450px]  h-[36px] xs:h-[40px] sm:h-[50px] rounded-[15px] text-white text-[12px] xs:text-[16px] sm:text-[20px] leading-7 ">SIGN UP</button>
             </div>

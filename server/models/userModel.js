@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema( {
     token: {
         type: String,
         default: null
-
+    },
     groupInfo: {
         groupId: {
             type: String,
@@ -31,6 +31,9 @@ const UserSchema = new mongoose.Schema( {
             type: String
         }
 
+    },
+    profileImg : {
+        type: String,
     }
 }, { timestamps: true });
 
