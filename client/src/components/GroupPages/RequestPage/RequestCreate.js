@@ -79,7 +79,7 @@ const RequestCreate = () => {
         let res = await CaregiverApi.createRequest(updatedRequestData);
         if (typeof res.error === 'undefined') {
             setRequestData(INITIAL_STATE);
-            navigate('/login');
+            navigate(`/groupViewSingle/${groupId}`);
         } else {
             setHasError(true);
             setErrorMessage(res.error.message);
