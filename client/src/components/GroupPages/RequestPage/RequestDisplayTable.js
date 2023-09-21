@@ -8,7 +8,7 @@ const RequestDisplayTable = () => {
     // grab groupId from parameter variable
     const { groupId } = useParams();
 
-    const { userId } = useContext(UserContext);
+    const { userId, fullName } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -46,6 +46,18 @@ const RequestDisplayTable = () => {
         fetchData();
     }, [userId, groupId]);
 
+    // gets the index of the targeted request from the data.requests array
+    // this index will be used to update state in the handleSignUpButton function below
+    const getRequestIndex = (requestId) => {
+        let requestIndex = -1;
+        for (let i = 0; i < data.requests.length; i++) {
+            if (data.requests[i]._id === requestId) {
+                requestIndex = i;
+            }
+        }
+        return requestIndex;
+    }
+
     const handleEditButton = (requestId) => {
         navigate(`/groups/${groupId}/request/edit`, {state: {requestId: requestId}});
     }
@@ -55,10 +67,29 @@ const RequestDisplayTable = () => {
         removeFromDom(requestId);
     }
 
+    const handleSignUpButton = (requestId) => {
+        // get the index of the request to sign up for
+        const targetRequestIndex = getRequestIndex(requestId);
+        // use the index to isolate the request in the data.requests array
+        const targetRequest = data.requests[targetRequestIndex];
+        // make a copy of the request and add the "assignedTo" info
+        const updatedRequest = { ...targetRequest, assignedTo: { ...targetRequest.assignedTo, userId: userId, fullName: fullName }};
+        // make a new data object by inserting the updated request into the data.requests array
+        const newData = { 
+            ...data, 
+            requests: [ 
+                ...data.requests.slice(0, targetRequestIndex), 
+                updatedRequest, 
+                ...data.requests.slice(targetRequestIndex + 1)]
+        };
+        // update state
+        setData(newData);
+        CaregiverApi.updateOneRequest(requestId, updatedRequest);
+    }
+
     // removes the deleted request from the DOM while the database is called to delete the entry
     const removeFromDom = (requestId) => {
         setData({ ...data, requests: data.requests.filter(request => request._id !== requestId)});
-        console.log(data.requests);
     }
 
     const formatDate = (isoString) => {
@@ -69,6 +100,17 @@ const RequestDisplayTable = () => {
     const formatTime = (isoString) => {
         const dateObject = new Date(isoString);
         return dateObject.toLocaleTimeString({}, {hour: 'numeric', minute: '2-digit'});
+    }
+
+    /* 
+    Checks if a given request is in the future. Needed for determining whether
+    or not to allow a user to sign up for a request or edit a request.
+    */
+    const isFutureRequest = (isoString) => {
+        const requestDateTimeValue = new Date(isoString).valueOf();
+        const currentDateTimeValue = Date.now();
+        if (requestDateTimeValue > currentDateTimeValue) return true;
+        return false;
     }
 
     return (
@@ -97,12 +139,11 @@ const RequestDisplayTable = () => {
                                         <td>{request.assignedTo.fullName}</td> :
                                         <td></td>
                                     }
-                                    {/* TODO Add condition that checks if the request has already been assigned */}
-                                    {(data.userRole === 'support') ? 
-                                        <td><button>Sign Up!</button></td> :
+                                    {(!request.assignedTo.userId && isFutureRequest(request.dateTimeUTC) && data.userRole === 'support') ? 
+                                        <td><button onClick={e => handleSignUpButton(request._id)}>Sign Up!</button></td> :
                                         <></>
                                     }
-                                    {(data.userRole === 'caregiver') ?
+                                    {(data.userRole === 'caregiver' && isFutureRequest(request.dateTimeUTC)) ?
                                         <td>
                                             <button onClick={e => handleEditButton(request._id)}>Edit</button>
                                             <button onClick={e => handleDeleteButton(request._id)}>Delete</button>
