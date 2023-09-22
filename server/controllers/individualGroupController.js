@@ -35,7 +35,7 @@ async function createGroup(req,res) {
 */
 async function joinGroup(req,res) { //add check if already joined group?
     try {
-        const { nameCaregiver, namePatient, description, nameGroup } = req.body;
+        const { nameCaregiver, namePatient, description } = req.body;
         let memberId = new mongoose.Types.ObjectId(req.body.user_id);
         let member = await users.findOne(memberId);
         member.groupInfo.push({
@@ -43,8 +43,7 @@ async function joinGroup(req,res) { //add check if already joined group?
             userRole : "Support",
             nameCaregiver: nameCaregiver,
             namePatient: namePatient,
-            description: description,
-            nameGroup: nameGroup
+            description: description
         });
         member.save();
 
