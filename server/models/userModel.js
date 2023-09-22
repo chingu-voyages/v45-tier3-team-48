@@ -28,6 +28,18 @@ const UserSchema = new mongoose.Schema( {
         },
         userRole: {
             type: String
+        },
+        nameCaregiver: {
+            type: String
+        },
+        namePatient: {
+            type: String
+        },
+        description: {
+            type: String
+        },
+        nameGroup: {
+            type: String
         }
     }]
 }, { timestamps: true });
