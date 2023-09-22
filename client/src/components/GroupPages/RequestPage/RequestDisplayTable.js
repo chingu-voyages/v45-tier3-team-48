@@ -1,57 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import CaregiverApi from '../../../api';
 import UserContext from '../../../UserContext';
 
-const RequestDisplayTable = () => {
+const RequestDisplayTable = (props) => {
     
     // grab groupId from parameter variable
     const { groupId } = useParams();
-
     const { userId, fullName } = useContext(UserContext);
-
+    const { userRole, requests, setRequests } = props;
     const navigate = useNavigate();
 
-    const [data, setData] = useState({
-        userInfo: {},
-        requests: [],
-        isLoaded: false,
-        userRole: ''
-    });
-
-    const getUserRole = (groupId, groupInfo) => {
-        let userRole = '';
-        if (!groupId || !groupInfo) return userRole;
-        groupInfo.forEach((group) => {
-            if (group.groupId === groupId) {
-                userRole = group.userRole;
-            }
-        });
-        return userRole;
-    }
-
-    useEffect(() => {
-        async function fetchData() {
-            const [userInfo, requests] = await Promise.all([
-                CaregiverApi.getUserInfo(userId),
-                CaregiverApi.findAllRequestsForOneGroup(groupId)
-            ]);
-            setData({
-                userInfo,
-                requests,
-                isLoaded: true,
-                userRole: getUserRole(groupId, userInfo.groupInfo)
-            });
-        }
-        fetchData();
-    }, [userId, groupId]);
-
-    // gets the index of the targeted request from the data.requests array
+    // gets the index of the targeted request from the requests array
     // this index will be used to update state in the handleSignUpButton function below
     const getRequestIndex = (requestId) => {
         let requestIndex = -1;
-        for (let i = 0; i < data.requests.length; i++) {
-            if (data.requests[i]._id === requestId) {
+        for (let i = 0; i < requests.length; i++) {
+            if (requests[i]._id === requestId) {
                 requestIndex = i;
             }
         }
@@ -63,33 +28,28 @@ const RequestDisplayTable = () => {
     }
 
     const handleDeleteButton = (requestId) => {
-        CaregiverApi.deleteOneRequest(requestId);
         removeFromDom(requestId);
+        CaregiverApi.deleteOneRequest(requestId);
     }
 
     const handleSignUpButton = (requestId) => {
         // get the index of the request to sign up for
         const targetRequestIndex = getRequestIndex(requestId);
         // use the index to isolate the request in the data.requests array
-        const targetRequest = data.requests[targetRequestIndex];
+        const targetRequest = requests[targetRequestIndex];
         // make a copy of the request and add the "assignedTo" info
         const updatedRequest = { ...targetRequest, assignedTo: { ...targetRequest.assignedTo, userId: userId, fullName: fullName }};
         // make a new data object by inserting the updated request into the data.requests array
-        const newData = { 
-            ...data, 
-            requests: [ 
-                ...data.requests.slice(0, targetRequestIndex), 
-                updatedRequest, 
-                ...data.requests.slice(targetRequestIndex + 1)]
-        };
+        const newRequestArray = [ 
+            ...requests, ...requests.slice(0, targetRequestIndex), updatedRequest, ...requests.slice(targetRequestIndex + 1)];
         // update state
-        setData(newData);
+        setRequests(newRequestArray);
         CaregiverApi.updateOneRequest(requestId, updatedRequest);
     }
 
     // removes the deleted request from the DOM while the database is called to delete the entry
     const removeFromDom = (requestId) => {
-        setData({ ...data, requests: data.requests.filter(request => request._id !== requestId)});
+        setRequests((prevRequests) => prevRequests.filter(request => request._id !== requestId));
     }
 
     const formatDate = (isoString) => {
@@ -115,7 +75,7 @@ const RequestDisplayTable = () => {
 
     return (
         <>
-            {data.isLoaded && (
+            {(requests && requests.length > 0) ? 
                 <table>
                     <thead>
                         <tr>
@@ -128,7 +88,7 @@ const RequestDisplayTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.requests.map((request, index) => {
+                        {requests.map((request, index) => {
                             return(
                                 <tr key={index}>
                                     <td>{formatDate(request.dateTimeUTC)}</td>
@@ -139,11 +99,11 @@ const RequestDisplayTable = () => {
                                         <td>{request.assignedTo.fullName}</td> :
                                         <td></td>
                                     }
-                                    {(!request.assignedTo.userId && isFutureRequest(request.dateTimeUTC) && data.userRole === 'support') ? 
+                                    {(!request.assignedTo.userId && isFutureRequest(request.dateTimeUTC) && userRole === 'Support') ? 
                                         <td><button onClick={e => handleSignUpButton(request._id)}>Sign Up!</button></td> :
                                         <></>
                                     }
-                                    {(data.userRole === 'caregiver' && isFutureRequest(request.dateTimeUTC)) ?
+                                    {(userRole === 'Caregiver' && isFutureRequest(request.dateTimeUTC)) ?
                                         <td>
                                             <button onClick={e => handleEditButton(request._id)}>Edit</button>
                                             <button onClick={e => handleDeleteButton(request._id)}>Delete</button>
@@ -155,9 +115,11 @@ const RequestDisplayTable = () => {
                         })}
                     </tbody>
                 </table>
-            )}
+                :
+                <></>
+            }
         </>
-    )
-}
+    );
+};
 
-export default RequestDisplayTable
+export default RequestDisplayTable;

@@ -38,7 +38,7 @@ function GroupEditDelete() {
                 <input size="40" className="border-2 rounded-[5px] border-gray-300 outline outline-0 py-[10px] px-[20px] mb-[18px]" type="text" onChange={ (e) => setFormData({...formData, patientName: e.target.value})} value={formData.patientName} placeholder="Patient's Name" required/>
                 <br/>
                 <div className="border-2 rounded-[5px] border-gray-300 mx-[41px] mb-[28px]">
-                    <textArea rows="4" cols="38" className="outline outline-0 py-[12px] px-[20px] resize-none" maxlength="500" type="text" onChange={ (e) => setFormData({...formData, description: e.target.value})} value={formData.description} placeholder="Description" required/>
+                    <textarea rows="4" cols="38" className="outline outline-0 py-[12px] px-[20px] resize-none" maxLength="500" type="text" onChange={ (e) => setFormData({...formData, description: e.target.value})} value={formData.description} placeholder="Description" required/>
                     <p className=" text-[12px] text-gray-400 text-right pb-[4px] pr-[6px]">{formData.description.length} / 500</p>
                 </div>
                 <div className="flex flex-col py-[5px] px-[40px] float-right">
