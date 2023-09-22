@@ -31,8 +31,19 @@ const Information = () => {
         navigate(`/groups/${groupId}/request/create`);
     }
 
+    // send additional group data to the BE
+    // send the groupData variable that contains all data from the backend
     function joinGroup() { //reload page after?
-        CaregiverApi.joinGroup( {user_id: userId, group_id: groupId} );
+        CaregiverApi.joinGroup( 
+            {
+                user_id: userId,
+                group_id: groupId, 
+                description: groupData.description,
+                nameCaregiver: groupData.nameCaregiver,
+                nameGroup: groupData.nameGroup,
+                namePatient: groupData.namePatient
+            }
+        );
     }
 
     useEffect(() => {
@@ -53,6 +64,8 @@ const Information = () => {
     } else if (userRole !== 'Caregiver' && userRole !== 'Support') {
         roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
     }
+    
+
 
     return (
         <>

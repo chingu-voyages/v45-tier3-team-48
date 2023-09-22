@@ -7,7 +7,6 @@ function GroupForm() {
     const { userId, fullName, groupInfo, setGroupInfo } = useContext(UserContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        groupName: "",
         patientName: "",
         description: ""
     });

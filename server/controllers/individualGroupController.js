@@ -17,7 +17,10 @@ async function createGroup(req,res) {
         let member = await users.findOne(memberId);
         member.groupInfo.push({
             groupId : newGroup._id,
-            userRole : "Caregiver"
+            userRole : "Caregiver",
+            nameCaregiver : req.body.user_fullName,
+            namePatient : req.body.patientName,
+            description : req.body.description
         });
         member.save();
 
@@ -32,11 +35,16 @@ async function createGroup(req,res) {
 */
 async function joinGroup(req,res) { //add check if already joined group?
     try {
+        const { nameCaregiver, namePatient, description, nameGroup } = req.body;
         let memberId = new mongoose.Types.ObjectId(req.body.user_id);
         let member = await users.findOne(memberId);
         member.groupInfo.push({
             groupId : req.body.group_id,
-            userRole : "Support"
+            userRole : "Support",
+            nameCaregiver: nameCaregiver,
+            namePatient: namePatient,
+            description: description,
+            nameGroup: nameGroup
         });
         member.save();
 
