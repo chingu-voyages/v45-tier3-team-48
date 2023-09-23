@@ -31,7 +31,7 @@ const GroupTable = () => {
     }, []);
 
     return (
-        <div>
+        <div className="font-general bg-gray-50 h-max w-full pt-[50px]">
             <div className="flex justify-between items-center mx-[150px] pb-[50px] border-b-[4px] border-gray-300">
                 <h2 className="text-[30px]">All Groups</h2>
                 <button className="border-[2px] rounded-[125px] py-[15px] px-[35px] border-dark-green bg-gray-50 text-dark-green hover:bg-dark-green hover:text-white transition-color duration-300" onClick={ () => navigate("/GroupCreation") }>
