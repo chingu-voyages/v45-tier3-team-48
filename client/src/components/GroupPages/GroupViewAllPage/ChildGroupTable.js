@@ -16,7 +16,7 @@ const ChildGroupTable = ({groups}) => {
                         <td className="mb-[25px]">
                             <p className="rounded-[12px] py-[12px] px-[35px] bg-light-mint text-[75px] text-dark-green my-[25px] mr-[25px]">{Array.from(group.namePatient)[0]}</p>
                         </td>
-                        <td>
+                        <td className="w-screen">
                             <div className="flex justify-between">
                                 <h2 className="text-[20px]">{group.namePatient}</h2>
                                 <button className="rounded-[12px] py-[5px] px-[35px] bg-dark-green text-white" onClick={ () => navigate("/GroupViewSingle/" + group._id ) }>See More</button>
