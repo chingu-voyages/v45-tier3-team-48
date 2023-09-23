@@ -105,6 +105,7 @@ const RequestCreate = () => {
                         onChange={handleChange}
                     ></input>
 
+                    {/* TODO fix validator code */}
                     {/* validation message */}
                     {requestData.dateNeeded &&
                     !validator.isDate(new Date(requestData.dateNeeded)) ? (
