@@ -1,9 +1,8 @@
 # Caregiver Group Application
 
 ## Overview
-This project was developed for the 45th Chingu Voyage. 
 The application is meant to allow caregivers to coordinate and form support groups for a patient.
-A support group does this mainy by organizing and assigning tasks to its group members.
+A support group does this mainly by organizing and assigning tasks to its group members.
 
 ## Features
 The application allows a user to...
@@ -20,18 +19,18 @@ All a user needs to do is register an account and login.
 
 ## Dependencies
 ### Frontend
-* Axios
-* React
-* TailwindCSS
-* JSON Web Token
+* [Axios](https://axios-http.com/)
+* [React](https://react.dev/)
+* [TailwindCSS](https://tailwindcss.com/)
+* [JSON Web Token](https://jwt.io/)
 
 ### Backend
-* Node
-* Express
-* Mongoose
-* CORS
-* Dotenv
-* Bcrypt
+* [Node](https://nodejs.org/en)
+* [Express](https://expressjs.com/)
+* [Mongoose](https://mongoosejs.com/)
+* [CORS](https://expressjs.com/en/resources/middleware/cors.html)
+* [Dotenv](https://www.npmjs.com/package/dotenv)
+* [Bcrypt](https://www.npmjs.com/package/bcrypt)
 
 ### Frontend and Backend
-* validator
+* [validator](https://www.npmjs.com/package/validator)
