@@ -46,7 +46,7 @@ class CaregiverApi {
     static async updateUser(id, updatedUserData){
         try {
             let res = await this.request(`editUser/${id}`,updatedUserData,'patch');
-
+            console.log(updatedUserData);
             return res;
             
         } catch (err) {

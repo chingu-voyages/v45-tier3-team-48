@@ -34,7 +34,7 @@ function Register() {
             console.log('Registration successful');
             setFormData(INITIAL_STATE);
             // Redirect or navigate to the login page, for example
-            // navigate('/login');
+            navigate('/login');
           }
 
         }
@@ -43,7 +43,7 @@ function Register() {
       }
     }
     const onChange = e => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+      setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     useEffect(() => {

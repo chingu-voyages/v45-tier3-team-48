@@ -41,7 +41,9 @@ const Login= () => {
       sethasError(true);
       setErrorMessage(res.data.message);
       return;
-    }
+    } /*else if (response.status === 201) { // Handle success or redirect as needed
+      navigate('/GroupViewAll')
+    }*/
 
     // update login form data
     setLoginFormData(INITIAL_STATE);

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const homeController = require('../controllers/homeController');
+const upload = require('../utils/multer');
 //Routes for main examples: landing page, login/register
 router.post('/register', homeController.createUser);
 router.get('/user/getInfo/:userId', homeController.getUserInfo);
