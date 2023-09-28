@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import CaregiverApi from '../../../api';
 import axios from 'axios';
 
@@ -8,10 +8,13 @@ const ChildGroupTable = ({groups}) => {
 
     const navigate = useNavigate();
 
+    // add hasGroups
+    const hasGroups = groups.length >= 1 ? true : false;
+
     return (
         <table className="mx-[300px] my-[50px]">
             <tbody>
-                {groups.map((group, index) => (
+                {hasGroups && groups.map((group, index) => (
                     <tr className="border-b-[2px] border-gray-300" key={index}>
                         <td className="mb-[25px]">
                             <p className="rounded-[12px] py-[12px] px-[35px] bg-light-mint text-[75px] text-dark-green my-[25px] mr-[25px]">{Array.from(group.namePatient)[0]}</p>
@@ -26,6 +29,11 @@ const ChildGroupTable = ({groups}) => {
                         </td>
                     </tr>
                 ))}
+                {!hasGroups && 
+                    <tr>
+                        <div> Not a member of any groups.  Go to <Link to='/groupviewall'><i><b>All Groups</b></i></Link> or create a new one.</div>
+                    </tr>
+                }
             </tbody>
         </table>
     );
