@@ -15,14 +15,17 @@ import ChildGroupTable from './ChildGroupTable';
 
 const GroupTable = () => {
 
-
+    const [isLoading, setIsLoading] = useState(true);
     const [groups, setGroups] = useState([]);
     const navigate = useNavigate();
 
 
     const fetchAllGroupData = () => {
         CaregiverApi.getAllGroup()
-        .then(data => setGroups(data));
+        .then(data => {
+            setGroups(data);
+            setIsLoading(false);
+        });
     }
 
 
@@ -38,7 +41,7 @@ const GroupTable = () => {
                     Create new group
                 </button>
             </div>
-            <ChildGroupTable groups={groups}/>
+            {!isLoading && <ChildGroupTable groups={groups}/>}
         </div>
     );
 }

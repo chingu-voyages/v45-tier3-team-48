@@ -1,14 +1,19 @@
 
 import '../App.css';
-import Hero from '../components/GroupPages/LandingPage/Hero';
-import Mission from '../components/GroupPages/LandingPage/Mission';
-import Services from '../components/GroupPages/LandingPage/Services';
+import { useNavigate } from 'react-router-dom';
+
+
 const HomePage = () => {
+
+    const navigate = useNavigate();
+
+    // redirect to signup page
+    const handleClick = () => {
+        navigate('/register');
+      }
+
     return (
         <>
-            <Hero/>
-            <Mission/>
-            <Services/>
     
             <div className="flex flex-col items-center justify-center w-full h-screen relative overflow-x-hidden">
     
@@ -27,7 +32,7 @@ const HomePage = () => {
                   <button className="z-10 mt-4">
                       <div className="flex justify-center pt-2 md:pt-[10px] w-[125px] md:w-[202px] h-[50px] md:h-[58px] bg-dark-green rounded-full md:rounded-[125px] shadow-md">
                           <div className="text-white text-xl">
-                              Sign up
+                              <button onClick={handleClick} >Sign up</button> 
                           </div>
                       </div>
                   </button>
