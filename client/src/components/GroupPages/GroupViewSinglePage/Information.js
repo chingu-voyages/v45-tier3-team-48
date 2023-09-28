@@ -18,7 +18,7 @@ const Information = () => {
         let userRole = '';
         if (!groupInfo) return userRole;
         for (let i = 0; i < groupInfo.length; i++) {
-            if (groupInfo[i].groupId === groupId) {
+            if (groupInfo[i]._id === groupId) {
                 setUserRole(groupInfo[i].userRole);
             }
         }
@@ -41,7 +41,7 @@ const Information = () => {
                 namePatient: groupData.namePatient
             }
         );
-        const updatedGroupInfo = [ ...groupInfo, { groupId: groupId, userRole: "Support"} ];
+        const updatedGroupInfo = [ ...groupInfo, { _id: groupId, userRole: "Support"} ];
         setGroupInfo(updatedGroupInfo);
         getUserRole(groupId, updatedGroupInfo);
     }
