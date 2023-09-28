@@ -42,7 +42,8 @@ module.exports = {
             console.log('Generated token:', token);
             user.token = token;
             user.password = undefined;
-            res.status(201).json({user});
+
+            res.status(201).json({user, status: 201});
 
         } catch (err) {
             console.error(err);
