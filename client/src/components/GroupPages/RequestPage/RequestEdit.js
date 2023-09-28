@@ -3,7 +3,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
 import { DateTime } from 'luxon';
-import validator from 'validator';
 
 const RequestEdit = (props) => {
     
@@ -44,8 +43,6 @@ const RequestEdit = (props) => {
         // update state in requestData object
         return dateTimeString;
     };
-
-    // TODO: add check to see if user is authorized to edit request
     
     useEffect(() => {
         async function fetchData() {
@@ -61,12 +58,32 @@ const RequestEdit = (props) => {
     }, [requestId]);
 
      // check if request data is valid
-     const isRequestDataValid = requestData => {
+     const isValidDate = (dateString) => {
+        return !isNaN(new Date(dateString));
+    }
+    
+    const isFutureDate = (dateString) => {
+        const currentDate = new Date();
+        const inputDate = new Date(dateString);
+        return inputDate > currentDate;
+    }
+
+    const isDateThisCentury = (dateString) => {
+        const upperLimitDate = new Date('2099-12-31T23:59:59-05:00');
+        const inputDate = new Date(dateString);
+        return inputDate < upperLimitDate;
+    }
+
+    // check if request data is valid
+    const isRequestDataValid = requestData => {
+        const dateNeeded = requestData.dateNeeded;
+        const timeNeeded = requestData.timeNeeded;
         if (
-            !requestData.dateNeeded |
-            !validator.isDate(new Date(requestData.dateNeeded)) |
-            !requestData.timeNeeded |
-            !validator.isTime(requestData.timeNeeded) |
+            !dateNeeded |
+            !isValidDate(dateNeeded) |
+            !isFutureDate(dateNeeded) |
+            !isDateThisCentury(dateNeeded) |
+            !timeNeeded |
             !requestData.description |
             (requestData.description === '-select-') |
             (requestData.description.length > 100) |
@@ -114,10 +131,33 @@ const RequestEdit = (props) => {
                                 value={data.requestData.dateNeeded}
                             ></input>
 
-                            {/* validation message */}
+                            {/* message for empty date */}
+                            {!data.requestData.dateNeeded ? (
+                                <p>Date is required</p>
+                            ) : (
+                                ''
+                            )}
+                            
+                            {/* message for invalid date */}
                             {data.requestData.dateNeeded &&
-                            !validator.isDate(new Date(data.requestData.dateNeeded)) ? (
+                            !isValidDate(data.requestData.dateNeeded) ? (
                                 <p>Please enter a valid date</p>
+                            ) : (
+                                ''
+                            )}
+
+                            {/* message for a date in the past */}
+                            {data.requestData.dateNeeded &&
+                            !isFutureDate(data.requestData.dateNeeded) ? (
+                                <p>Please enter a date in the future</p>
+                            ) : (
+                                ''
+                            )}
+
+                            {/* message for a date past the 21st century */}
+                            {data.requestData.dateNeeded &&
+                            !isDateThisCentury(data.requestData.dateNeeded) ? (
+                                <p>Please enter a date in the current century</p>
                             ) : (
                                 ''
                             )}
@@ -132,9 +172,8 @@ const RequestEdit = (props) => {
                             ></input>
 
                             {/* validation message */}
-                            {data.requestData.timeNeeded &&
-                            !validator.isTime(data.requestData.timeNeeded) ? (
-                                <p>Please enter a valid time</p>
+                            {!data.requestData.timeNeeded ? (
+                                <p>Time is required</p>
                             ) : (
                                 ''
                             )}
@@ -149,7 +188,16 @@ const RequestEdit = (props) => {
                                 onChange={handleChange}
                             ></input>
 
-                            {/* validation message */}
+                            {/* message for a missing description */}
+                            {!data.requestData.description ? (
+                                <p>
+                                    Description is required
+                                </p>
+                            ) : (
+                                ''
+                            )}
+
+                            {/* message for a description that is too long */}
                             {data.requestData.description &&
                             data.requestData.description.length > 100 ? (
                                 <p>
