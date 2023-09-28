@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
-import validator from 'validator';
 import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
 
@@ -33,13 +32,32 @@ const RequestCreate = () => {
     
     const [requestData, setRequestData] = useState(INITIAL_STATE);
     
+    const isValidDate = (dateString) => {
+        return !isNaN(new Date(dateString));
+    }
+    
+    const isFutureDate = (dateString) => {
+        const currentDate = new Date();
+        const inputDate = new Date(dateString);
+        return inputDate > currentDate;
+    }
+
+    const isDateThisCentury = (dateString) => {
+        const upperLimitDate = new Date('2099-12-31T23:59:59-05:00');
+        const inputDate = new Date(dateString);
+        return inputDate < upperLimitDate;
+    }
+
     // check if request data is valid
     const isRequestDataValid = requestData => {
+        const dateNeeded = requestData.dateNeeded;
+        const timeNeeded = requestData.timeNeeded;
         if (
-            !requestData.dateNeeded |
-            !validator.isDate(new Date(requestData.dateNeeded)) |
-            !requestData.timeNeeded |
-            !validator.isTime(requestData.timeNeeded) |
+            !dateNeeded |
+            !isValidDate(dateNeeded) |
+            !isFutureDate(dateNeeded) |
+            !isDateThisCentury(dateNeeded) |
+            !timeNeeded |
             !requestData.description |
             (requestData.description === '-select-') |
             (requestData.description.length > 100) |
@@ -105,11 +123,33 @@ const RequestCreate = () => {
                         onChange={handleChange}
                     ></input>
 
-                    {/* TODO fix validator code */}
-                    {/* validation message */}
+                    {/* message for empty date */}
+                    {!requestData.dateNeeded ? (
+                        <p>Date is required</p>
+                    ) : (
+                        ''
+                    )}
+                    
+                    {/* message for invalid date */}
                     {requestData.dateNeeded &&
-                    !validator.isDate(new Date(requestData.dateNeeded)) ? (
+                    !isValidDate(requestData.dateNeeded) ? (
                         <p>Please enter a valid date</p>
+                    ) : (
+                        ''
+                    )}
+
+                    {/* message for a date in the past */}
+                    {requestData.dateNeeded &&
+                    !isFutureDate(requestData.dateNeeded) ? (
+                        <p>Please enter a date in the future</p>
+                    ) : (
+                        ''
+                    )}
+
+                    {/* message for a date past the 21st century */}
+                    {requestData.dateNeeded &&
+                    !isDateThisCentury(requestData.dateNeeded) ? (
+                        <p>Please enter a date in the current century</p>
                     ) : (
                         ''
                     )}
@@ -123,9 +163,8 @@ const RequestCreate = () => {
                     ></input>
 
                     {/* validation message */}
-                    {requestData.timeNeeded &&
-                    !validator.isTime(requestData.timeNeeded) ? (
-                        <p>Please enter a valid time</p>
+                    {!requestData.timeNeeded ? (
+                        <p>Time is required</p>
                     ) : (
                         ''
                     )}
@@ -139,7 +178,16 @@ const RequestCreate = () => {
                         onChange={handleChange}
                     ></input>
 
-                    {/* validation message */}
+                    {/* message for a missing description */}
+                    {!requestData.description ? (
+                        <p>
+                            Description is required
+                        </p>
+                    ) : (
+                        ''
+                    )}
+
+                    {/* message for a description that is too long */}
                     {requestData.description &&
                     requestData.description.length > 100 ? (
                         <p>

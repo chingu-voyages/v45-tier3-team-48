@@ -15,7 +15,7 @@ function GroupForm() {
         e.preventDefault();
         let res = await CaregiverApi.createGroup( {user_id: userId, user_fullName: fullName, patientName: formData.patientName, description: formData.description} )
         const groupId = res;
-        const updatedGroupInfo = [ ...groupInfo, { groupId: groupId, userRole: "Caregiver"} ];
+        const updatedGroupInfo = [ ...groupInfo, { _id: groupId, userRole: "Caregiver"} ];
         setGroupInfo(updatedGroupInfo);
         navigate("/groupViewSingle/" + groupId);
     };
