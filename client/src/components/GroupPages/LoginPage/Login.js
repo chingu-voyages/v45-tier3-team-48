@@ -45,9 +45,7 @@ const Login= () => {
 
     // update login form data
     setLoginFormData(INITIAL_STATE);
-
-    // navigate to dashboard
-    // navigate('/register');
+    navigate('/usergroups');
   };
 
   const validateForm = data => {
