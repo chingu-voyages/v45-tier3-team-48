@@ -15,9 +15,9 @@ const UserGroups = () => {
 
     return (
         <div>
-            <div className="flex justify-between items-center mx-[150px] pb-[50px] border-b-[4px] border-gray-300">
-                <h2 className="text-[30px]">My Groups</h2>
-                <button className="border-[2px] rounded-[125px] py-[15px] px-[35px] border-dark-green bg-gray-50 text-dark-green hover:bg-dark-green hover:text-white transition-color duration-300" onClick={ () => navigate("/GroupCreation") }>
+            <div className="container max-w-screen-xl px-6 flex justify-between items-center mx-[150px] pb-[50px] border-b-[4px] border-gray-300">
+                <h2 className="md:text-[30px]">My Groups</h2>
+                <button className="border-[2px] rounded-[125px] py-[8px] px-[15px] md:py-[15px] md:px-[35px] border-dark-green bg-gray-50 text-dark-green hover:bg-dark-green hover:text-white transition-color duration-300" onClick={ () => navigate("/GroupCreation") }>
                     Create new group
                 </button>
             </div>
