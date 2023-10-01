@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
@@ -7,9 +7,6 @@ import CaregiverApi from '../../../api';
 const RequestCreate = () => {
     // grab the group id from the parameter variable
     const { groupId } = useParams();
-
-    // insert useEffect hook to check if group exists and verify user role
-    
 
     const navigate = useNavigate();
 
@@ -59,7 +56,7 @@ const RequestCreate = () => {
             !isDateThisCentury(dateNeeded) |
             !timeNeeded |
             !requestData.description |
-            (requestData.description === '-select-') |
+            (requestData.description === ' Select a Category ') |
             (requestData.description.length > 100) |
             !requestData.category
         )
@@ -110,116 +107,110 @@ const RequestCreate = () => {
     };
 
     return (
-        <div>
-            {hasError && <p>Error: {errorMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="dateNeeded">Date Needed:</label>
-                    <input
-                        type="date"
-                        name="dateNeeded"
-                        id="dateNeeded"
-                        min={currentDate}
-                        onChange={handleChange}
-                    ></input>
-
-                    {/* message for empty date */}
-                    {!requestData.dateNeeded ? (
-                        <p>Date is required</p>
-                    ) : (
-                        ''
-                    )}
-                    
-                    {/* message for invalid date */}
-                    {requestData.dateNeeded &&
-                    !isValidDate(requestData.dateNeeded) ? (
-                        <p>Please enter a valid date</p>
-                    ) : (
-                        ''
-                    )}
-
-                    {/* message for a date in the past */}
-                    {requestData.dateNeeded &&
-                    !isFutureDate(requestData.dateNeeded) ? (
-                        <p>Please enter a date in the future</p>
-                    ) : (
-                        ''
-                    )}
-
-                    {/* message for a date past the 21st century */}
-                    {requestData.dateNeeded &&
-                    !isDateThisCentury(requestData.dateNeeded) ? (
-                        <p>Please enter a date in the current century</p>
-                    ) : (
-                        ''
-                    )}
-
-                    <label htmlFor="timeNeeded">Time Needed:</label>
-                    <input
-                        type="time"
-                        name="timeNeeded"
-                        id="timeNeeded"
-                        onChange={handleChange}
-                    ></input>
-
-                    {/* validation message */}
-                    {!requestData.timeNeeded ? (
-                        <p>Time is required</p>
-                    ) : (
-                        ''
-                    )}
+        <div className="sm:container sm:max-w-[527px] mx-auto sm:border sm:border-slate-300 sm:mt-[162px] sm:mb-[192px]">
+            <div className="bg-white py-[40px] px-[40px]">
+                <div className="grid justify-items-start">
+                    <Link to={`/groupViewSingle/${groupId}`}>&#60; Back</Link>
                 </div>
-                <div>
-                    <label htmlFor="description">Description:</label>
-                    <input
-                        type="text"
-                        name="description"
-                        id="description"
-                        onChange={handleChange}
-                    ></input>
+                {hasError && <p>Error: {errorMessage}</p>}
+                <h1 className="mt-[10px] mb-[30px] text-center text-black text-2xl font-semibold">Add a Request</h1>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <select name="category" id="category" defaultValue={''} onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} >
+                            <option value="" disabled>Select a Category</option>
+                            <option value="Errands">Errands</option>
+                            <option value="Grocery Shopping">Grocery Shopping</option>
+                            <option value="Home Repairs/Maintenance">Home Repairs/Maintenance</option>
+                            <option value="Housekeeping">Housekeeping</option>
+                            <option value="Meal Preparation/Delivery">Meal Preparation/Delivery</option>
+                            <option value="Pet Care">Pet Care</option>
+                            <option value="Respite Care">Respite Care</option>
+                            <option value="Technology/Telehealth Support">Technology/Telehealth Support</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Yard/Garden Maintenance">Yard/Garden Maintenance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        
+                        {/* message for unselected category */}
+                        {!requestData.category ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">Category is required.</p>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+                    <div>
+                        <input type="text" name="description" className="py-[13px] px-[20px] my-[10px] w-full rounded-[5px] border border-slate-300" placeholder='Description' onChange={handleChange}></input>
 
-                    {/* message for a missing description */}
-                    {!requestData.description ? (
-                        <p>
-                            Description is required
-                        </p>
-                    ) : (
-                        ''
-                    )}
+                        {/* message for a missing description */}
+                        {!requestData.description ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">Description is required.</p>
+                        ) : (
+                            ''
+                        )}
 
-                    {/* message for a description that is too long */}
-                    {requestData.description &&
-                    requestData.description.length > 100 ? (
-                        <p>
-                            Request description must not exceed 100 characters
-                        </p>
-                    ) : (
-                        ''
-                    )}
+                        {/* message for a description that is too long */}
+                        {requestData.description &&
+                        requestData.description.length > 100 ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">
+                                Description must not exceed 100 characters.
+                            </p>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+                    <div>
+                        <input type="date" name="dateNeeded" className={`py-[13px] px-[20px] my-[10px] w-full rounded-[5px] border border-slate-300 ${requestData.dateNeeded !== '' ? 'text-black' : 'text-slate-400' }`} min={currentDate} onChange={handleChange}></input>
 
-                    <label htmlFor="category">Category:</label>
-                    <select
-                        name="category"
-                        id="category"
-                        defaultValue={''}
-                        onChange={handleChange}
-                    >
-                        <option value="" disabled>
-                            Select one
-                        </option>
-                        <option value="Meal">Meal</option>
-                        <option value="Transportation">Transportation</option>
-                        <option value="Other">Other</option>
-                    </select>
+                        {/* message for empty date */}
+                        {!requestData.dateNeeded ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">Date is required.</p>
+                        ) : (
+                            ''
+                        )}
+                        
+                        {/* message for invalid date */}
+                        {requestData.dateNeeded &&
+                        !isValidDate(requestData.dateNeeded) ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">Please enter a valid date.</p>
+                        ) : (
+                            ''
+                        )}
 
-                    {/* validation message not needed since users can only select valid options */}
-                </div>
-                {isRequestDataValid(requestData) ? (
-                    <input type="submit" value="Submit"></input>
-                ) : (
-                    <input type="submit" value="Submit" disabled></input>
-                )}
-            </form>
+                        {/* message for a date in the past */}
+                        {requestData.dateNeeded &&
+                        !isFutureDate(requestData.dateNeeded) ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">Please enter a date in the future.</p>
+                        ) : (
+                            ''
+                        )}
+
+                        {/* message for a date past the 21st century */}
+                        {requestData.dateNeeded &&
+                        !isDateThisCentury(requestData.dateNeeded) ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">Please enter a date in the current century.</p>
+                        ) : (
+                            ''
+                        )}
+
+                        <input type="time" name="timeNeeded" className={`py-[13px] px-[20px] my-[10px] w-full rounded-[5px] border border-slate-300 ${requestData.dateNeeded !== '' ? 'text-black' : 'text-slate-400' }`} onChange={handleChange}
+                        ></input>
+
+                        {/* validation message */}
+                        {!requestData.timeNeeded ? (
+                            <p className="px-[20px] text-left text-red-600 mb-[10px]">Time is required.</p>
+                        ) : (
+                            ''
+                        )}
+                    </div>
+                    <div className="grid justify-items-end">
+                        {isRequestDataValid(requestData) ? (
+                            <input type="submit" value="ADD" className="py-[12px] px-[35px] mt-[30px] rounded-[12px] bg-dark-green text-white cursor-pointer"></input>
+                        ) : (
+                            <input type="submit" value="ADD" className="py-[12px] px-[35px] mt-[30px] rounded-[12px] bg-slate-300 text-white" disabled></input>
+                        )}
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

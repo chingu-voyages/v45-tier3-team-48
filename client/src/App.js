@@ -109,7 +109,7 @@ function App() {
   CaregiverApi.token = token;
   
   return (
-    <div className="App">
+    <div className="App bg-gray-50">
 
       <BrowserRouter> 
 
