@@ -17,7 +17,7 @@ export default function EditProfileForm() {
   const navigate = useNavigate();
 
   // need user info
-  const { userId, fullName, email } = useContext(UserContext);
+  const { userId } = useContext(UserContext);
 
   const INITIAL_STATE = {
     fullName: '',
