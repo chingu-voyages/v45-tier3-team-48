@@ -37,9 +37,9 @@ const Login= () => {
     let res = await loginUser(loginFormData);
 
     // handle errors from BE for invalid email/password combination
-    if(res.status === 401){
+    if(res.error){
       sethasError(true);
-      setErrorMessage(res.data.message);
+      setErrorMessage(res.error.message);
       return;
     }
 
