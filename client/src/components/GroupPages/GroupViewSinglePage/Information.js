@@ -41,7 +41,15 @@ const Information = () => {
                 namePatient: groupData.namePatient
             }
         );
-        const updatedGroupInfo = [ ...groupInfo, { _id: groupId, userRole: "Support"} ];
+        const updatedGroupInfo = [ ...groupInfo, 
+                                    { 
+                                        _id: groupId, 
+                                        userRole: "Support", 
+                                        description:groupData.description, 
+                                        nameCaregiver:groupData.nameCaregiver, 
+                                        namePatient:groupData.namePatient
+                                    }
+                                ];
         setGroupInfo(updatedGroupInfo);
         getUserRole(groupId, updatedGroupInfo);
     }
