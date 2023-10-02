@@ -17,7 +17,7 @@ export default function EditProfileForm() {
   const navigate = useNavigate();
 
   // need user info
-  const { userId } = useContext(UserContext);
+  const { userId, fullName, email } = useContext(UserContext);
 
   const INITIAL_STATE = {
     fullName: '',
@@ -78,9 +78,13 @@ export default function EditProfileForm() {
       return;
     }
 
+    // update localStorage with updated data from form
+    window.localStorage.setItem('email',editProfileFormData.email);
+    window.localStorage.setItem('fullName',editProfileFormData.fullName);
+
     // if no errors, redirect to success page
     setEditProfileFormData(INITIAL_STATE);
-    navigate('/');
+    navigate('/usergroups');
   }
 
   // confirm data for each form field is valid
@@ -133,20 +137,9 @@ export default function EditProfileForm() {
           <label htmlFor='email'>Email: </label>
           <input style={{border:'5px'}} type="email" onChange={handleChange} name='email' value={editProfileFormData.email}/>  
       </div>
-
-      {/* Add after possible to add groups to a user
-      
-        <div>
-          <label htmlFor='select-current-group'>Current Group: </label>
-          <select id='select-current-group'>
-            <option value={'group1'}>Group 1</option>
-            <option value={'group2'}>Group 2</option>
-          </select>
-      </div> */}
-
       <div>
           <label htmlFor='password'>Enter Password to Confirm Change: </label>
-          <input onChange={handleChange} name='password' value={editProfileFormData.password}/>  
+          <input onChange={handleChange} name='password' type='password' value={editProfileFormData.password}/>  
       </div>
       <button onClick={handleSubmit} type='button' style={{marginLeft:'10px', backgroundColor:'orange'}}>Update Profile</button>
       <button style={{marginLeft:'10px', backgroundColor:'red'}}>Delete Profile</button>
