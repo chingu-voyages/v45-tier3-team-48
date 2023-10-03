@@ -1,15 +1,11 @@
 import React, { useContext } from 'react';
 import UserContext from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
+import DropdownMenu from './DropdownMenu'
 
 const Navbar = () => {
-    const { logoutUser, token } = useContext(UserContext);
+    const { token } = useContext(UserContext);
     const navigate = useNavigate();
-
-    const handleClick = () => {
-      logoutUser();
-      navigate('/login');
-    }
 
     const handleSignUpClick = () => {
         navigate('/register');
@@ -29,11 +25,7 @@ const Navbar = () => {
                             Sign Up
                         </button>
                     )}
-                    {token && (
-                        <button onClick={handleClick} className="text-red-600 px-4 py-2 rounded hover:text-red-400">
-                            Log Out
-                        </button>
-                    )}
+                    {token && <DropdownMenu/>}
                 </div>
             </div>
         </div>
