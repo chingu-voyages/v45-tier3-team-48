@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../config/database');
 const ObjectId = require('mongodb').ObjectId;
-const cloudinary = require('../utils/cloudinary');
 
 module.exports = {
     createUser: async (req, res) => {
@@ -76,8 +75,7 @@ module.exports = {
             // make db call to update the record
             const id = req.params.id;
             // const id = Number(req.params.id);
-            const { fullName, phoneNumber, email, password } = req.body;
-
+            const { fullName, phoneNumber, email, password} = req.body;
 
             const filter = {_id: new ObjectId(id)};
             // confirm password is valid
@@ -95,16 +93,9 @@ module.exports = {
                 throw Error('Incorrect email/password combination');
             }
 
-            let profileImgUrl = null;
-            console.log(req.file)
-            if (req.file) {
-            // If a file was uploaded, upload it to Cloudinary
-            const result = await cloudinary.uploader.upload(req.file.path);
-            profileImgUrl = result.secure_url;
-            }
 
             // change this to id
-            const updateData = {$set: {fullName, phoneNumber, email, profileImgUrl}}
+            const updateData = {$set: {fullName, phoneNumber, email}}
 
             const updateRes = await users.updateOne(filter, updateData);
 

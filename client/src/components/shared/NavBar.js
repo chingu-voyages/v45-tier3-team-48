@@ -26,7 +26,7 @@ const Navbar = () => {
                         </button>
                     )}
                     {token && (
-                        <button onClick={handleClick} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                        <button onClick={handleClick} className="text-red-600 px-4 py-2 rounded hover:text-red-400">
                             Log Out
                         </button>
                     )}

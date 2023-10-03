@@ -17,9 +17,6 @@ const UserSchema = new mongoose.Schema( {
         type: String,
         required: true
     },
-    profileImgUrl : {
-        type: String,
-    },
     //this will be an assigment
     token: {
         type: String,
