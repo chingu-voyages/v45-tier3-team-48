@@ -5,28 +5,35 @@ const cors = require('cors');
 const mainRoutes = require('./routes/main');
 const dashBoardRoutes = require('./routes/dashBoard');
 const individualGroupRoutes = require('./routes/individualGroups');
-const connectDB = require('./config/database');
+const { connectDB } = require('./config/database');
+const morgan = require('morgan');
+const { authenticateJWT } = require('./middleware/authorization');
+const requestRoutes = require('./routes/requestRoutes');
+const loginRoute = require('./routes/loginRoute');
 
-require('dotenv').config({path: './config/.env'});
+require('dotenv').config({ path: './.env' });
 
 //Connection to database
 connectDB();
 
-//Middleware 
-app.use(express.urlencoded({ extended: true}));
+//Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cors());
- 
+app.use(express.urlencoded({ extended: true }));
 
-//Routes 
+// logs http requests and provide visibility
+app.use(morgan('tiny'));
+
+// validate user token and add data from payload to request
+app.use(authenticateJWT);
+
+//Routes
 app.use('/', mainRoutes);
 app.use('/dashboard', dashBoardRoutes);
 app.use('/individualGroups', individualGroupRoutes);
-
-app.listen(5000, ()=> {
-    console.log(`Listening to PORT: 5000`)
-});
+app.use('/request', requestRoutes);
+app.use('/', loginRoute);
 
 module.exports = app;
 
