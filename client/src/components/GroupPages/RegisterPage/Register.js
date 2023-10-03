@@ -33,7 +33,9 @@ function Register() {
           } else if (response.status === 201) { // Handle success or redirect as needed
             console.log('Registration successful');
             setFormData(INITIAL_STATE);
+
             navigate('/groupviewall');
+
           }
         }
       } catch(e) {
@@ -41,7 +43,7 @@ function Register() {
       }
     }
     const onChange = e => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+      setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     useEffect(() => {

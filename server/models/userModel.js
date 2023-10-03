@@ -17,7 +17,6 @@ const UserSchema = new mongoose.Schema( {
         type: String,
         required: true
     },
-
     //this will be an assigment
     token: {
         type: String,

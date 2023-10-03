@@ -41,7 +41,7 @@ const Login= () => {
       sethasError(true);
       setErrorMessage(res.error.message);
       return;
-    }
+    } 
 
     // update login form data
     setLoginFormData(INITIAL_STATE);

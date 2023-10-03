@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../config/database');
 const ObjectId = require('mongodb').ObjectId;
 
-
 module.exports = {
     createUser: async (req, res) => {
         try {
@@ -77,11 +76,11 @@ module.exports = {
             // make db call to update the record
             const id = req.params.id;
             // const id = Number(req.params.id);
-            const { fullName, phoneNumber, email, password } = req.body;
-
+            const { fullName, phoneNumber, email, password} = req.body;
 
             const filter = {_id: new ObjectId(id)};
             // confirm password is valid
+
 
             // retrieve user password to compare with submitted password candidate
             const user = await users.findOne(filter);
@@ -94,6 +93,7 @@ module.exports = {
             if(!isPasswordMatch){
                 throw Error('Incorrect email/password combination');
             }
+
 
             // change this to id
             const updateData = {$set: {fullName, phoneNumber, email}}
