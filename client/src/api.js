@@ -27,10 +27,13 @@ class CaregiverApi {
     }
 
     static async loginUser(loginData) {
-        let res = await this.request('login', loginData, 'post');
-        console.log(loginData);
-        console.log('in Cgiver api login');
-        return res;
+        try{
+            let res = await this.request('login', loginData, 'post');
+            console.log(res);
+            return res;
+        }catch(err){
+            return err;
+        }
     }
 
     static async getUser(id){

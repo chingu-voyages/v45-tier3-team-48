@@ -33,10 +33,10 @@ function Register() {
           } else if (response.status === 201) { // Handle success or redirect as needed
             console.log('Registration successful');
             setFormData(INITIAL_STATE);
-            // Redirect or navigate to the login page, for example
-            navigate('/login');
-          }
 
+            navigate('/groupviewall');
+
+          }
         }
       } catch(e) {
         console.log(e)
@@ -55,7 +55,7 @@ function Register() {
         //   // Redirect the user to the previous page
         //   navigate(-1);
         // }
-    }, [token, navigate]);
+    }, [token]);
 
     const validate = data => {
         const errors = {};

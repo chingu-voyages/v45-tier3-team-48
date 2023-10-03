@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import UserContext from '../../../UserContext';
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams, Link } from 'react-router-dom';
 import CaregiverApi from '../../../api';
 import { DateTime } from 'luxon';
-import validator from 'validator';
 
 const RequestEdit = (props) => {
     
@@ -44,8 +42,6 @@ const RequestEdit = (props) => {
         // update state in requestData object
         return dateTimeString;
     };
-
-    // TODO: add check to see if user is authorized to edit request
     
     useEffect(() => {
         async function fetchData() {
@@ -61,12 +57,32 @@ const RequestEdit = (props) => {
     }, [requestId]);
 
      // check if request data is valid
-     const isRequestDataValid = requestData => {
+     const isValidDate = (dateString) => {
+        return !isNaN(new Date(dateString));
+    }
+    
+    const isFutureDate = (dateString) => {
+        const currentDate = new Date();
+        const inputDate = new Date(dateString);
+        return inputDate > currentDate;
+    }
+
+    const isDateThisCentury = (dateString) => {
+        const upperLimitDate = new Date('2099-12-31T23:59:59-05:00');
+        const inputDate = new Date(dateString);
+        return inputDate < upperLimitDate;
+    }
+
+    // check if request data is valid
+    const isRequestDataValid = requestData => {
+        const dateNeeded = requestData.dateNeeded;
+        const timeNeeded = requestData.timeNeeded;
         if (
-            !requestData.dateNeeded |
-            !validator.isDate(new Date(requestData.dateNeeded)) |
-            !requestData.timeNeeded |
-            !validator.isTime(requestData.timeNeeded) |
+            !dateNeeded |
+            !isValidDate(dateNeeded) |
+            !isFutureDate(dateNeeded) |
+            !isDateThisCentury(dateNeeded) |
+            !timeNeeded |
             !requestData.description |
             (requestData.description === '-select-') |
             (requestData.description.length > 100) |
@@ -100,88 +116,109 @@ const RequestEdit = (props) => {
     return (
         <>
             {data.isLoaded && (
-                <div>
-                    {data.hasError && <p>Error: {data.errorMessage}</p>}
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="dateNeeded">Date Needed:</label>
-                            <input
-                                type="date"
-                                name="dateNeeded"
-                                id="dateNeeded"
-                                min={currentDate}
-                                onChange={handleChange}
-                                value={data.requestData.dateNeeded}
-                            ></input>
-
-                            {/* validation message */}
-                            {data.requestData.dateNeeded &&
-                            !validator.isDate(new Date(data.requestData.dateNeeded)) ? (
-                                <p>Please enter a valid date</p>
-                            ) : (
-                                ''
-                            )}
-
-                            <label htmlFor="timeNeeded">Time Needed:</label>
-                            <input
-                                type="time"
-                                name="timeNeeded"
-                                id="timeNeeded"
-                                value={data.requestData.timeNeeded}
-                                onChange={handleChange}
-                            ></input>
-
-                            {/* validation message */}
-                            {data.requestData.timeNeeded &&
-                            !validator.isTime(data.requestData.timeNeeded) ? (
-                                <p>Please enter a valid time</p>
-                            ) : (
-                                ''
-                            )}
+                <div className="sm:container sm:max-w-[527px] mx-auto sm:border sm:border-slate-300 sm:mt-[162px] sm:mb-[192px]">
+                    <div className="bg-white py-[40px] px-[40px]">
+                        <div className="grid justify-items-start">
+                            <Link to={`/groupViewSingle/${groupId}`}>&#60; Back</Link>
                         </div>
-                        <div>
-                            <label htmlFor="description">Description:</label>
-                            <input
-                                type="text"
-                                name="description"
-                                id="description"
-                                value={data.requestData.description}
-                                onChange={handleChange}
-                            ></input>
-
-                            {/* validation message */}
-                            {data.requestData.description &&
-                            data.requestData.description.length > 100 ? (
-                                <p>
-                                    Request description must not exceed 100 characters
-                                </p>
-                            ) : (
-                                ''
-                            )}
-
-                            <label htmlFor="category">Category:</label>
-                            <select
-                                name="category"
-                                id="category"
-                                value={data.requestData.category}
-                                onChange={handleChange}
-                            >
-                                <option value="" disabled>
-                                    Select one
-                                </option>
-                                <option value="Meal">Meal</option>
-                                <option value="Transportation">Transportation</option>
-                                <option value="Other">Other</option>
-                            </select>
-
-                            {/* validation message not needed since users can only select valid options */}
-                        </div>
-                        {isRequestDataValid(data.requestData) ? (
-                            <input type="submit" value="Submit"></input>
-                        ) : (
-                            <input type="submit" value="Submit" disabled></input>
-                        )}
-                    </form>
+                        <h1 className="mt-[10px] mb-[30px] text-center text-black text-2xl font-semibold">Edit Your Request</h1>
+                        <form onSubmit={handleSubmit}>
+                            <div>
+                                <select name="category" id="category" defaultValue={''} onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${data.requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} value={data.requestData.category} >
+                                    <option value="" disabled>Select a Category</option>
+                                    <option value="Errands">Errands</option>
+                                    <option value="Grocery Shopping">Grocery Shopping</option>
+                                    <option value="Home Repairs/Maintenance">Home Repairs/Maintenance</option>
+                                    <option value="Housekeeping">Housekeeping</option>
+                                    <option value="Meal Preparation/Delivery">Meal Preparation/Delivery</option>
+                                    <option value="Pet Care">Pet Care</option>
+                                    <option value="Respite Care">Respite Care</option>
+                                    <option value="Technology/Telehealth Support">Technology/Telehealth Support</option>
+                                    <option value="Transportation">Transportation</option>
+                                    <option value="Yard/Garden Maintenance">Yard/Garden Maintenance</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                
+                                {/* message for unselected category */}
+                                {!data.requestData.category ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">Category is required.</p>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                            <div>
+                                <input type="text" name="description" className="py-[13px] px-[20px] my-[10px] w-full rounded-[5px] border border-slate-300" placeholder='Description' value={data.requestData.description} onChange={handleChange}></input>
+        
+                                {/* message for a missing description */}
+                                {!data.requestData.description ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">Description is required.</p>
+                                ) : (
+                                    ''
+                                )}
+        
+                                {/* message for a description that is too long */}
+                                {data.requestData.description &&
+                                data.requestData.description.length > 100 ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">
+                                        Description must not exceed 100 characters.
+                                    </p>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                            <div>
+                                <input type="date" name="dateNeeded" className={`py-[13px] px-[20px] my-[10px] w-full rounded-[5px] border border-slate-300 ${data.requestData.dateNeeded !== '' ? 'text-black' : 'text-slate-400' }`} min={currentDate} value={data.requestData.dateNeeded} onChange={handleChange}></input>
+        
+                                {/* message for empty date */}
+                                {!data.requestData.dateNeeded ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">Date is required.</p>
+                                ) : (
+                                    ''
+                                )}
+                                
+                                {/* message for invalid date */}
+                                {data.requestData.dateNeeded &&
+                                !isValidDate(data.requestData.dateNeeded) ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">Please enter a valid date.</p>
+                                ) : (
+                                    ''
+                                )}
+        
+                                {/* message for a date in the past */}
+                                {data.requestData.dateNeeded &&
+                                !isFutureDate(data.requestData.dateNeeded) ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">Please enter a date in the future.</p>
+                                ) : (
+                                    ''
+                                )}
+        
+                                {/* message for a date past the 21st century */}
+                                {data.requestData.dateNeeded &&
+                                !isDateThisCentury(data.requestData.dateNeeded) ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">Please enter a date in the current century.</p>
+                                ) : (
+                                    ''
+                                )}
+        
+                                <input type="time" name="timeNeeded" className={`py-[13px] px-[20px] my-[10px] w-full rounded-[5px] border border-slate-300 ${data.requestData.dateNeeded !== '' ? 'text-black' : 'text-slate-400' }`} value={data.requestData.timeNeeded} onChange={handleChange}
+                                ></input>
+        
+                                {/* validation message */}
+                                {!data.requestData.timeNeeded ? (
+                                    <p className="px-[20px] text-left text-red-600 mb-[10px]">Time is required.</p>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                            <div className="grid justify-items-end">
+                                {isRequestDataValid(data.requestData) ? (
+                                    <input type="submit" value="SUBMIT" className="py-[12px] px-[35px] mt-[30px] rounded-[12px] bg-dark-green text-white cursor-pointer"></input>
+                                ) : (
+                                    <input type="submit" value="SUBMIT" className="py-[12px] px-[35px] mt-[30px] rounded-[12px] bg-slate-300 text-white" disabled></input>
+                                )}
+                            </div>
+                        </form>
+                    </div>
                 </div>
             )}
         </>

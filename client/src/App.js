@@ -62,17 +62,18 @@ function App() {
   const loginUser = async (loginData) => {
     try{
       // call FE api
-      console.log('inside login function');
       let res = await CaregiverApi.loginUser(loginData);
       // window.localStorage.setItem('token',res.token);
       // // set all corresponding data
-      setToken(res.token);
-      setUserId(res.id);
-      setEmail(res.email);
-      setFullName(res.fullName);
-      setGroupInfo(res.groupInfo);
-      
-      return res.id;
+      if(res.status === 201){
+        setToken(res.token);
+        setUserId(res.id);
+        setEmail(res.email);
+        setFullName(res.fullName);
+        setGroupInfo(res.groupInfo);
+      }
+
+      return res;
     }catch(err){
       return err;
     }
@@ -109,7 +110,7 @@ function App() {
   CaregiverApi.token = token;
   
   return (
-    <div className="App">
+    <div className="App bg-gray-50">
 
       <BrowserRouter> 
 

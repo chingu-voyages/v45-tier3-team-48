@@ -1,18 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import CaregiverApi from '../../../api';
 import UserContext from '../../../UserContext';
 
 const RequestDisplayTable = (props) => {
     
-    // grab groupId from parameter variable
     const { groupId } = useParams();
     const { userId, fullName } = useContext(UserContext);
     const { userRole, requests, setRequests } = props;
     const navigate = useNavigate();
 
-    // gets the index of the targeted request from the requests array
-    // this index will be used to update state in the handleSignUpButton function below
+    /*
+    gets the index of the targeted request from the requests array. this index will be used to update state in the handleSignUpButton function below
+    */
     const getRequestIndex = (requestId) => {
         let requestIndex = -1;
         for (let i = 0; i < requests.length; i++) {
@@ -35,15 +35,14 @@ const RequestDisplayTable = (props) => {
     const handleSignUpButton = (requestId) => {
         // get the index of the request to sign up for
         const targetRequestIndex = getRequestIndex(requestId);
-        // use the index to isolate the request in the data.requests array
-        const targetRequest = requests[targetRequestIndex];
-        // make a copy of the request and add the "assignedTo" info
-        const updatedRequest = { ...targetRequest, assignedTo: { ...targetRequest.assignedTo, userId: userId, fullName: fullName }};
-        // make a new data object by inserting the updated request into the data.requests array
-        const newRequestArray = [ 
-            ...requests, ...requests.slice(0, targetRequestIndex), updatedRequest, ...requests.slice(targetRequestIndex + 1)];
-        // update state
-        setRequests(newRequestArray);
+        // make a copy of the target request and update the "assignedTo" info
+        const updatedRequest = { ...requests[targetRequestIndex], assignedTo: { userId: userId, fullName: fullName }};
+        // make a copy of the current requests array
+        const updatedRequests = [...requests];
+        // update the array at the target index with the new request information
+        updatedRequests[targetRequestIndex] = updatedRequest;
+        // update state with the updated requests array
+        setRequests(updatedRequests);
         CaregiverApi.updateOneRequest(requestId, updatedRequest);
     }
 

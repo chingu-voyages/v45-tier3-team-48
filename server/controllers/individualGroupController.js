@@ -16,7 +16,7 @@ async function createGroup(req,res) {
         let memberId = new mongoose.Types.ObjectId(req.body.user_id);
         let member = await users.findOne(memberId);
         member.groupInfo.push({
-            groupId : newGroup._id,
+            _id : newGroup._id,
             userRole : "Caregiver",
             nameCaregiver : req.body.user_fullName,
             namePatient : req.body.patientName,
@@ -35,16 +35,15 @@ async function createGroup(req,res) {
 */
 async function joinGroup(req,res) { //add check if already joined group?
     try {
-        const { nameCaregiver, namePatient, description, nameGroup } = req.body;
+        const { nameCaregiver, namePatient, description } = req.body;
         let memberId = new mongoose.Types.ObjectId(req.body.user_id);
         let member = await users.findOne(memberId);
         member.groupInfo.push({
-            groupId : req.body.group_id,
+            _id : req.body.group_id,
             userRole : "Support",
             nameCaregiver: nameCaregiver,
             namePatient: namePatient,
-            description: description,
-            nameGroup: nameGroup
+            description: description
         });
         member.save();
 
@@ -77,8 +76,8 @@ async function deleteGroup(req,res) {
         let refId = new mongoose.Types.ObjectId(req.body.group_id);
         await groups.findOneAndDelete( {_id: refId} );
         await users.updateMany(
-            { groupInfo: {$elemMatch: { groupId: req.body.group_id } } },
-            { $pull: { groupInfo: { groupId: req.body.group_id } } }
+            { groupInfo: {$elemMatch: { _id: req.body.group_id } } },
+            { $pull: { groupInfo: { _id: req.body.group_id } } }
         );
 
         res.status(204);
@@ -94,11 +93,11 @@ async function checkUserGroup(req,res) {
     try {
         let userRole = "Unknown";
         memberId = new mongoose.Types.ObjectId(req.query.user_id);
-        let member = await users.findOne( {_id: memberId, groupInfo: {$elemMatch: {groupId: req.query.group_id} } } );
+        let member = await users.findOne( {_id: memberId, groupInfo: {$elemMatch: {_id: req.query.group_id} } } );
         if(member != null) {
             let i = 0
             while(member.groupInfo[i] !== undefined && userRole === "Unknown") { //iterate through groupInfo array
-                if(member.groupInfo[i].groupId === req.query.group_id) {
+                if(member.groupInfo[i]._id === req.query.group_id) {
                     userRole = member.groupInfo[i].userRole;
                 }
                 i++;

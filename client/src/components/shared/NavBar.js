@@ -11,6 +11,10 @@ const Navbar = () => {
       navigate('/login');
     }
 
+    const handleSignUpClick = () => {
+        navigate('/register');
+      }
+
     return (
         <div className="bg-white shadow-md p-4">
             <div className="container mx-auto flex justify-between items-center">
@@ -21,7 +25,7 @@ const Navbar = () => {
                 <div className="md:mr-10 space-x-4">
                     {!token && <a href="/login" className="text-gray-700 hover:text-gray-900">Login</a>}
                     {!token && (
-                        <button className="bg-dark-green text-white px-4 py-2 rounded-full hover:bg-blue-600">
+                        <button onClick={handleSignUpClick} className="bg-dark-green text-white px-4 py-2 rounded-full hover:bg-blue-600">
                             Sign Up
                         </button>
                     )}

@@ -9,7 +9,7 @@ const Information = () => {
     const [userRole, setUserRole] = useState('');
     const [requests, setRequests] = useState([]);
     const { groupId } = useParams();
-    const { userId, groupInfo } = useContext(UserContext);
+    const { userId, groupInfo, setGroupInfo } = useContext(UserContext);
     const navigate = useNavigate();
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -18,12 +18,10 @@ const Information = () => {
         let userRole = '';
         if (!groupInfo) return userRole;
         for (let i = 0; i < groupInfo.length; i++) {
-            if (groupInfo[i].groupId === groupId) {
+            if (groupInfo[i]._id === groupId) {
                 setUserRole(groupInfo[i].userRole);
             }
         }
-        console.log(userRole);
-        return userRole;
     }
 
     const handleAddRequestButton = () => {
@@ -40,10 +38,20 @@ const Information = () => {
                 group_id: groupId, 
                 description: groupData.description,
                 nameCaregiver: groupData.nameCaregiver,
-                nameGroup: groupData.nameGroup,
                 namePatient: groupData.namePatient
             }
         );
+        const updatedGroupInfo = [ ...groupInfo, 
+                                    { 
+                                        _id: groupId, 
+                                        userRole: "Support", 
+                                        description:groupData.description, 
+                                        nameCaregiver:groupData.nameCaregiver, 
+                                        namePatient:groupData.namePatient
+                                    }
+                                ];
+        setGroupInfo(updatedGroupInfo);
+        getUserRole(groupId, updatedGroupInfo);
     }
 
     useEffect(() => {
@@ -57,15 +65,17 @@ const Information = () => {
         }
         fetchData();
     }, []);
-
-    let roleButton;
-    if (userRole === 'Caregiver') {
-        roleButton = <button onClick={() => navigate("/GroupEditDelete/" + groupId )}>Edit Details</button>;
-    } else if (userRole !== 'Caregiver' && userRole !== 'Support') {
-        roleButton = <button onClick={() => joinGroup()}>Join Group</button>;
-    }
     
+    const handleRoleButton = (userRole) => {
+        if (!userRole) joinGroup();
+        if (userRole === "Caregiver") navigate("/GroupEditDelete/" + groupId)
+    };
 
+    const roleButtonText = (userRole) => {
+        if (!userRole) return "Join Group";
+        if (userRole === "Caregiver") return "Edit Details";
+        return "";
+    }
 
     return (
         <>
@@ -73,7 +83,9 @@ const Information = () => {
                 <>
                     <div>
                         <h1>{groupData.namePatient}</h1>
-                        {roleButton}
+                        {(!userRole || userRole === "Caregiver") ?
+                            <button onClick={() => handleRoleButton(userRole)}>{roleButtonText(userRole)}</button> : <></>
+                        }
                         <p>Caregiver: {groupData.nameCaregiver}</p>
                         <p>Description: {groupData.description}</p>
                     </div>

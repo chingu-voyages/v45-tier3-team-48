@@ -83,9 +83,15 @@ export default function EditProfileForm() {
       return;
     }
 
+    // update localStorage with updated data from form
+    window.localStorage.setItem('email',editProfileFormData.email);
+    window.localStorage.setItem('fullName',editProfileFormData.fullName);
+
     // if no errors, redirect to success page
     setEditProfileFormData(INITIAL_STATE);
-    //navigate('/');
+
+    navigate('/usergroups');
+
   }
 
 
@@ -121,12 +127,14 @@ export default function EditProfileForm() {
 
 
   return (
+
     <div>
       
       <div className="border-t-2 border-gray-300 border-b-2 lg:border-b-0 py-10">
         <h1 className="text-left pl-4 font-medium text-xl lg:text-4xl lg:pl-36">
           My Profile
         </h1>
+
       </div>
       <form  className=" pt-40 ">
         <div className="lg:flex lg:gap-[90px] lg:justify-center lg:w-[950px] lg:pt-8 lg:border-t-4 lg:mx-auto lg:border-t-gray-300">

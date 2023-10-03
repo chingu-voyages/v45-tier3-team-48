@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema( {
         type: String,
     },
     groupInfo: [{
-        groupId: {
+        _id: {
             type: String,
         },
         userRole: {
@@ -35,9 +35,6 @@ const UserSchema = new mongoose.Schema( {
             type: String
         },
         description: {
-            type: String
-        },
-        nameGroup: {
             type: String
         }
     }]
