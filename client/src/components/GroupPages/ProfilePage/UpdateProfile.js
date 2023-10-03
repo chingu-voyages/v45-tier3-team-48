@@ -3,8 +3,6 @@ import UserContext from '../../../UserContext';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import CaregiverApi from '../../../api';
-import neutralProfileImage from '../../../neutral-profile-image.jpeg'
-
 // get current user data
 // autofill data on the form
 
@@ -59,7 +57,6 @@ export default function EditProfileForm() {
   // update user document in the database
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(editProfileFormData)
 
     // check for errors on the form
     const errors = validateForm(editProfileFormData);
