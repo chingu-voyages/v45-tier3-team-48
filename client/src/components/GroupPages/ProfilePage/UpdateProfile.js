@@ -192,16 +192,6 @@ export default function EditProfileForm() {
           </div>
         </div>
       </form>
-      <footer className="flex justify-center pb-40 pt-[18px] sm:pt-[35px] [font-family:'Open_Sans',_Helvetica]">
-          <div className=" w-[270px] xs:w-[425px] sm:w-[560px] lg:w-[900px] flex items-center justify-between text-[10px] xs:text-[14px] sm:text-[16px] leading-6 not-italic font-normal text-gray-600">
-            <ul className="flex gap-[36px]">
-              <li>About</li>
-              <li>Privacy</li>
-              <li>Terms</li>
-            </ul>
-            <span>CareCollab v1.0.0</span>
-          </div>
-        </footer>
     </div>
   );
 }
