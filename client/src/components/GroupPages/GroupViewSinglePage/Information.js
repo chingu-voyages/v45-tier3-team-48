@@ -93,28 +93,35 @@ const Information = () => {
                             <div style={{width: 123.58, height: 26, left: 40.71, top: 16, position: 'absolute', textAlign: 'center', color: '#638262', fontSize: 20, fontFamily: 'Open Sans', fontWeight: '400', lineHeight: 28, wordWrap: 'break-word'}}>Edit Details</div>
                         </div>
                     </div> */}
+                    {/* lg:border-b-0 */}
 {/* border-t-2 border-gray-300 border-b-2 lg:border-b-0 py-10 */}
-                    <div className="border-t-2 border-gray-300 border-b-2 lg:border-b-0 py-10">
-                        <div className="flex justify-center ">
-                            <img className="w-[140px] xs:w-[170px] sm:w-[200px]" src="https://images.unsplash.com/photo-1548536646-b8bebe870011?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80"/>
-                        </div>
-                        <div style={{color: 'black', fontSize: 36, fontFamily: 'Open Sans', fontWeight: '600', wordWrap: 'break-word'}}>{groupData.namePatient}</div>
-                        {/* cgiver/des */}
-                        <div className=''>
-                            <div className="font-normal px-5 text-lg [font-family:'Open_Sans'] text-left"><span className='font-semibold italic'>Caregiver:  </span>{groupData.nameCaregiver}</div>
-                            <div className="font-normal px-5 text-lg [font-family:'Open_Sans'] text-left"><span className='font-semibold italic'>Description:  </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi et dictum nibh. Cas laoreet arcu. Nulla sed commodo velit, luctus velit. Pellentesque elemenm.</div>
-                        </div>
-                        <div className='pt-2'>
-                            <button className="border-[2px] rounded-[125px] py-[8px] px-[15px] md:py-[15px] md:px-[35px] border-dark-green bg-gray-50 text-dark-green hover:bg-dark-green hover:text-white transition-color duration-300">Edit Group Details</button>
+{/* need to add small separator that doesn't go the full border */}
+                    <div className='py-10' >
+                        <div className="lg:relative lg:h-96 border-gray-300 border-b-2 lg:mx-20 pb-10">
+                            <div className="lg:absolute lg:top-5 lg:left-0 flex justify-center ">
+                                <img className="w-[140px] xs:w-[170px] sm:w-[200px]" src="https://images.unsplash.com/photo-1548536646-b8bebe870011?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80"/>
+                            </div>
+                     
+                            <div className='lg:absolute lg:text-top lg:left-36 lg:top-5 text-center px-5 xs:px-20 sm:px-30' style={{color: 'black', fontSize: 36, fontFamily: 'Open Sans', fontWeight: '600', wordWrap: 'break-word'}}>{groupData.namePatient}</div>
+                            {/* cgiver/des */}
+                            <div className='lg:absolute lg:left-36 top-24'>
+                                <div className="font-normal px-5 xs:px-20 sm:px-30 text-lg [font-family:'Open_Sans'] text-left"><span className='font-semibold italic'>Caregiver:  </span>{groupData.nameCaregiver}</div>
+                                <div className="font-normal px-5 xs:px-20 sm:px-30 text-lg [font-family:'Open_Sans'] text-left"><span className='font-semibold italic'>Description:  </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi et dictum nibh. Cas laoreet arcu. Nulla sed commodo velit, luctus velit. Pellentesque elemenm.</div>
+                            </div>
+                            <button className="mt-[10px] lg:mt-0 lg:absolute lg:top-5 lg:right-0 border-[2px] rounded-[125px] py-[8px] px-[15px] md:py-[15px] md:px-[35px] border-dark-green bg-gray-50 text-dark-green hover:bg-dark-green hover:text-white transition-color duration-300">Edit Group Details</button>
+
+                            {/* <div className='pt-2 lg:absolute bottom-0 left-0'>
+                                <button className="border-[2px] rounded-[125px] py-[8px] px-[15px] md:py-[15px] md:px-[35px] border-dark-green bg-gray-50 text-dark-green hover:bg-dark-green hover:text-white transition-color duration-300">Edit Group Details</button>
+                            </div> */}
                         </div>
                     </div>
                     <div>
-                        <h1>{groupData.namePatient}</h1>
+                        {/* <h1>{groupData.namePatient}</h1> */}
                         {(!userRole || userRole === "Caregiver") ?
                             <button onClick={() => handleRoleButton(userRole)}>{roleButtonText(userRole)}</button> : <></>
                         }
-                        <p>Caregiver: {groupData.nameCaregiver}</p>
-                        <p>Description: {groupData.description}</p>
+                        {/* <p>Caregiver: {groupData.nameCaregiver}</p>
+                        <p>Description: {groupData.description}</p> */}
                     </div>
                     {userRole === "Caregiver" ? 
                         <button onClick={handleAddRequestButton}>Add Request</button> :
