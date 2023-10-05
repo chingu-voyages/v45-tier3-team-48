@@ -87,11 +87,14 @@ function App() {
       let res = await CaregiverApi.registerUser(userData);
 
       //Set all corresponding data
-      setToken(res.user.token);
-      setUserId(res.user._id);
-      setEmail(res.user.email);
-      setFullName(res.user.fullName);
-      setGroupInfo(res.user.groupInfo);
+      if(res.user) {
+          setToken(res.user.token);
+          setUserId(res.user._id);
+          setEmail(res.user.email);
+          setFullName(res.user.fullName);
+          setGroupInfo(res.user.groupInfo);
+      }
+
       return res;
     } catch (err) {
       return err;

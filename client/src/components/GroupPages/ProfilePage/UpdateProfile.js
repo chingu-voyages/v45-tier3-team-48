@@ -91,7 +91,6 @@ export default function EditProfileForm() {
     setEditProfileFormData(INITIAL_STATE);
 
     navigate('/usergroups');
-
   }
 
 
@@ -106,12 +105,12 @@ export default function EditProfileForm() {
     }
 
     if (validator.isEmpty(data.phoneNumber)) {
-      //Erros for phone number
+      //Errors for phone number
       errors.push('Phone number is required!');
     }
     
     if (validator.isEmpty(data.phoneNumber)) {
-      //Erros for phone number
+      //Errors for phone number
       errors.push('Phone number is required!');
     } else if (!phoneRegex.test(data.phoneNumber)) {
       errors.push('This is not a valid phone number format! Ex: xxx-xxx-xxxx');

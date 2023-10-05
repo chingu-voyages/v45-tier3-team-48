@@ -5,17 +5,16 @@ import { useNavigate } from 'react-router-dom';
 function Register() {
     // Retrieves the token variable from App.js
     // state controlled at App.js
-  const {registerUser,token} = useContext(UserContext);
-  const navigate = useNavigate();
+    const {registerUser,token} = useContext(UserContext);
+    const navigate = useNavigate();
 
-  const INITIAL_STATE = {
-    fullName: "",
-    phoneNumber: "",
-    email: "",
-    password: ""
-  }
-  const [formData, setFormData] = useState(INITIAL_STATE);
-
+    const INITIAL_STATE = {
+        fullName: "",
+        phoneNumber: "",
+        email: "",
+        password: ""
+    }
+    const [formData, setFormData] = useState(INITIAL_STATE);
 
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
@@ -28,8 +27,9 @@ function Register() {
         if (Object.keys(formErrors).length === 0) {
           let response = await registerUser(formData); // Use registerUser for registration
           setIsSubmit(true);
-          if(response.status === 401) {
-            setFormErrors({failedCreatingUser: "User already exists with this email."});
+          if(response.response.status === 409) { // Notifies user if fullname or email is already taken
+            if(response.response.data === 'User already exists with this name.') setFormErrors({fullName: response.response.data});
+            else setFormErrors({email: response.response.data});
           } else if (response.status === 201) { // Handle success or redirect as needed
             console.log('Registration successful');
             setFormData(INITIAL_STATE);
@@ -47,7 +47,6 @@ function Register() {
     };
 
     useEffect(() => {
-        console.log(formErrors);
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             console.log(formData);
         }
@@ -68,7 +67,7 @@ function Register() {
             errors.fullName = 'Full name is required!';
         }
         if (!data.phoneNumber) {
-            //Erros for phone number
+            //Errors for phone number
             errors.phoneNumber = 'Phone number is required!';
         } else if (!phoneRegex.test(data.phoneNumber)) {
             errors.phoneNumber =
@@ -90,7 +89,7 @@ function Register() {
         }
         return errors;
     };
-    console.log(formData);
+
     return ( 
       <div className="bg-gray-50 w-full pt-40 pb-40 flex flex-col items-center justify-center ">
         <main className="bg-white w-[285px] xs:w-[425px] sm:w-[563px] mx-auto my-0 rounded border-[1px] border-solid border-navy-100">

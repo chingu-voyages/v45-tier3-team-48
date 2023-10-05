@@ -10,9 +10,13 @@ module.exports = {
             console.log('Database running');
             const {fullName, phoneNumber, email, password} = req.body;
             //Check if user already exists
-            const existingUser = await users.findOne({ email });
-            if(existingUser) { //Code execution stops if there is an existing user.
-                return res.status(401).send('User alrady exists with this email.');
+            const existingUserName = await users.findOne({fullName: fullName });
+            const existingUserEmail = await users.findOne({email: email });
+            if(existingUserName) { //Code execution stops if there is an existing user with the same name.
+                return res.status(409).send('User already exists with this name.');
+            }
+            if(existingUserEmail) { //Code execution stops if there is an existing user with the same email.
+                return res.status(409).send('User already exists with this email.');
             }
 
 
@@ -81,6 +85,14 @@ module.exports = {
             const filter = {_id: new ObjectId(id)};
             // confirm password is valid
 
+            // check if username is unique
+            const dupeName = await users.findOne({fullName: fullName});
+            //cant use strict equality since dupe val is of type obj while orig val is of type string
+            if( (dupeName) && (dupeName._id != id ) ) throw Error('Username already in use');
+
+            // check if email is unique
+            const dupeEmail = await users.findOne({email: email});
+            if( (dupeEmail) && (dupeEmail._id !== id ) ) throw Error('Email already in use');
 
             // retrieve user password to compare with submitted password candidate
             const user = await users.findOne(filter);
