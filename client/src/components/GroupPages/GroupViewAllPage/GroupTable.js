@@ -15,9 +15,14 @@ import ChildGroupTable from './ChildGroupTable';
 
 const GroupTable = () => {
 
+    const navigate = useNavigate();
+    const { token } = useContext(UserContext);
+
+
     const [isLoading, setIsLoading] = useState(true);
     const [groups, setGroups] = useState([]);
-    const navigate = useNavigate();
+
+
 
 
     const fetchAllGroupData = () => {
@@ -30,8 +35,18 @@ const GroupTable = () => {
 
 
     useEffect(() => {
+            // if(!token){
+            //     return;
+            // } 
             fetchAllGroupData();
+
     }, []);
+
+    if(!token){
+        // alert('Must be logged in!')
+        navigate('/')
+        return;
+    } 
 
     return (
         <div className="font-general bg-gray-50 h-max w-full pt-6 md:pt-12">
