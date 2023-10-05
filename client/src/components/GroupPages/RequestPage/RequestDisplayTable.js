@@ -6,9 +6,15 @@ import UserContext from '../../../UserContext';
 const RequestDisplayTable = (props) => {
     
     const { groupId } = useParams();
-    const { userId, fullName } = useContext(UserContext);
+    const { userId, fullName, token } = useContext(UserContext);
     const { userRole, requests, setRequests } = props;
     const navigate = useNavigate();
+
+    // prevents users not logged in from viewing page
+    if(!token){
+        navigate('/')
+        return;
+    } 
 
     /*
     gets the index of the targeted request from the requests array. this index will be used to update state in the handleSignUpButton function below

@@ -4,12 +4,18 @@ import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
 
 function GroupForm() {
-    const { userId, fullName, groupInfo, setGroupInfo } = useContext(UserContext);
+    const { userId, fullName, groupInfo, setGroupInfo, token } = useContext(UserContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         patientName: "",
         description: ""
     });
+
+    // prevents users not logged in from viewing page
+    if(!token){
+        navigate('/')
+        return;
+    } 
 
     const handleSubmit = async e => {
         e.preventDefault();

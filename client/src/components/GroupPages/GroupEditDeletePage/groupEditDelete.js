@@ -1,9 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import CaregiverApi from '../../../api';
 import axios from 'axios';
+import UserContext from '../../../UserContext';
 
 function GroupEditDelete() {
+
+    const { token } = useContext(UserContext);
+
     const { groupId } = useParams();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -37,6 +41,12 @@ function GroupEditDelete() {
         }
         fetchGroupInfo();
     }, []);
+
+    // prevents users not logged in from viewing page
+    if(!token){
+        navigate('/')
+        return;
+    } 
 
     return (
         <div className="flex justify-center font-general bg-gray-50 h-max w-full pt-40 pb-80">

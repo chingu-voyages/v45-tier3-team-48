@@ -18,12 +18,8 @@ const GroupTable = () => {
     const navigate = useNavigate();
     const { token } = useContext(UserContext);
 
-
     const [isLoading, setIsLoading] = useState(true);
     const [groups, setGroups] = useState([]);
-
-
-
 
     const fetchAllGroupData = () => {
         CaregiverApi.getAllGroup()
@@ -35,15 +31,11 @@ const GroupTable = () => {
 
 
     useEffect(() => {
-            // if(!token){
-            //     return;
-            // } 
             fetchAllGroupData();
-
     }, []);
 
+    // prevents users not logged in from viewing page
     if(!token){
-        // alert('Must be logged in!')
         navigate('/')
         return;
     } 

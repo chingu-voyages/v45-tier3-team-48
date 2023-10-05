@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useLocation, useNavigate, useParams, Link } from 'react-router-dom';
 import CaregiverApi from '../../../api';
 import { DateTime } from 'luxon';
+import UserContext from '../../../UserContext';
 
 const RequestEdit = (props) => {
     
     // grab the group id from the parameter variable
     const { groupId } = useParams();
+
 
     // grab the requestId from location state
     const location = useLocation();
@@ -20,6 +22,8 @@ const RequestEdit = (props) => {
         requestData: {},
         isLoaded: false
     });
+    const { token } = useContext(UserContext);
+
 
     // create currentDate variable to use as the minimum value for the date input
     const currentDate = DateTime.now() // create DateTime object
@@ -55,6 +59,8 @@ const RequestEdit = (props) => {
         }
         fetchData();
     }, [requestId]);
+
+
 
      // check if request data is valid
      const isValidDate = (dateString) => {
@@ -112,6 +118,11 @@ const RequestEdit = (props) => {
             console.log(data.errorMessage);
         }
     }
+    // prevents users not logged in from viewing page
+    if(!token){
+        navigate('/')
+        return;
+    } 
     
     return (
         <>

@@ -10,7 +10,9 @@ const RequestCreate = () => {
 
     const navigate = useNavigate();
 
-    const { userId, fullName } = useContext(UserContext);
+
+
+    const { userId, fullName, token } = useContext(UserContext);
 
     const [hasError, setHasError] = useState(false);
 
@@ -28,6 +30,12 @@ const RequestCreate = () => {
     };
     
     const [requestData, setRequestData] = useState(INITIAL_STATE);
+
+    // prevents users not logged in from viewing page
+    if(!token){
+        navigate('/')
+        return;
+    } 
     
     const isValidDate = (dateString) => {
         return !isNaN(new Date(dateString));

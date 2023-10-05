@@ -9,9 +9,15 @@ import ChildGroupTable from './ChildGroupTable';
 
 const UserGroups = () => {
 
-    const { groupInfo } = useContext(UserContext);
+    const { groupInfo, token } = useContext(UserContext);
     
     const navigate = useNavigate();
+
+    // prevents users not logged in from viewing page
+    if(!token){
+        navigate('/')
+        return;
+    } 
 
     return (
         <div className="font-general bg-gray-50 h-max w-full pt-6 md:pt-12">
