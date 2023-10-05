@@ -75,45 +75,47 @@ const RequestDisplayTable = (props) => {
     return (
         <>
             {(requests && requests.length > 0) ? 
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Date Needed</td>
-                            <td>Time Needed</td>
-                            <td>Category</td>
-                            <td>Description</td>
-                            <td>Assigned To</td>
-                            <td>Actions</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {requests.map((request, index) => {
-                            return(
-                                <tr key={index}>
-                                    <td>{formatDate(request.dateTimeUTC)}</td>
-                                    <td>{formatTime(request.dateTimeUTC)}</td>
-                                    <td>{request.category}</td>
-                                    <td>{request.description}</td>
-                                    {request.assignedTo ? 
-                                        <td>{request.assignedTo.fullName}</td> :
-                                        <td></td>
-                                    }
-                                    {(!request.assignedTo.userId && isFutureRequest(request.dateTimeUTC) && userRole === 'Support') ? 
-                                        <td><button onClick={e => handleSignUpButton(request._id)}>Sign Up!</button></td> :
-                                        <></>
-                                    }
-                                    {(userRole === 'Caregiver' && isFutureRequest(request.dateTimeUTC)) ?
-                                        <td>
-                                            <button onClick={e => handleEditButton(request._id)}>Edit</button>
-                                            <button onClick={e => handleDeleteButton(request._id)}>Delete</button>
-                                        </td> :
-                                        <></>
-                                    }
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                <div className="container overflow-x-auto">
+                    <table className="table table-auto mx-auto w-[860px] text-start">
+                        <thead className="text-gray-500 text-base font-semibold">
+                            <tr>
+                                <td className="p-[12px]">Date</td>
+                                <td className="p-[12px]">Time</td>
+                                <td className="p-[12px]">Category</td>
+                                <td className="p-[12px]">Description</td>
+                                <td className="p-[12px]">Assigned To</td>
+                                <td className="p-[12px]">Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody className="text-gray-500 text-base font-normal">
+                            {requests.map((request, index) => {
+                                return(
+                                    <tr key={index} className="border-y border-gray-400">
+                                        <td className="p-[12px]">{formatDate(request.dateTimeUTC)}</td>
+                                        <td className="p-[12px]">{formatTime(request.dateTimeUTC)}</td>
+                                        <td className="p-[12px]">{request.category}</td>
+                                        <td className="p-[12px]">{request.description}</td>
+                                        {request.assignedTo ? 
+                                            <td className="p-[12px]">{request.assignedTo.fullName}</td> :
+                                            <td className="p-[12px]"></td>
+                                        }
+                                        {(!request.assignedTo.userId && isFutureRequest(request.dateTimeUTC) && userRole === 'Support') ? 
+                                            <td className="p-[12px]"><button onClick={e => handleSignUpButton(request._id)}>Sign Up!</button></td> :
+                                            <></>
+                                        }
+                                        {(userRole === 'Caregiver' && isFutureRequest(request.dateTimeUTC)) ?
+                                            <td className="p-[12px]">
+                                                <button onClick={e => handleEditButton(request._id)}>Edit</button>
+                                                <button onClick={e => handleDeleteButton(request._id)}>Delete</button>
+                                            </td> :
+                                            <></>
+                                        }
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
                 :
                 <></>
             }
