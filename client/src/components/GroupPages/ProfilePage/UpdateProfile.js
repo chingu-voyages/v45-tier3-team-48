@@ -41,7 +41,6 @@ export default function EditProfileForm() {
               email: res.email
             }
         ));
-        console.log('test');
     }
     retrieveProfile();
   },[]);
@@ -66,12 +65,12 @@ export default function EditProfileForm() {
       return;
     }
 
-    const formData = new FormData();
+    /*const formData = new FormData(); //changing from object to formData  //causes an issue with setErrorMessage()
     formData.append('fullName', editProfileFormData.fullName );
     formData.append('email', editProfileFormData.email);
     formData.append('phoneNumber', editProfileFormData.phoneNumber);
     formData.append('password', editProfileFormData.password);
-    setEditProfileFormData(formData)
+    setEditProfileFormData(formData)*/
 
     const res = await CaregiverApi.updateUser(userId,editProfileFormData);
 
@@ -98,6 +97,7 @@ export default function EditProfileForm() {
   const validateForm = data => {
     const errors = [];
     const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+    console.log(data);//test
 
     if (validator.isEmpty(data.fullName)) {
       //errors for full name

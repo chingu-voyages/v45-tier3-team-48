@@ -62,7 +62,7 @@ export default function DropdownMenu() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  All Goups
+                  All Groups
                 </a>
               )}
             </Menu.Item>

@@ -92,7 +92,8 @@ module.exports = {
 
             // check if email is unique
             const dupeEmail = await users.findOne({email: email});
-            if( (dupeEmail) && (dupeEmail._id !== id ) ) throw Error('Email already in use');
+            //cant use strict equality since dupe val is of type obj while orig val is of type string
+            if( (dupeEmail) && (dupeEmail._id != id ) ) throw Error('Email already in use');
 
             // retrieve user password to compare with submitted password candidate
             const user = await users.findOne(filter);
