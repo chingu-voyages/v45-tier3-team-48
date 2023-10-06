@@ -184,7 +184,7 @@ export default function EditProfileForm() {
                   <button onClick={handleSubmit} type='button' className=" bg-primary-green rounded-lg font-semibold leading-7 w-[220px] xs:w-[380px] sm:w-[510px] lg:w-[650px] text-white text-center py-[11px] [font-family:'Open_Sans',_Helvetica]" >Save Updates</button>
                 </div>
                 <div className="pt-4">
-                  <button className="text-red-600 font-semibold leading-5"> DELETE ACCOUNT</button>
+                  {/*<button className="text-red-600 font-semibold leading-5"> DELETE ACCOUNT</button>*/}
                 </div>
               </div>
             </div>
