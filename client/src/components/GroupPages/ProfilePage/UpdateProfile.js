@@ -97,7 +97,6 @@ export default function EditProfileForm() {
   const validateForm = data => {
     const errors = [];
     const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-    console.log(data);//test
 
     if (validator.isEmpty(data.fullName)) {
       //errors for full name

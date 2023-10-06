@@ -21,15 +21,13 @@ class CaregiverApi {
             return (await axios({ url, method, data, params, headers })).data;
         } catch (err) {
             let anotherError = err.response;
-
-            return err;
+            return anotherError;
         }
     }
 
     static async loginUser(loginData) {
         try{
             let res = await this.request('login', loginData, 'post');
-            console.log(res);
             return res;
         }catch(err){
             return err;
@@ -153,7 +151,6 @@ class CaregiverApi {
     static async getUserInfo(userId) {
         try {
             let res = await this.request(`user/getInfo/${userId}`);
-            console.log(res);
             return res;
         } catch(err) {
             throw err;
