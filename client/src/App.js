@@ -83,7 +83,6 @@ function App() {
   const registerUser = async (userData) => {
     try {
       // Call FE api registerUser function
-      console.log('inside register function in app.js');
       let res = await CaregiverApi.registerUser(userData);
 
       //Set all corresponding data

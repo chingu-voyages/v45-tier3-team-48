@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import CaregiverApi from '../../../api';
-import axios from 'axios';
 
 function GroupEditDelete() {
     const { groupId } = useParams();
