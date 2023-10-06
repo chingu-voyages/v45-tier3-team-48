@@ -192,6 +192,11 @@ export default function EditProfileForm() {
           </div>
         </div>
       </form>
+      <footer className="flex justify-center  pt-[18px] sm:pt-[35px] [font-family:'Open_Sans',_Helvetica]">
+          <div className=" w-[220px] xs:w-[375px]  sm:w-[515px] flex items-center justify-between text-[10px] xs:text-[14px] sm:text-[16px] leading-6 not-italic font-normal text-gray-600">
+            <span>CareCollab v1.0.0</span>
+          </div>
+        </footer>
     </div>
   );
 }
