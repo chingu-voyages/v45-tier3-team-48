@@ -108,6 +108,7 @@ function Register() {
                   </svg>
                   <input 
                   className="w-[195px]  xs:w-[252px] sm:w-[452px] h-[34px] xs:h-[40px] sm:h-[50px] rounded-[5px] border-navy-100 border-[1px] border-l-0 [font-family:'Open_Sans',_Helvetica] font-normal text-[color:var(--navy-200)] text-[10px] xs:text-[13px] sm:text-[16px]"
+                  maxLength="40"
                   type="text"
                   onChange={onChange}
                   name="fullName"

@@ -31,7 +31,7 @@ const Information = () => {
 
     // send additional group data to the BE
     // send the groupData variable that contains all data from the backend
-    function joinGroup() { //reload page after?
+    function joinGroup() {
         CaregiverApi.joinGroup( 
             {
                 user_id: userId,
@@ -42,14 +42,14 @@ const Information = () => {
             }
         );
         const updatedGroupInfo = [ ...groupInfo, 
-                                    { 
-                                        _id: groupId, 
-                                        userRole: "Support", 
-                                        description:groupData.description, 
-                                        nameCaregiver:groupData.nameCaregiver, 
-                                        namePatient:groupData.namePatient
-                                    }
-                                ];
+            {
+                _id: groupId,
+                userRole: "Support",
+                description: groupData.description,
+                nameCaregiver: groupData.nameCaregiver,
+                namePatient: groupData.namePatient
+            }
+        ];
         setGroupInfo(updatedGroupInfo);
         getUserRole(groupId, updatedGroupInfo);
     }

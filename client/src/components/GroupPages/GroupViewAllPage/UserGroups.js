@@ -7,7 +7,7 @@ import ChildGroupTable from './ChildGroupTable';
 const UserGroups = () => {
 
     const { groupInfo } = useContext(UserContext);
-    
+
     const navigate = useNavigate();
 
     return (
