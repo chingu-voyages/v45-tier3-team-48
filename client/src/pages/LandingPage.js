@@ -38,13 +38,7 @@ const HomePage = () => {
                     the way you care.
                 </p>
   
-                <button className="z-10 mt-4">
-                    <div className="flex justify-center pt-2 md:pt-[10px] w-[125px] md:w-[202px] h-[50px] md:h-[58px] bg-dark-green rounded-full md:rounded-[125px] shadow-md">
-                        <div className="text-white text-xl">
-                            <button onClick={handleClick} >Sign up</button> 
-                        </div>
-                    </div>
-                </button>
+                <button className="z-10 mt-4 text-center w-[125px] md:w-[202px] h-[50px] md:h-[58px] bg-dark-green rounded-full md:rounded-[125px] shadow-md text-white text-xl" onClick={handleClick}>Sign up</button>
             </div>
   
             {/* SVG Images */}

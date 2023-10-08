@@ -1,9 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import React, {useState, useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 import CaregiverApi from '../../../api';
-import UserContext from '../../../UserContext';
-import axios from 'axios';
-import validator from 'validator';
 import ChildGroupTable from './ChildGroupTable';
 
 // make conditional to show only user groups or all groups

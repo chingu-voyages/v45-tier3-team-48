@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import GroupTable from '../components/GroupPages/GroupViewAllPage/GroupTable';
 
 const GroupViewAllPage = () => {

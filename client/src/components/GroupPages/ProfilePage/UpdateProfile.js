@@ -41,7 +41,6 @@ export default function EditProfileForm() {
               email: res.email
             }
         ));
-        console.log('test');
     }
     retrieveProfile();
   },[]);
@@ -66,12 +65,12 @@ export default function EditProfileForm() {
       return;
     }
 
-    const formData = new FormData();
+    /*const formData = new FormData(); //changing from object to formData  //causes an issue with setErrorMessage()
     formData.append('fullName', editProfileFormData.fullName );
     formData.append('email', editProfileFormData.email);
     formData.append('phoneNumber', editProfileFormData.phoneNumber);
     formData.append('password', editProfileFormData.password);
-    setEditProfileFormData(formData)
+    setEditProfileFormData(formData)*/
 
     const res = await CaregiverApi.updateUser(userId,editProfileFormData);
 
@@ -91,7 +90,6 @@ export default function EditProfileForm() {
     setEditProfileFormData(INITIAL_STATE);
 
     navigate('/usergroups');
-
   }
 
 
@@ -106,12 +104,12 @@ export default function EditProfileForm() {
     }
 
     if (validator.isEmpty(data.phoneNumber)) {
-      //Erros for phone number
+      //Errors for phone number
       errors.push('Phone number is required!');
     }
     
     if (validator.isEmpty(data.phoneNumber)) {
-      //Erros for phone number
+      //Errors for phone number
       errors.push('Phone number is required!');
     } else if (!phoneRegex.test(data.phoneNumber)) {
       errors.push('This is not a valid phone number format! Ex: xxx-xxx-xxxx');
@@ -153,7 +151,7 @@ export default function EditProfileForm() {
               </div>}
               <div className="flex flex-col text-left pt-4 [font-family:'Open_Sans',_Helvetica] text-sm xs:text-base sm:text-xl">
                   <label htmlFor='fullName' className="pb-2">Full Name</label>
-                  <input onChange={handleChange} name='fullName' value={editProfileFormData.fullName} className="border-[1px] border-gray-500 w-[220px] xs:w-[380px] sm:w-[510px] lg:w-[650px] rounded h-10 pl-2 text-gray-600 [font-family: 'Open_Sans',_Helvetica] "/>  
+                  <input onChange={handleChange} maxLength="40" name='fullName' value={editProfileFormData.fullName} className="border-[1px] border-gray-500 w-[220px] xs:w-[380px] sm:w-[510px] lg:w-[650px] rounded h-10 pl-2 text-gray-600 [font-family: 'Open_Sans',_Helvetica] "/>
               </div>
 
               <div className="flex flex-col text-left pt-4 [font-family:'Open_Sans',_Helvetica] text-sm xs:text-base sm:text-xl">
@@ -185,7 +183,7 @@ export default function EditProfileForm() {
                   <button onClick={handleSubmit} type='button' className=" bg-primary-green rounded-lg font-semibold leading-7 w-[220px] xs:w-[380px] sm:w-[510px] lg:w-[650px] text-white text-center py-[11px] [font-family:'Open_Sans',_Helvetica]" >Save Updates</button>
                 </div>
                 <div className="pt-4">
-                  <button className="text-red-600 font-semibold leading-5"> DELETE ACCOUNT</button>
+                  {/*<button className="text-red-600 font-semibold leading-5"> DELETE ACCOUNT</button>*/}
                 </div>
               </div>
             </div>

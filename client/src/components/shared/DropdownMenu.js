@@ -1,6 +1,5 @@
 import React, { Fragment, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import UserContext from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -62,7 +61,7 @@ export default function DropdownMenu() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                  All Goups
+                  All Groups
                 </a>
               )}
             </Menu.Item>
@@ -81,15 +80,15 @@ export default function DropdownMenu() {
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
-                  onClick={handleClick}
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Log Out
-                </a>
+                  <button
+                      onClick={handleClick}
+                      className={classNames(
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        'text-left block w-full px-4 py-2 text-sm'
+                      )}
+                    >
+                      Log out
+                  </button>
               )}
             </Menu.Item>
           </div>

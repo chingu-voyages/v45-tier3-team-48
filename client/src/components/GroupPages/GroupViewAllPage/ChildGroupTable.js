@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import CaregiverApi from '../../../api';
-import axios from 'axios';
+import React from 'react';
+import { useNavigate, Link } from "react-router-dom";
 
 
 const ChildGroupTable = ({groups}) => {
@@ -10,7 +8,7 @@ const ChildGroupTable = ({groups}) => {
 
     // add hasGroups
     const hasGroups = groups.length >= 1 ? true : false;
-//mx-[300px] or mx-auto
+
     return (
         <table className="container max-w-screen-md mx-auto md:my-[50px]">
             <tbody>

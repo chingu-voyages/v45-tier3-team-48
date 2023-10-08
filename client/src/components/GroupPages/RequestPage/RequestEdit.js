@@ -136,18 +136,18 @@ const RequestEdit = (props) => {
                         <form onSubmit={handleSubmit}>
                             <div>
                                 <select name="category" id="category" defaultValue={''} onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${data.requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} value={data.requestData.category} >
-                                    <option value="" disabled>Select a Category</option>
-                                    <option value="Errands">Errands</option>
-                                    <option value="Grocery Shopping">Grocery Shopping</option>
-                                    <option value="Home Repairs/Maintenance">Home Repairs/Maintenance</option>
-                                    <option value="Housekeeping">Housekeeping</option>
-                                    <option value="Meal Preparation/Delivery">Meal Preparation/Delivery</option>
-                                    <option value="Pet Care">Pet Care</option>
-                                    <option value="Respite Care">Respite Care</option>
-                                    <option value="Technology/Telehealth Support">Technology/Telehealth Support</option>
-                                    <option value="Transportation">Transportation</option>
-                                    <option value="Yard/Garden Maintenance">Yard/Garden Maintenance</option>
-                                    <option value="Other">Other</option>
+                                <option value="" disabled>Select a Category</option>
+                            <option value="Errands">Errands</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Home Repairs">Home Repairs</option>
+                            <option value="Housekeeping">Housekeeping</option>
+                            <option value="Meals">Meals</option>
+                            <option value="Pet Care">Pet Care</option>
+                            <option value="Respite Care">Respite Care</option>
+                            <option value="Tech Support">Tech Support</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Yard/Garden">Yard/Garden</option>
+                            <option value="Other">Other</option>
                                 </select>
                                 
                                 {/* message for unselected category */}
