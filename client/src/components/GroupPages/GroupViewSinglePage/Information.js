@@ -9,7 +9,7 @@ const Information = () => {
     const [userRole, setUserRole] = useState('');
     const [requests, setRequests] = useState([]);
     const { groupId } = useParams();
-    const { userId, groupInfo, setGroupInfo } = useContext(UserContext);
+    const { userId, groupInfo, setGroupInfo, token } = useContext(UserContext);
     const navigate = useNavigate();
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -65,6 +65,12 @@ const Information = () => {
         }
         fetchData();
     }, []);
+
+    // prevents users not logged in from viewing page
+    if(!token){
+        navigate('/')
+        return;
+    } 
     
     const handleRoleButton = (userRole) => {
         if (!userRole) joinGroup();

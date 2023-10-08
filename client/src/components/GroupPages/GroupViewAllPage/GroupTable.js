@@ -12,10 +12,11 @@ import ChildGroupTable from './ChildGroupTable';
 
 const GroupTable = () => {
 
+    const navigate = useNavigate();
+    const { token } = useContext(UserContext);
+
     const [isLoading, setIsLoading] = useState(true);
     const [groups, setGroups] = useState([]);
-    const navigate = useNavigate();
-
 
     const fetchAllGroupData = () => {
         CaregiverApi.getAllGroup()
@@ -27,8 +28,15 @@ const GroupTable = () => {
 
 
     useEffect(() => {
+        if(!token){
+            navigate('/')
+            return;
+        } 
             fetchAllGroupData();
     }, []);
+
+    // prevents users not logged in from viewing page
+    
 
     return (
         <div className="font-general bg-gray-50 h-max w-full pt-6 md:pt-12">
