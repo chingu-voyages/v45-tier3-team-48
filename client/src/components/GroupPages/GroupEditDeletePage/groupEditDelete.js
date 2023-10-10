@@ -51,7 +51,7 @@ function GroupEditDelete() {
             setFormData({patientName: res.namePatient, description: res.description});
         }
         fetchGroupInfo();
-    }, []);
+    }, [token]);
 
 
     return (

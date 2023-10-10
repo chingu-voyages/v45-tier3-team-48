@@ -17,7 +17,7 @@ const RequestDisplayTable = (props) => {
             return;
         } 
         // eslint-disable-next-line
-    }, [])
+    }, [token])
 
     /*
     gets the index of the targeted request from the requests array. this index will be used to update state in the handleSignUpButton function below

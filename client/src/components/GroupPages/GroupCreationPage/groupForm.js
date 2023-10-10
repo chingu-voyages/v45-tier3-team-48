@@ -18,7 +18,7 @@ function GroupForm() {
             navigate('/')
             return;
         } 
-    }, []);
+    }, [token]);
 
     const handleSubmit = async e => {
         e.preventDefault();

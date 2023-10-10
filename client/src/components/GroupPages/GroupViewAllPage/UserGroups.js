@@ -18,7 +18,7 @@ const UserGroups = () => {
             navigate('/')
             return;
         } 
-    }, [])
+    }, [token])
 
     return (
         <div className="font-general bg-gray-50 h-max w-full pt-6 md:pt-12">

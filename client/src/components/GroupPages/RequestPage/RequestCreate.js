@@ -34,7 +34,7 @@ const RequestCreate = () => {
         if(!token){
           navigate('/')
         }
-      },[]);
+      },[token]);
 
     const isValidDate = (dateString) => {
         return !isNaN(new Date(dateString));

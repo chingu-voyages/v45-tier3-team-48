@@ -62,7 +62,7 @@ const RequestEdit = (props) => {
             });
         }
         fetchData();
-    }, [requestId]);
+    }, [requestId, token]);
 
 
 

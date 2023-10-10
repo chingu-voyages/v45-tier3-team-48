@@ -61,7 +61,7 @@ const Information = () => {
             navigate('/')
             return;
         } 
-        
+
         async function fetchData() {
             let res = await CaregiverApi.getIndividualGroup( {group_id: groupId} );
             setGroupData(res);
@@ -71,7 +71,7 @@ const Information = () => {
             setIsLoaded(true);
         }
         fetchData();
-    }, []);
+    }, [token]);
 
 
     
