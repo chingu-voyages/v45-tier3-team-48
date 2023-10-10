@@ -55,6 +55,13 @@ const Information = () => {
     }
 
     useEffect(() => {
+        
+        // prevents users not logged in from viewing page
+        if(!token){
+            navigate('/')
+            return;
+        } 
+
         async function fetchData() {
             let res = await CaregiverApi.getIndividualGroup( {group_id: groupId} );
             setGroupData(res);
@@ -64,13 +71,9 @@ const Information = () => {
             setIsLoaded(true);
         }
         fetchData();
-    }, []);
+    }, [token]);
 
-    // prevents users not logged in from viewing page
-    if(!token){
-        navigate('/')
-        return;
-    } 
+
     
     const handleRoleButton = (userRole) => {
         if (!userRole) joinGroup();

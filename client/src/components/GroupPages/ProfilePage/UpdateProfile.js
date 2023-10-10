@@ -47,7 +47,7 @@ export default function EditProfileForm() {
         ));
     }
     retrieveProfile();
-  },[]);
+  },[token]);
 
   const handleChange = (e) => {
     e.preventDefault();

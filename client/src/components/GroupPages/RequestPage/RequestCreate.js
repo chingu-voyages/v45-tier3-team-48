@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import UserContext from '../../../UserContext';
@@ -9,8 +9,6 @@ const RequestCreate = () => {
     const { groupId } = useParams();
 
     const navigate = useNavigate();
-
-
 
     const { userId, fullName, token } = useContext(UserContext);
 
@@ -30,13 +28,14 @@ const RequestCreate = () => {
     };
     
     const [requestData, setRequestData] = useState(INITIAL_STATE);
-
-    // prevents users not logged in from viewing page
-    if(!token){
-        navigate('/')
-        return;
-    } 
     
+    useEffect(function getUserProfile(){
+        // redirect user if not logged in
+        if(!token){
+          navigate('/')
+        }
+      },[token]);
+
     const isValidDate = (dateString) => {
         return !isNaN(new Date(dateString));
     }

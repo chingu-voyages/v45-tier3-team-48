@@ -34,7 +34,7 @@ const GroupTable = () => {
             return;
         } 
             fetchAllGroupData();
-    }, []);
+    }, [token]);
 
     // prevents users not logged in from viewing page
     

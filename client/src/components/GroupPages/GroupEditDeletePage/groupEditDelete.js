@@ -39,18 +39,20 @@ function GroupEditDelete() {
     };
 
     useEffect(() => {
+        
+        // prevents users not logged in from viewing page
+        if(!token){
+            navigate('/')
+            return;
+        } 
+
         async function fetchGroupInfo() {
             let res = await CaregiverApi.getIndividualGroup( {group_id: groupId} );
             setFormData({patientName: res.namePatient, description: res.description});
         }
         fetchGroupInfo();
-    }, []);
+    }, [token]);
 
-    // prevents users not logged in from viewing page
-    if(!token){
-        navigate('/')
-        return;
-    } 
 
     return (
         <div className="flex justify-center font-general bg-gray-50 h-max w-full pt-40 pb-80">
