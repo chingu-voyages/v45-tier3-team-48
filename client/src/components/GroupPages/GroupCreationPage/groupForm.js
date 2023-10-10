@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
@@ -12,10 +12,13 @@ function GroupForm() {
     });
 
     // prevents users not logged in from viewing page
-    if(!token){
-        navigate('/')
-        return;
-    } 
+
+    useEffect(() => {
+        if(!token){
+            navigate('/')
+            return;
+        } 
+    }, []);
 
     const handleSubmit = async e => {
         e.preventDefault();
