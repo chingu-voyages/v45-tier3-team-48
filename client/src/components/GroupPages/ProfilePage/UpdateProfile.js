@@ -14,7 +14,7 @@ export default function EditProfileForm() {
   const navigate = useNavigate();
 
   // need user info
-  const { userId } = useContext(UserContext);
+  const { userId, token } = useContext(UserContext);
 
   const INITIAL_STATE = {
     fullName: '',
@@ -30,6 +30,10 @@ export default function EditProfileForm() {
 
   // Retrieve userProfile from BE api call
   useEffect(function getUserProfile(){
+    if(!token){
+      navigate('/')
+    }
+
     async function retrieveProfile(){
         let res = await CaregiverApi.getUser(userId);
 
