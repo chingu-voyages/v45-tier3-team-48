@@ -10,12 +10,14 @@ const RequestDisplayTable = (props) => {
     const { userRole, requests, setRequests } = props;
     const navigate = useNavigate();
 
-    useEffect(function getUserProfile(){
-        // redirect user if not logged in
+    // prevents users not logged in from viewing page
+    useEffect(() => {
         if(!token){
-          navigate('/')
-        }
-      },[]);
+            navigate('/')
+            return;
+        } 
+        // eslint-disable-next-line
+    }, [])
 
     /*
     gets the index of the targeted request from the requests array. this index will be used to update state in the handleSignUpButton function below
