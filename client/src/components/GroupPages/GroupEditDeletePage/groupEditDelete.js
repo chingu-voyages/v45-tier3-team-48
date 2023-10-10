@@ -5,10 +5,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import UserContext from '../../../UserContext';
 import CaregiverApi from '../../../api';
 
-import axios from 'axios';
-import UserContext from '../../../UserContext';
-
-
 function GroupEditDelete() {
 
     const { token } = useContext(UserContext);
