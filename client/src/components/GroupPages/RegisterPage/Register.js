@@ -182,11 +182,6 @@ function Register() {
         </main>
         <footer className="flex justify-center  pt-[18px] sm:pt-[35px] [font-family:'Open_Sans',_Helvetica]">
           <div className=" w-[285px] xs:w-[425px]  sm:w-[560px] flex items-center justify-between text-[10px] xs:text-[14px] sm:text-[16px] leading-6 not-italic font-normal text-gray-600">
-            <ul className="flex gap-[36px]">
-              <li>About</li>
-              <li>Privacy</li>
-              <li>Terms</li>
-            </ul>
             <span>CareCollab v1.0.0</span>
           </div>
         </footer>
