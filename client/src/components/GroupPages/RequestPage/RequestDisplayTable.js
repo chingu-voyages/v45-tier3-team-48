@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import CaregiverApi from '../../../api';
 import UserContext from '../../../UserContext';
@@ -10,11 +10,12 @@ const RequestDisplayTable = (props) => {
     const { userRole, requests, setRequests } = props;
     const navigate = useNavigate();
 
-    // prevents users not logged in from viewing page
-    if(!token){
-        navigate('/')
-        return;
-    } 
+    useEffect(function getUserProfile(){
+        // redirect user if not logged in
+        if(!token){
+          navigate('/')
+        }
+      },[]);
 
     /*
     gets the index of the targeted request from the requests array. this index will be used to update state in the handleSignUpButton function below

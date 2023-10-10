@@ -8,11 +8,12 @@ const RequestEdit = (props) => {
     
     // grab the group id from the parameter variable
     const { groupId } = useParams();
+    const { token } = useContext(UserContext);
 
 
     // grab the requestId from location state
     const location = useLocation();
-    const requestId = location.state.requestId;
+    const requestId = token ? location.state.requestId: null;
 
     const navigate = useNavigate();
 
@@ -22,8 +23,6 @@ const RequestEdit = (props) => {
         requestData: {},
         isLoaded: false
     });
-    const { token } = useContext(UserContext);
-
 
     // create currentDate variable to use as the minimum value for the date input
     const currentDate = DateTime.now() // create DateTime object
@@ -48,6 +47,11 @@ const RequestEdit = (props) => {
     };
     
     useEffect(() => {
+        // redirect user if not logged in
+        if(!token){
+            navigate('/')
+          }
+
         async function fetchData() {
             const res = await CaregiverApi.findOneRequest(requestId);
             setData({
@@ -118,11 +122,7 @@ const RequestEdit = (props) => {
             console.log(data.errorMessage);
         }
     }
-    // prevents users not logged in from viewing page
-    if(!token){
-        navigate('/')
-        return;
-    } 
+
     
     return (
         <>
