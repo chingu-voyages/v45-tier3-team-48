@@ -29,7 +29,7 @@ const ChildGroupTable = ({groups}) => {
                 ))}
                 {!hasGroups && 
                     <tr>
-                        <div> Not a member of any groups.  Go to <Link to='/groupviewall'><i><b>All Groups</b></i></Link> or create a new one.</div>
+                        <td> Not a member of any groups.  Go to <Link to='/groupviewall'><i><b>All Groups</b></i></Link> or create a new one.</td>
                     </tr>
                 }
             </tbody>

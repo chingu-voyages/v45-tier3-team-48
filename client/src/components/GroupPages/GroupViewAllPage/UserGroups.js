@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext,useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import UserContext from '../../../UserContext';
 import ChildGroupTable from './ChildGroupTable';
@@ -13,10 +13,12 @@ const UserGroups = () => {
     const navigate = useNavigate();
 
     // prevents users not logged in from viewing page
-    if(!token){
-        navigate('/')
-        return;
-    } 
+    useEffect(() => {
+        if(!token){
+            navigate('/')
+            return;
+        } 
+    }, [])
 
     return (
         <div className="font-general bg-gray-50 h-max w-full pt-6 md:pt-12">

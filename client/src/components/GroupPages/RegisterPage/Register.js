@@ -48,12 +48,9 @@ function Register() {
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            console.log(formData);
+            navigate('/GroupViewAll')
         }
-        // if (token) {
-        //   // Redirect the user to the previous page
-        //   navigate(-1);
-        // }
+        
     }, [token]);
 
     const validate = data => {
