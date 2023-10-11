@@ -92,7 +92,7 @@ const RequestDisplayTable = (props) => {
                                 <td className="p-[12px]">Time</td>
                                 <td className="hidden sm:table-cell p-[12px]">Category</td>
                                 <td className="p-[12px]">Description</td>
-                                <td className="p-[12px]">Assigned To</td>
+                                <td className="p-[12px] whitespace-nowrap">Assigned To</td>
                                 <td className="p-[12px]">Actions</td>
                             </tr>
                         </thead>
@@ -109,7 +109,7 @@ const RequestDisplayTable = (props) => {
                                             <td className="p-[12px]"></td>
                                         }
                                         {(!request.assignedTo.userId && isFutureRequest(request.dateTimeUTC) && userRole === 'Support') ? 
-                                            <td className="px-[12px] py-2"><button className="px-[12px] py-[6px] rounded-[12px] bg-dark-green text-white cursor-pointer" onClick={e => handleSignUpButton(request._id)}>Sign Up!</button></td> :
+                                            <td className="px-[12px] py-2"><button className="px-[12px] py-[6px] rounded-[12px] bg-dark-green text-white cursor-pointer whitespace-nowrap" onClick={e => handleSignUpButton(request._id)}>Sign Up!</button></td> :
                                             <></>
                                         }
                                         {(userRole === 'Caregiver' && isFutureRequest(request.dateTimeUTC)) ?
