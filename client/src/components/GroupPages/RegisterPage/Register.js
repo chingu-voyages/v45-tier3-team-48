@@ -27,9 +27,10 @@ function Register() {
         if (Object.keys(formErrors).length === 0) {
           let response = await registerUser(formData); // Use registerUser for registration
           setIsSubmit(true);
-          if(response.response.status === 409) { // Notifies user if fullname or email is already taken
-            if(response.response.data === 'User already exists with this name.') setFormErrors({fullName: response.response.data});
-            else setFormErrors({email: response.response.data});
+          console.log(response);
+          if(response.status === 409) { // Notifies user if fullname or email is already taken
+            if(response.data === 'User already exists with this name.') setFormErrors({fullName: response.data});
+            else setFormErrors({email: response.data});
           } else if (response.status === 201) { // Handle success or redirect as needed
             console.log('Registration successful');
             setFormData(INITIAL_STATE);
