@@ -123,8 +123,8 @@ const RequestCreate = () => {
                 <h1 className="mt-[10px] mb-[30px] text-center text-black text-2xl font-semibold">Add a Request</h1>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <select name="category" id="category" defaultValue={''} onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} >
-                            <option value="" disabled>Select a Category</option>
+                        <select name="category" id="category" onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} >
+                            <option value="">Select a Category</option>
                             <option value="Errands">Errands</option>
                             <option value="Groceries">Groceries</option>
                             <option value="Home Repairs">Home Repairs</option>
