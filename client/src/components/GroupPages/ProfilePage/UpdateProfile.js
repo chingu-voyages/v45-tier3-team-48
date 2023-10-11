@@ -180,7 +180,7 @@ export default function EditProfileForm() {
 
               <div className="flex flex-col text-left pt-4 [font-family:'Open_Sans',_Helvetica] text-sm xs:text-base sm:text-xl">
                 <label htmlFor='password' className="pb-2">Password</label>
-                <input onChange={handleChange} name='password' value={editProfileFormData.password} className="border-[1px] border-gray-500 w-[220px] xs:w-[380px] sm:w-[510px] lg:w-[650px] rounded h-10 pl-2 text-gray-600 [font-family: 'Open_Sans',_Helvetica] "/>  
+                <input type='password' onChange={handleChange} name='password' value={editProfileFormData.password} className="border-[1px] border-gray-500 w-[220px] xs:w-[380px] sm:w-[510px] lg:w-[650px] rounded h-10 pl-2 text-gray-600 [font-family: 'Open_Sans',_Helvetica] "/>  
               </div>
               <div>
                 <div className=" flex justify-center items-center pt-6 ">
