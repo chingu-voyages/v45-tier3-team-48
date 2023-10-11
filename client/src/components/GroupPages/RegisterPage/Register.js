@@ -31,7 +31,6 @@ function Register() {
             if(response.data === 'User already exists with this name.') setFormErrors({fullName: response.data});
             else setFormErrors({email: response.data});
           } else if (response.status === 201) { // Handle success or redirect as needed
-            console.log('Registration successful');
             setFormData(INITIAL_STATE);
 
             navigate('/groupviewall');
