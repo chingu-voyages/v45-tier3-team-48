@@ -22,7 +22,9 @@ function ensureLoggedIn(req,res,next){
   try{
       // credentials passed in from the jwt verifcation
       if(!req.user){
-          throw new Error("Unauthorized access");
+        const error = new Error("Unauthorized access");
+        error.status = 401;
+        throw error;
       }else{
           return next();
       }    

@@ -1,10 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CaregiverApi from '../../../api';
-import UserContext from '../../../UserContext';
-import axios from 'axios';
-import validator from 'validator';
 import ChildGroupTable from './ChildGroupTable';
+import UserContext from '../../../UserContext';
 
 // make conditional to show only user groups or all groups
 
@@ -15,10 +13,11 @@ import ChildGroupTable from './ChildGroupTable';
 
 const GroupTable = () => {
 
+    const navigate = useNavigate();
+    const { token } = useContext(UserContext);
+
     const [isLoading, setIsLoading] = useState(true);
     const [groups, setGroups] = useState([]);
-    const navigate = useNavigate();
-
 
     const fetchAllGroupData = () => {
         CaregiverApi.getAllGroup()
@@ -30,8 +29,15 @@ const GroupTable = () => {
 
 
     useEffect(() => {
+        if(!token){
+            navigate('/')
+            return;
+        } 
             fetchAllGroupData();
-    }, []);
+    }, [token]);
+
+    // prevents users not logged in from viewing page
+    
 
     return (
         <div className="font-general bg-gray-50 h-max w-full pt-6 md:pt-12">

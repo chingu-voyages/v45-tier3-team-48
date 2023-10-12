@@ -11,11 +11,14 @@ const Navbar = () => {
         navigate('/register');
       }
 
+    const hrefPath = token ? '/GroupViewAll' : '/';
+
     return (
         <div className="bg-white shadow-md p-4">
             <div className="container mx-auto flex justify-between items-center">
                 <div className="md:ml-10 md:text-2xl font-bold font-brand text-dark-green">
-                    CareCollab
+                    <a href={hrefPath}>CareCollab</a>
+    
                 </div>
 
                 <div className="md:mr-10 space-x-4">

@@ -83,15 +83,17 @@ function App() {
   const registerUser = async (userData) => {
     try {
       // Call FE api registerUser function
-      console.log('inside register function in app.js');
       let res = await CaregiverApi.registerUser(userData);
 
       //Set all corresponding data
-      setToken(res.user.token);
-      setUserId(res.user._id);
-      setEmail(res.user.email);
-      setFullName(res.user.fullName);
-      setGroupInfo(res.user.groupInfo);
+      if(res.user) {
+          setToken(res.user.token);
+          setUserId(res.user._id);
+          setEmail(res.user.email);
+          setFullName(res.user.fullName);
+          setGroupInfo(res.user.groupInfo);
+      }
+
       return res;
     } catch (err) {
       return err;
@@ -114,7 +116,7 @@ function App() {
 
       <BrowserRouter> 
 
-        <UserContext.Provider value={{token, userId, email, fullName, groupInfo, setGroupInfo, loginUser, logoutUser ,registerUser}}>
+        <UserContext.Provider value={{token, userId, email, fullName, groupInfo, setGroupInfo, loginUser, logoutUser, registerUser}}>
 
           <Navbar/>
           <FrontendRoutes/>

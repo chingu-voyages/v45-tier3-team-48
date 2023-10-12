@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import UserContext from '../../../UserContext';
@@ -10,7 +10,7 @@ const RequestCreate = () => {
 
     const navigate = useNavigate();
 
-    const { userId, fullName } = useContext(UserContext);
+    const { userId, fullName, token } = useContext(UserContext);
 
     const [hasError, setHasError] = useState(false);
 
@@ -29,6 +29,13 @@ const RequestCreate = () => {
     
     const [requestData, setRequestData] = useState(INITIAL_STATE);
     
+    useEffect(function getUserProfile(){
+        // redirect user if not logged in
+        if(!token){
+          navigate('/')
+        }
+      },[token]);
+
     const isValidDate = (dateString) => {
         return !isNaN(new Date(dateString));
     }
@@ -116,18 +123,18 @@ const RequestCreate = () => {
                 <h1 className="mt-[10px] mb-[30px] text-center text-black text-2xl font-semibold">Add a Request</h1>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <select name="category" id="category" defaultValue={''} onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} >
-                            <option value="" disabled>Select a Category</option>
+                        <select name="category" id="category" onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} >
+                            <option value="">Select a Category</option>
                             <option value="Errands">Errands</option>
-                            <option value="Grocery Shopping">Grocery Shopping</option>
-                            <option value="Home Repairs/Maintenance">Home Repairs/Maintenance</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Home Repairs">Home Repairs</option>
                             <option value="Housekeeping">Housekeeping</option>
-                            <option value="Meal Preparation/Delivery">Meal Preparation/Delivery</option>
+                            <option value="Meals">Meals</option>
                             <option value="Pet Care">Pet Care</option>
                             <option value="Respite Care">Respite Care</option>
-                            <option value="Technology/Telehealth Support">Technology/Telehealth Support</option>
+                            <option value="Tech Support">Tech Support</option>
                             <option value="Transportation">Transportation</option>
-                            <option value="Yard/Garden Maintenance">Yard/Garden Maintenance</option>
+                            <option value="Yard/Garden">Yard/Garden</option>
                             <option value="Other">Other</option>
                         </select>
                         

@@ -119,11 +119,6 @@ const Login= () => {
               <h2 className="[font-family:'Open_Sans',_Helvetica] not-italic  text-[10px] xs:text-[14px] sm:text-[16px] font-medium leading-6 text-gray-500">Don't have an account? <a className="text-figma-blue" href="/register">Sign up here!</a> </h2>
           </div>
         </main>
-        <footer className="flex justify-center  pt-[18px] sm:pt-[35px] [font-family:'Open_Sans',_Helvetica]">
-          <div className=" w-[285px] xs:w-[425px]  sm:w-[560px] flex items-center justify-between text-[10px] xs:text-[14px] sm:text-[16px] leading-6 not-italic font-normal text-gray-600">
-            <span>CareCollab v1.0.0</span>
-          </div>
-        </footer>
       </div>
 
   );

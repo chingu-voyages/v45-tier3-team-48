@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useLocation, useNavigate, useParams, Link } from 'react-router-dom';
 import CaregiverApi from '../../../api';
 import { DateTime } from 'luxon';
+import UserContext from '../../../UserContext';
 
 const RequestEdit = (props) => {
     
     // grab the group id from the parameter variable
     const { groupId } = useParams();
+    const { token } = useContext(UserContext);
+
 
     // grab the requestId from location state
     const location = useLocation();
-    const requestId = location.state.requestId;
+    const requestId = token ? location.state.requestId: null;
 
     const navigate = useNavigate();
 
@@ -44,6 +47,11 @@ const RequestEdit = (props) => {
     };
     
     useEffect(() => {
+        // redirect user if not logged in
+        if(!token){
+            navigate('/')
+          }
+
         async function fetchData() {
             const res = await CaregiverApi.findOneRequest(requestId);
             setData({
@@ -54,7 +62,9 @@ const RequestEdit = (props) => {
             });
         }
         fetchData();
-    }, [requestId]);
+    }, [requestId, token]);
+
+
 
      // check if request data is valid
      const isValidDate = (dateString) => {
@@ -112,6 +122,7 @@ const RequestEdit = (props) => {
             console.log(data.errorMessage);
         }
     }
+
     
     return (
         <>
@@ -124,18 +135,18 @@ const RequestEdit = (props) => {
                         <h1 className="mt-[10px] mb-[30px] text-center text-black text-2xl font-semibold">Edit Your Request</h1>
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <select name="category" id="category" defaultValue={''} onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${data.requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} value={data.requestData.category} >
-                                    <option value="" disabled>Select a Category</option>
+                                <select name="category" id="category" onChange={handleChange} className={`py-[13px] px-[20px] mb-[10px] w-full rounded-[5px] border border-slate-300 ${data.requestData.category !== '' ? 'text-black' : 'text-slate-400' }`} value={data.requestData.category} >
+                                    <option value="">Select a Category</option>
                                     <option value="Errands">Errands</option>
-                                    <option value="Grocery Shopping">Grocery Shopping</option>
-                                    <option value="Home Repairs/Maintenance">Home Repairs/Maintenance</option>
+                                    <option value="Groceries">Groceries</option>
+                                    <option value="Home Repairs">Home Repairs</option>
                                     <option value="Housekeeping">Housekeeping</option>
-                                    <option value="Meal Preparation/Delivery">Meal Preparation/Delivery</option>
+                                    <option value="Meals">Meals</option>
                                     <option value="Pet Care">Pet Care</option>
                                     <option value="Respite Care">Respite Care</option>
-                                    <option value="Technology/Telehealth Support">Technology/Telehealth Support</option>
+                                    <option value="Tech Support">Tech Support</option>
                                     <option value="Transportation">Transportation</option>
-                                    <option value="Yard/Garden Maintenance">Yard/Garden Maintenance</option>
+                                    <option value="Yard/Garden">Yard/Garden</option>
                                     <option value="Other">Other</option>
                                 </select>
                                 

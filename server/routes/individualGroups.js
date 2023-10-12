@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const individualGroupController = require('../controllers/individualGroupController');
+const { ensureLoggedIn } = require('../middleware/authorization');
+
+
 //Routes for individual groups
-router.get('/', individualGroupController.getIndividualGroup);
-router.get('/getAll', individualGroupController.getAllGroup);
-router.get('/checkUser', individualGroupController.checkUserGroup);
-router.post('/create', individualGroupController.createGroup);
-router.post('/join', individualGroupController.joinGroup);
-router.patch('/edit', individualGroupController.editGroup);
-router.delete('/delete', individualGroupController.deleteGroup);
+router.get('/', ensureLoggedIn, individualGroupController.getIndividualGroup);
+router.get('/getAll', ensureLoggedIn, individualGroupController.getAllGroup);
+router.get('/checkUser', ensureLoggedIn, individualGroupController.checkUserGroup);
+router.post('/create', ensureLoggedIn, individualGroupController.createGroup);
+router.post('/join', ensureLoggedIn, individualGroupController.joinGroup);
+router.patch('/edit', ensureLoggedIn, individualGroupController.editGroup);
+router.delete('/delete', ensureLoggedIn, individualGroupController.deleteGroup);
 
 
 module.exports = router;

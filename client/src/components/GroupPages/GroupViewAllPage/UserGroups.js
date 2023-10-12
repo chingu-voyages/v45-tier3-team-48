@@ -1,17 +1,24 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
-import CaregiverApi from '../../../api';
+import React, {useContext,useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 import UserContext from '../../../UserContext';
-import axios from 'axios';
-import validator from 'validator';
 import ChildGroupTable from './ChildGroupTable';
 
 
 const UserGroups = () => {
 
-    const { groupInfo } = useContext(UserContext);
+
+    const { groupInfo, token } = useContext(UserContext);
     
+
     const navigate = useNavigate();
+
+    // prevents users not logged in from viewing page
+    useEffect(() => {
+        if(!token){
+            navigate('/')
+            return;
+        } 
+    }, [token])
 
     return (
         <div className="font-general bg-gray-50 h-max w-full pt-6 md:pt-12">

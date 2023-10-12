@@ -5,17 +5,16 @@ import { useNavigate } from 'react-router-dom';
 function Register() {
     // Retrieves the token variable from App.js
     // state controlled at App.js
-  const {registerUser,token} = useContext(UserContext);
-  const navigate = useNavigate();
+    const {registerUser,token} = useContext(UserContext);
+    const navigate = useNavigate();
 
-  const INITIAL_STATE = {
-    fullName: "",
-    phoneNumber: "",
-    email: "",
-    password: ""
-  }
-  const [formData, setFormData] = useState(INITIAL_STATE);
-
+    const INITIAL_STATE = {
+        fullName: "",
+        phoneNumber: "",
+        email: "",
+        password: ""
+    }
+    const [formData, setFormData] = useState(INITIAL_STATE);
 
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
@@ -28,10 +27,10 @@ function Register() {
         if (Object.keys(formErrors).length === 0) {
           let response = await registerUser(formData); // Use registerUser for registration
           setIsSubmit(true);
-          if(response.status === 401) {
-            setFormErrors({failedCreatingUser: "User already exists with this email."});
+          if(response.status === 409) { // Notifies user if fullname or email is already taken
+            if(response.data === 'User already exists with this name.') setFormErrors({fullName: response.data});
+            else setFormErrors({email: response.data});
           } else if (response.status === 201) { // Handle success or redirect as needed
-            console.log('Registration successful');
             setFormData(INITIAL_STATE);
 
             navigate('/groupviewall');
@@ -47,14 +46,10 @@ function Register() {
     };
 
     useEffect(() => {
-        console.log(formErrors);
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            console.log(formData);
+            navigate('/GroupViewAll')
         }
-        // if (token) {
-        //   // Redirect the user to the previous page
-        //   navigate(-1);
-        // }
+        
     }, [token]);
 
     const validate = data => {
@@ -68,7 +63,7 @@ function Register() {
             errors.fullName = 'Full name is required!';
         }
         if (!data.phoneNumber) {
-            //Erros for phone number
+            //Errors for phone number
             errors.phoneNumber = 'Phone number is required!';
         } else if (!phoneRegex.test(data.phoneNumber)) {
             errors.phoneNumber =
@@ -90,7 +85,7 @@ function Register() {
         }
         return errors;
     };
-    console.log(formData);
+
     return ( 
       <div className="bg-gray-50 w-full pt-40 pb-40 flex flex-col items-center justify-center ">
         <main className="bg-white w-[285px] xs:w-[425px] sm:w-[563px] mx-auto my-0 rounded border-[1px] border-solid border-navy-100">
@@ -109,6 +104,7 @@ function Register() {
                   </svg>
                   <input 
                   className="w-[195px]  xs:w-[252px] sm:w-[452px] h-[34px] xs:h-[40px] sm:h-[50px] rounded-[5px] border-navy-100 border-[1px] border-l-0 [font-family:'Open_Sans',_Helvetica] font-normal text-[color:var(--navy-200)] text-[10px] xs:text-[13px] sm:text-[16px]"
+                  maxLength="40"
                   type="text"
                   onChange={onChange}
                   name="fullName"
@@ -185,11 +181,6 @@ function Register() {
         </main>
         <footer className="flex justify-center  pt-[18px] sm:pt-[35px] [font-family:'Open_Sans',_Helvetica]">
           <div className=" w-[285px] xs:w-[425px]  sm:w-[560px] flex items-center justify-between text-[10px] xs:text-[14px] sm:text-[16px] leading-6 not-italic font-normal text-gray-600">
-            <ul className="flex gap-[36px]">
-              <li>About</li>
-              <li>Privacy</li>
-              <li>Terms</li>
-            </ul>
             <span>CareCollab v1.0.0</span>
           </div>
         </footer>
